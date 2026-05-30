@@ -1,0 +1,1330 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ApaAjaDigital — IT Agency Jakarta</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ─── RESET & BASE ─────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+body{
+  background:#FAFAF8;
+  color:#1A1A1A;
+  font-family:'Outfit',sans-serif;
+  font-weight:400;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+
+/* ─── TYPOGRAPHY ──────────────────────────────── */
+h1,h2,h3,h4{font-family:'Playfair Display',serif;font-weight:700;line-height:1.1;letter-spacing:-0.02em}
+h1{font-size:clamp(44px,6vw,80px)}
+h2{font-size:clamp(32px,4vw,52px)}
+h3{font-size:clamp(20px,2.5vw,28px)}
+p{font-size:16px;line-height:1.75;color:#4A4A4A}
+
+/* ─── CSS VARIABLES ───────────────────────────── */
+:root{
+  --white:#FAFAF8;
+  --black:#1A1A1A;
+  --gray-100:#F0EFE9;
+  --gray-200:#E2E0D8;
+  --gray-400:#9E9C94;
+  --gray-600:#5A5854;
+  --accent:#1A1A1A;
+  --ink:#1A1A1A;
+  --paper:#FAFAF8;
+  --border:rgba(26,26,26,0.1);
+  --border-strong:rgba(26,26,26,0.2);
+  --radius:2px;
+  --radius-lg:4px;
+  --transition:0.22s cubic-bezier(0.4,0,0.2,1);
+}
+
+/* ─── NAVIGATION ──────────────────────────────── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 60px;height:68px;
+  background:rgba(250,250,248,0.92);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  transition:border-color var(--transition);
+}
+.nav-logo{
+  font-family:'Playfair Display',serif;
+  font-size:18px;font-weight:700;
+  color:var(--black);cursor:pointer;
+  letter-spacing:-0.03em;
+  text-decoration:none;
+}
+.nav-logo em{font-style:normal;color:var(--gray-400)}
+.nav-center{display:flex;align-items:center;gap:4px}
+.nav-link{
+  font-family:'Outfit',sans-serif;
+  font-size:13px;font-weight:500;
+  color:var(--gray-600);
+  padding:8px 16px;cursor:pointer;
+  letter-spacing:0.02em;
+  transition:color var(--transition);
+  border-radius:2px;
+  text-transform:uppercase;
+  border:none;background:none;
+}
+.nav-link:hover{color:var(--black)}
+.nav-link.active{color:var(--black)}
+.nav-cta{
+  font-size:13px;font-weight:600;
+  font-family:'Outfit',sans-serif;
+  background:var(--black);color:var(--white);
+  padding:10px 24px;
+  border:1px solid var(--black);
+  cursor:pointer;letter-spacing:0.02em;
+  text-transform:uppercase;
+  transition:all var(--transition);
+}
+.nav-cta:hover{background:transparent;color:var(--black)}
+
+/* ─── PAGES ───────────────────────────────────── */
+.page{display:none;padding-top:68px;min-height:100vh;animation:fadeUp 0.4s ease both}
+.page.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+/* ─── LAYOUT HELPERS ──────────────────────────── */
+.container{max-width:1100px;margin:0 auto;padding:0 60px}
+.section{padding:96px 0}
+.section-sm{padding:64px 0}
+.label{
+  font-size:11px;font-weight:600;letter-spacing:0.12em;
+  text-transform:uppercase;color:var(--gray-400);
+  margin-bottom:20px;display:block;
+}
+.divider{height:1px;background:var(--border);margin:0}
+
+/* ─── BUTTONS ─────────────────────────────────── */
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;
+  letter-spacing:0.02em;text-transform:uppercase;
+  padding:14px 32px;cursor:pointer;
+  transition:all var(--transition);border:none;
+  text-decoration:none;
+}
+.btn-dark{background:var(--black);color:var(--white);border:1px solid var(--black)}
+.btn-dark:hover{background:transparent;color:var(--black)}
+.btn-outline{background:transparent;color:var(--black);border:1px solid var(--border-strong)}
+.btn-outline:hover{border-color:var(--black);background:var(--black);color:var(--white)}
+.btn-sm{padding:10px 22px;font-size:12px}
+
+/* ─── BADGE ───────────────────────────────────── */
+.badge{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;
+  padding:6px 14px;border:1px solid var(--border-strong);
+  color:var(--gray-600);margin-bottom:28px;
+}
+.badge-dot{width:5px;height:5px;border-radius:50%;background:var(--black);animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+
+/* ═══════════════════════════════════════════════
+   PAGE 1: BERANDA
+═══════════════════════════════════════════════ */
+
+/* HERO */
+.hero{padding:100px 0 80px;border-bottom:1px solid var(--border)}
+.hero-inner{display:grid;grid-template-columns:1fr 440px;gap:80px;align-items:start}
+.hero-eyebrow{margin-bottom:32px}
+.hero h1{margin-bottom:28px;color:var(--black)}
+.hero h1 span{display:block;color:var(--gray-400);font-weight:400;font-style:italic}
+.hero-lead{font-size:17px;line-height:1.75;color:var(--gray-600);max-width:500px;margin-bottom:40px}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:64px}
+.hero-stats{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--border)}
+.stat{padding:24px 0 0;border-right:1px solid var(--border)}
+.stat:last-child{border-right:none}
+.stat:first-child{padding-left:0}
+.stat-n{font-family:'Playfair Display',serif;font-size:38px;font-weight:700;color:var(--black);line-height:1;margin-bottom:6px}
+.stat-l{font-size:12px;color:var(--gray-400);text-transform:uppercase;letter-spacing:0.08em;font-weight:500}
+
+/* HERO RIGHT CARD */
+.hero-card{
+  background:var(--white);
+  border:1px solid var(--border);
+  padding:0;overflow:hidden;
+  position:sticky;top:88px;
+}
+.hero-card-head{
+  padding:20px 24px;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.hero-card-title{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--gray-600)}
+.service-list{padding:0}
+.service-row{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:18px 24px;border-bottom:1px solid var(--border);
+  cursor:pointer;transition:background var(--transition);
+}
+.service-row:last-child{border-bottom:none}
+.service-row:hover{background:var(--gray-100)}
+.service-row-left{display:flex;align-items:center;gap:14px}
+.service-icon{
+  width:34px;height:34px;display:flex;align-items:center;justify-content:center;
+  background:var(--gray-100);font-size:14px;flex-shrink:0;
+}
+.service-name{font-size:14px;font-weight:500;color:var(--black);margin-bottom:2px}
+.service-price{font-size:11px;color:var(--gray-400);letter-spacing:0.04em}
+.service-arrow{font-size:12px;color:var(--gray-400);transition:transform var(--transition)}
+.service-row:hover .service-arrow{transform:translateX(3px)}
+.service-row.ai-row{background:var(--gray-100)}
+.hero-guarantee{
+  padding:16px 24px;background:var(--black);color:var(--white);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.guarantee-label{font-size:11px;text-transform:uppercase;letter-spacing:0.08em;color:rgba(250,250,248,0.5);font-weight:500}
+.guarantee-val{font-size:13px;font-weight:600;color:var(--white)}
+
+/* TRUST BAR */
+.trust-bar{padding:28px 0;border-bottom:1px solid var(--border)}
+.trust-bar-inner{display:flex;align-items:center;gap:40px}
+.trust-label{font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:var(--gray-400);font-weight:600;white-space:nowrap}
+.trust-divider{width:1px;height:20px;background:var(--border);flex-shrink:0}
+.trust-logos{display:flex;gap:32px;flex-wrap:wrap}
+.trust-item{font-size:13px;font-weight:500;color:var(--gray-400);letter-spacing:0.04em}
+
+/* SERVICES PREVIEW */
+.services-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border)}
+.svc-card{
+  background:var(--white);padding:32px 28px;
+  transition:background var(--transition);cursor:pointer;
+}
+.svc-card:hover{background:var(--gray-100)}
+.svc-num{font-size:11px;font-weight:600;color:var(--gray-400);letter-spacing:0.1em;margin-bottom:20px}
+.svc-name{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;margin-bottom:12px;line-height:1.2}
+.svc-desc{font-size:13px;color:var(--gray-600);line-height:1.65;margin-bottom:20px}
+.svc-price{font-size:12px;font-weight:600;color:var(--black);text-transform:uppercase;letter-spacing:0.06em}
+.svc-card.ai-card{background:var(--black)}
+.svc-card.ai-card .svc-num{color:rgba(250,250,248,0.3)}
+.svc-card.ai-card .svc-name{color:var(--white)}
+.svc-card.ai-card .svc-desc{color:rgba(250,250,248,0.55)}
+.svc-card.ai-card .svc-price{color:var(--white)}
+.svc-card.ai-card:hover{background:#2a2a2a}
+
+/* ═══════════════════════════════════════════════
+   PAGE 2: AI SYSTEM
+═══════════════════════════════════════════════ */
+.ai-hero{padding:100px 0 80px;border-bottom:1px solid var(--border)}
+.ai-hero h1{margin-bottom:28px}
+.ai-hero h1 em{font-style:italic;color:var(--gray-400)}
+.ai-lead{font-size:18px;line-height:1.75;color:var(--gray-600);max-width:580px;margin-bottom:40px}
+
+.capabilities-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border)}
+.cap-card{background:var(--white);padding:36px 32px;transition:background var(--transition);cursor:pointer}
+.cap-card:hover{background:var(--gray-100)}
+.cap-num{font-size:11px;font-weight:600;color:var(--gray-400);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:16px}
+.cap-title{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;margin-bottom:8px;line-height:1.2}
+.cap-subtitle{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--gray-400);margin-bottom:16px}
+.cap-body{font-size:13px;color:var(--gray-600);line-height:1.7;margin-bottom:20px}
+.cap-tags{display:flex;flex-wrap:wrap;gap:6px}
+.cap-tag{font-size:10px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;padding:4px 10px;border:1px solid var(--border-strong);color:var(--gray-600)}
+
+.usecase-section{padding:80px 0;background:var(--gray-100);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.usecase-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);margin-top:48px}
+.uc-card{background:var(--gray-100);padding:28px 24px;cursor:pointer;transition:background var(--transition)}
+.uc-card:hover{background:var(--gray-200)}
+.uc-industry{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--gray-400);margin-bottom:10px}
+.uc-title{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;margin-bottom:10px;line-height:1.2}
+.uc-desc{font-size:13px;color:var(--gray-600);line-height:1.65}
+
+/* ═══════════════════════════════════════════════
+   PAGE 3: LAYANAN
+═══════════════════════════════════════════════ */
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border)}
+.price-card{background:var(--white);padding:36px 32px;position:relative;transition:background var(--transition)}
+.price-card:hover{background:var(--gray-100)}
+.price-card.featured{background:var(--black)}
+.price-popular{
+  font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;
+  color:var(--white);background:var(--black);padding:4px 12px;
+  display:inline-block;margin-bottom:20px;
+}
+.price-card.featured .price-popular{background:var(--gray-200);color:var(--black)}
+.price-tier{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:var(--gray-400);margin-bottom:8px}
+.price-card.featured .price-tier{color:rgba(250,250,248,0.4)}
+.price-amount{font-family:'Playfair Display',serif;font-size:40px;font-weight:700;letter-spacing:-0.02em;line-height:1;margin-bottom:6px}
+.price-card.featured .price-amount{color:var(--white)}
+.price-amount sup{font-size:18px;font-weight:500;vertical-align:super}
+.price-delivery{font-size:12px;color:var(--gray-400);margin-bottom:24px;padding-bottom:24px;border-bottom:1px solid var(--border)}
+.price-card.featured .price-delivery{color:rgba(250,250,248,0.35);border-color:rgba(250,250,248,0.1)}
+.price-desc{font-size:13px;color:var(--gray-600);line-height:1.65;margin-bottom:24px}
+.price-card.featured .price-desc{color:rgba(250,250,248,0.55)}
+.price-features{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:32px}
+.price-features li{font-size:13px;color:var(--gray-600);display:flex;gap:10px;align-items:baseline;line-height:1.5}
+.price-features li::before{content:'—';color:var(--gray-400);flex-shrink:0;font-size:12px}
+.price-card.featured .price-features li{color:rgba(250,250,248,0.6)}
+.price-card.featured .price-features li::before{color:rgba(250,250,248,0.25)}
+.price-cta{
+  width:100%;padding:14px;font-family:'Outfit',sans-serif;font-size:12px;font-weight:600;
+  letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;
+  border:1px solid var(--border-strong);background:transparent;color:var(--black);
+  transition:all var(--transition);
+}
+.price-cta:hover{background:var(--black);color:var(--white);border-color:var(--black)}
+.price-card.featured .price-cta{background:var(--white);color:var(--black);border-color:var(--white)}
+.price-card.featured .price-cta:hover{background:var(--gray-200)}
+
+.ai-pkg{
+  background:var(--black);color:var(--white);
+  padding:56px;margin-top:1px;
+  display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;
+}
+.ai-pkg-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:rgba(250,250,248,0.35);margin-bottom:16px}
+.ai-pkg h3{font-family:'Playfair Display',serif;font-size:34px;font-weight:700;color:var(--white);margin-bottom:16px;line-height:1.15}
+.ai-pkg p{font-size:14px;color:rgba(250,250,248,0.5);line-height:1.75;margin-bottom:28px}
+.ai-tiers{border-top:1px solid rgba(250,250,248,0.1)}
+.ai-tier-row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:16px 0;border-bottom:1px solid rgba(250,250,248,0.08);
+}
+.ai-tier-name{font-size:13px;font-weight:500;color:rgba(250,250,248,0.7)}
+.ai-tier-price{font-size:13px;font-weight:600;color:var(--white)}
+
+.maint-section{padding:80px 0}
+.maint-header{margin-bottom:48px}
+.maint-header h2{margin-bottom:12px}
+.maint-header p{font-size:15px;color:var(--gray-600);max-width:540px}
+.maint-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border)}
+.maint-card{background:var(--white);padding:32px;transition:background var(--transition)}
+.maint-card:hover{background:var(--gray-100)}
+.maint-name{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:var(--gray-400);margin-bottom:8px}
+.maint-price{font-family:'Playfair Display',serif;font-size:34px;font-weight:700;line-height:1;margin-bottom:4px}
+.maint-period{font-size:12px;color:var(--gray-400);margin-bottom:8px}
+.maint-tagline{font-size:13px;color:var(--gray-600);margin-bottom:24px;padding-bottom:24px;border-bottom:1px solid var(--border)}
+.maint-list{list-style:none;display:flex;flex-direction:column;gap:9px}
+.maint-list li{font-size:13px;color:var(--gray-600);display:flex;gap:10px;align-items:baseline}
+.maint-list li::before{content:'↗';color:var(--black);flex-shrink:0;font-size:11px;font-weight:600}
+
+/* ═══════════════════════════════════════════════
+   PAGE 4: PORTOFOLIO
+═══════════════════════════════════════════════ */
+.portfolio-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--border)}
+.portfolio-item{
+  background:var(--white);padding:0;overflow:hidden;
+  cursor:pointer;transition:background var(--transition);
+  aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;
+  position:relative;
+}
+.p-mock{width:72%;background:var(--white);border:1px solid var(--border);overflow:hidden}
+.p-mock-bar{
+  background:var(--gray-100);padding:9px 14px;
+  display:flex;align-items:center;gap:5px;border-bottom:1px solid var(--border);
+}
+.p-dot{width:7px;height:7px;border-radius:50%;background:var(--border-strong)}
+.p-url{font-size:9px;color:var(--gray-400);margin-left:8px;font-family:monospace}
+.p-content{padding:20px 18px}
+.p-headline{font-family:'Playfair Display',serif;font-size:14px;font-weight:700;margin-bottom:10px;line-height:1.3}
+.p-line{height:5px;background:var(--gray-100);margin-bottom:5px;border-radius:1px}
+.p-cta-mock{display:inline-block;background:var(--black);color:var(--white);font-size:9px;font-weight:600;padding:7px 14px;margin-top:10px;letter-spacing:0.06em;text-transform:uppercase}
+.p-overlay{
+  position:absolute;bottom:0;left:0;right:0;
+  background:linear-gradient(transparent,rgba(26,26,26,0.9));
+  padding:24px 28px;
+  transform:translateY(100%);transition:transform 0.3s ease;
+}
+.portfolio-item:hover .p-overlay{transform:translateY(0)}
+.portfolio-item:hover{background:var(--gray-100)}
+.p-ov-industry{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:rgba(250,250,248,0.45);margin-bottom:4px}
+.p-ov-name{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--white);margin-bottom:4px}
+.p-ov-desc{font-size:12px;color:rgba(250,250,248,0.55)}
+
+.cases-section{padding:80px 0;background:var(--gray-100);border-top:1px solid var(--border)}
+.cases-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);margin-top:48px}
+.case-card{background:var(--gray-100);padding:36px 32px;transition:background var(--transition)}
+.case-card:hover{background:var(--gray-200)}
+.case-industry{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--gray-400);margin-bottom:16px}
+.case-client{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;margin-bottom:24px}
+.case-meta{margin-bottom:24px;display:flex;flex-direction:column;gap:12px}
+.case-meta-row{display:grid;grid-template-columns:100px 1fr;gap:12px}
+.case-meta-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--gray-400)}
+.case-meta-val{font-size:13px;color:var(--gray-600);line-height:1.5}
+.case-result{
+  background:var(--black);color:var(--white);
+  padding:20px;margin-bottom:20px;
+}
+.case-result-n{font-family:'Playfair Display',serif;font-size:36px;font-weight:700;line-height:1;margin-bottom:4px}
+.case-result-l{font-size:11px;color:rgba(250,250,248,0.4);text-transform:uppercase;letter-spacing:0.08em}
+.case-quote{font-size:13px;color:var(--gray-600);font-style:italic;line-height:1.7;padding-top:20px;border-top:1px solid var(--border)}
+.case-attr{font-size:11px;color:var(--gray-400);margin-top:6px;font-style:normal;font-weight:600}
+
+/* ═══════════════════════════════════════════════
+   PAGE 5: TENTANG
+═══════════════════════════════════════════════ */
+.about-hero{padding:100px 0 80px;border-bottom:1px solid var(--border);display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
+.about-h1{margin-bottom:28px}
+.about-h1 em{font-style:italic;color:var(--gray-400)}
+.about-lead{font-size:16px;color:var(--gray-600);line-height:1.8;margin-bottom:32px}
+
+.principles{display:flex;flex-direction:column;gap:0;border:1px solid var(--border)}
+.principle{
+  display:grid;grid-template-columns:52px 1fr;
+  padding:28px 28px 28px 24px;
+  border-bottom:1px solid var(--border);
+  transition:background var(--transition);
+}
+.principle:last-child{border-bottom:none}
+.principle:hover{background:var(--gray-100)}
+.principle-num{font-size:11px;font-weight:600;color:var(--gray-400);padding-top:3px;letter-spacing:0.06em}
+.principle-title{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;margin-bottom:8px}
+.principle-body{font-size:13px;color:var(--gray-600);line-height:1.7}
+
+.values-section{padding:80px 0;border-bottom:1px solid var(--border)}
+.values-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);margin-top:48px}
+.value-card{background:var(--white);padding:32px 28px;transition:background var(--transition)}
+.value-card:hover{background:var(--gray-100)}
+.value-icon{font-size:22px;margin-bottom:16px}
+.value-name{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;margin-bottom:10px}
+.value-desc{font-size:13px;color:var(--gray-600);line-height:1.65}
+
+.team-section{padding:80px 0}
+.team-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);margin-top:48px}
+.team-card{background:var(--white);padding:36px 32px;transition:background var(--transition)}
+.team-card:hover{background:var(--gray-100)}
+.team-avatar{
+  width:56px;height:56px;border-radius:50%;
+  background:var(--black);color:var(--white);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Playfair Display',serif;font-size:18px;font-weight:700;
+  margin-bottom:20px;
+}
+.team-name{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;margin-bottom:4px}
+.team-role{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:var(--gray-400);margin-bottom:16px}
+.team-bio{font-size:13px;color:var(--gray-600);line-height:1.7}
+
+/* ═══════════════════════════════════════════════
+   PAGE 6: KONTAK
+═══════════════════════════════════════════════ */
+.kontak-hero{padding:100px 0 80px;border-bottom:1px solid var(--border);display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
+.kontak-h1{margin-bottom:20px}
+.kontak-lead{font-size:16px;color:var(--gray-600);line-height:1.8;margin-bottom:40px}
+
+.contact-methods{border:1px solid var(--border);margin-bottom:28px}
+.contact-row{
+  display:flex;align-items:center;gap:18px;
+  padding:20px 24px;border-bottom:1px solid var(--border);
+  cursor:pointer;transition:background var(--transition);
+}
+.contact-row:last-child{border-bottom:none}
+.contact-row:hover{background:var(--gray-100)}
+.contact-icon{
+  width:40px;height:40px;background:var(--black);
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;flex-shrink:0;color:var(--white);
+}
+.contact-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--gray-400);margin-bottom:3px}
+.contact-val{font-size:14px;font-weight:500;color:var(--black)}
+.contact-sub{font-size:11px;color:var(--gray-400);margin-top:2px}
+
+.guarantee-box{
+  background:var(--black);color:var(--white);padding:28px 24px;
+}
+.guarantee-box p{font-size:12px;color:rgba(250,250,248,0.4);text-transform:uppercase;letter-spacing:0.08em;font-weight:600;margin-bottom:6px}
+.guarantee-box strong{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--white);display:block;line-height:1.3}
+
+.kontak-form{background:var(--white);border:1px solid var(--border);padding:40px}
+.form-title{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;margin-bottom:32px}
+.form-group{margin-bottom:20px}
+.form-label{display:block;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:var(--gray-600);margin-bottom:8px}
+.form-input{
+  width:100%;padding:12px 16px;
+  border:1px solid var(--border);
+  background:var(--white);color:var(--black);
+  font-family:'Outfit',sans-serif;font-size:14px;
+  outline:none;transition:border var(--transition);
+  -webkit-appearance:none;
+}
+.form-input:focus{border-color:var(--black)}
+.form-input::placeholder{color:var(--gray-400)}
+textarea.form-input{resize:vertical;line-height:1.6}
+select.form-input{cursor:pointer}
+.form-submit{
+  width:100%;padding:15px;
+  background:var(--black);color:var(--white);
+  font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;
+  text-transform:uppercase;letter-spacing:0.08em;
+  border:1px solid var(--black);cursor:pointer;
+  transition:all var(--transition);margin-top:8px;
+}
+.form-submit:hover{background:transparent;color:var(--black)}
+
+/* ─── FOOTER ──────────────────────────────────── */
+footer{
+  border-top:1px solid var(--border);
+  padding:40px 0;background:var(--white);
+}
+.footer-inner{
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:20px;
+}
+.footer-logo{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:var(--black);cursor:pointer}
+.footer-logo em{font-style:normal;color:var(--gray-400)}
+.footer-links{display:flex;gap:28px}
+.footer-link{
+  font-size:12px;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;
+  color:var(--gray-400);cursor:pointer;transition:color var(--transition);border:none;background:none;
+}
+.footer-link:hover{color:var(--black)}
+.footer-copy{font-size:12px;color:var(--gray-400)}
+</style>
+</head>
+<body>
+
+<!-- ─── NAV ─────────────────────────────────────── -->
+<nav id="main-nav">
+  <a class="nav-logo" onclick="nav('home')">ApaAja<em>Digital</em></a>
+  <div class="nav-center">
+    <button class="nav-link active" onclick="nav('home')">Beranda</button>
+    <button class="nav-link" onclick="nav('ai')">AI System</button>
+    <button class="nav-link" onclick="nav('layanan')">Layanan</button>
+    <button class="nav-link" onclick="nav('portofolio')">Portofolio</button>
+    <button class="nav-link" onclick="nav('tentang')">Tentang</button>
+  </div>
+  <button class="nav-cta" onclick="nav('kontak')">Konsultasi Gratis</button>
+</nav>
+
+<!-- ═══════════════════════════════════════════════
+     PAGE 1: BERANDA
+═══════════════════════════════════════════════ -->
+<div id="home" class="page active">
+
+  <div class="hero">
+    <div class="container">
+      <div class="hero-inner">
+        <div>
+          <div class="hero-eyebrow">
+            <div class="badge"><span class="badge-dot"></span> IT Agency Jakarta · Est. 2020</div>
+          </div>
+          <h1>Website siap kerja.<br><span>Sistem AI custom.</span><br>Hari ini.</h1>
+          <p class="hero-lead">Dari landing page yang live dalam 1 hari, hingga sistem bisnis berbasis AI yang berjalan otomatis — semua by request, harga fix, tanpa biaya yang tiba-tiba muncul di tengah jalan.</p>
+          <div class="hero-actions">
+            <button class="btn btn-dark" onclick="nav('kontak')">Mulai Konsultasi Gratis →</button>
+            <button class="btn btn-outline" onclick="nav('ai')">Lihat AI System</button>
+          </div>
+          <div class="hero-stats">
+            <div class="stat">
+              <div class="stat-n">200+</div>
+              <div class="stat-l">Bisnis yang sudah kami tangani</div>
+            </div>
+            <div class="stat" style="padding-left:32px">
+              <div class="stat-n">1 Hari</div>
+              <div class="stat-l">Garansi delivery website</div>
+            </div>
+            <div class="stat" style="padding-left:32px;border-right:none">
+              <div class="stat-n">50%</div>
+              <div class="stat-l">Refund jika kami telat</div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="hero-card">
+            <div class="hero-card-head">
+              <span class="hero-card-title">Layanan Kami</span>
+              <span style="font-size:11px;color:var(--gray-400)">4 solusi</span>
+            </div>
+            <div class="service-list">
+              <div class="service-row" onclick="nav('layanan')">
+                <div class="service-row-left">
+                  <div class="service-icon">🌐</div>
+                  <div>
+                    <div class="service-name">Landing Page</div>
+                    <div class="service-price">Mulai Rp 1.500.000 · Live 1 hari</div>
+                  </div>
+                </div>
+                <span class="service-arrow">→</span>
+              </div>
+              <div class="service-row" onclick="nav('layanan')">
+                <div class="service-row-left">
+                  <div class="service-icon">🏢</div>
+                  <div>
+                    <div class="service-name">Company Profile</div>
+                    <div class="service-price">Mulai Rp 3.500.000 · 7–14 hari</div>
+                  </div>
+                </div>
+                <span class="service-arrow">→</span>
+              </div>
+              <div class="service-row" onclick="nav('layanan')">
+                <div class="service-row-left">
+                  <div class="service-icon">🛒</div>
+                  <div>
+                    <div class="service-name">E-Commerce</div>
+                    <div class="service-price">Mulai Rp 8.000.000 · 3–6 minggu</div>
+                  </div>
+                </div>
+                <span class="service-arrow">→</span>
+              </div>
+              <div class="service-row ai-row" onclick="nav('ai')">
+                <div class="service-row-left">
+                  <div class="service-icon" style="background:var(--black);font-size:14px">🤖</div>
+                  <div>
+                    <div class="service-name">AI / Agentic System</div>
+                    <div class="service-price">Custom quote · By request</div>
+                  </div>
+                </div>
+                <span class="service-arrow">→</span>
+              </div>
+            </div>
+            <div class="hero-guarantee">
+              <span class="guarantee-label">Garansi delivery</span>
+              <span class="guarantee-val">Telat = 50% uang kembali</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="trust-bar">
+    <div class="container">
+      <div class="trust-bar-inner">
+        <span class="trust-label">Dipercaya oleh</span>
+        <div class="trust-divider"></div>
+        <div class="trust-logos">
+          <span class="trust-item">UMKM Jakarta</span>
+          <span class="trust-item">Startup SaaS</span>
+          <span class="trust-item">Retail Brand</span>
+          <span class="trust-item">Korporasi</span>
+          <span class="trust-item">F&amp;B</span>
+          <span class="trust-item">Properti</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="container">
+      <span class="label">Apa yang bisa kami bantu</span>
+      <div class="services-grid">
+        <div class="svc-card" onclick="nav('layanan')">
+          <div class="svc-num">01</div>
+          <div class="svc-name">Landing Page</div>
+          <div class="svc-desc">Halaman yang dirancang untuk satu tujuan: mengubah pengunjung menjadi prospek. Live dalam 1 hari kerja.</div>
+          <div class="svc-price">Mulai Rp 1.500.000</div>
+        </div>
+        <div class="svc-card" onclick="nav('layanan')">
+          <div class="svc-num">02</div>
+          <div class="svc-name">Company Profile</div>
+          <div class="svc-desc">Wajah digital bisnis kamu yang meyakinkan — dari struktur hingga copywriting, kami tangani.</div>
+          <div class="svc-price">Mulai Rp 3.500.000</div>
+        </div>
+        <div class="svc-card" onclick="nav('layanan')">
+          <div class="svc-num">03</div>
+          <div class="svc-name">E-Commerce</div>
+          <div class="svc-desc">Toko online yang siap menerima transaksi hari pertama — lengkap dengan payment gateway dan manajemen produk.</div>
+          <div class="svc-price">Mulai Rp 8.000.000</div>
+        </div>
+        <div class="svc-card ai-card" onclick="nav('ai')">
+          <div class="svc-num">04 ★</div>
+          <div class="svc-name">AI System</div>
+          <div class="svc-desc">Sistem bisnis yang bekerja otomatis: chatbot, CRM, booking, pipeline — dirancang khusus sesuai kebutuhan kamu.</div>
+          <div class="svc-price">Custom Quote</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <span class="footer-logo" onclick="nav('home')">ApaAja<em>Digital</em>.com</span>
+        <div class="footer-links">
+          <button class="footer-link" onclick="nav('ai')">AI System</button>
+          <button class="footer-link" onclick="nav('layanan')">Layanan</button>
+          <button class="footer-link" onclick="nav('portofolio')">Portofolio</button>
+          <button class="footer-link" onclick="nav('tentang')">Tentang</button>
+          <button class="footer-link" onclick="nav('kontak')">Kontak</button>
+        </div>
+        <span class="footer-copy">© 2025 ApaAjaDigital · Jakarta</span>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     PAGE 2: AI SYSTEM
+═══════════════════════════════════════════════ -->
+<div id="ai" class="page">
+
+  <div class="ai-hero">
+    <div class="container">
+      <div class="badge">★ Diferensiasi Utama Kami</div>
+      <h1>Sistem bisnis kamu,<br>dijalankan <em>AI.</em><br>By request. 100% custom.</h1>
+      <p class="ai-lead">Bukan template. Bukan chatbot generik yang jawab lima pertanyaan lalu berhenti. Kami merancang sistem agentic yang benar-benar memahami alur kerja bisnis kamu — dan menjalankannya secara otomatis, 24 jam sehari.</p>
+      <button class="btn btn-dark" onclick="nav('kontak')">Mapping Sistem Gratis →</button>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="container">
+      <span class="label">6 Kapabilitas AI</span>
+      <div class="capabilities-grid">
+        <div class="cap-card">
+          <div class="cap-num">01</div>
+          <div class="cap-title">AI Customer Service Agent</div>
+          <div class="cap-subtitle">Layani ribuan pelanggan. Tanpa menambah satu pun karyawan.</div>
+          <div class="cap-body">Bot yang memahami konteks, menjawab pertanyaan spesifik, menangani komplain, mengkualifikasi lead, dan melakukan follow-up — semua otomatis via WhatsApp, website, atau Instagram DM. Aktif 24 jam, konsisten setiap saat.</div>
+          <div class="cap-tags"><span class="cap-tag">WhatsApp</span><span class="cap-tag">Web</span><span class="cap-tag">IG DM</span></div>
+        </div>
+        <div class="cap-card">
+          <div class="cap-num">02</div>
+          <div class="cap-title">AI Sales & CRM Automation</div>
+          <div class="cap-subtitle">Lead masuk. Sistem bekerja. Tim kamu fokus closing.</div>
+          <div class="cap-body">Setiap prospek yang masuk langsung dikualifikasi, dijadwalkan, difollow-up, dan dilaporkan secara otomatis. Tidak ada lead yang jatuh karena lupa direspons. Tidak ada data yang tersebar di berbagai chat.</div>
+          <div class="cap-tags"><span class="cap-tag">CRM</span><span class="cap-tag">Pipeline</span><span class="cap-tag">Reporting</span></div>
+        </div>
+        <div class="cap-card">
+          <div class="cap-num">03</div>
+          <div class="cap-title">AI Business Workflow</div>
+          <div class="cap-subtitle">Proses yang biasanya butuh tim, sekarang berjalan sendiri.</div>
+          <div class="cap-body">Integrasi form, spreadsheet, email, notifikasi, dan laporan dalam satu alur kerja otomatis. Data tidak perlu diinput ulang. Laporan tidak perlu dibuat manual. Tim kamu mengerjakan hal yang benar-benar membutuhkan manusia.</div>
+          <div class="cap-tags"><span class="cap-tag">Automation</span><span class="cap-tag">Integration</span><span class="cap-tag">Reporting</span></div>
+        </div>
+        <div class="cap-card">
+          <div class="cap-num">04</div>
+          <div class="cap-title">AI Booking & Operations</div>
+          <div class="cap-subtitle">Jadwal penuh, tanpa staf yang kelelahan mengelolanya.</div>
+          <div class="cap-body">Sistem reservasi yang menerima booking, mengirim konfirmasi, mengingatkan pelanggan, dan mengatur ulang jadwal — semuanya otomatis. Dirancang untuk klinik, konsultan, salon, event organizer, dan bisnis berbasis appointment.</div>
+          <div class="cap-tags"><span class="cap-tag">Booking</span><span class="cap-tag">Reminder</span><span class="cap-tag">Scheduling</span></div>
+        </div>
+        <div class="cap-card">
+          <div class="cap-num">05</div>
+          <div class="cap-title">AI Analytics & Insight</div>
+          <div class="cap-subtitle">Data yang memberi tahu apa yang harus kamu lakukan selanjutnya.</div>
+          <div class="cap-body">Dashboard yang bukan sekadar menampilkan angka — AI menganalisis pola penjualan, mengidentifikasi peluang yang terlewat, dan memberi rekomendasi aksi konkret. Bukan laporan mingguan. Ini intelijen bisnis yang bekerja real-time.</div>
+          <div class="cap-tags"><span class="cap-tag">Dashboard</span><span class="cap-tag">Insight</span><span class="cap-tag">Alert</span></div>
+        </div>
+        <div class="cap-card" style="background:var(--black)">
+          <div class="cap-num" style="color:rgba(250,250,248,0.3)">06</div>
+          <div class="cap-title" style="color:var(--white)">Custom System</div>
+          <div class="cap-subtitle" style="color:rgba(250,250,248,0.35)">Kebutuhan kamu tidak ada di daftar? Justru itu spesialisasi kami.</div>
+          <div class="cap-body" style="color:rgba(250,250,248,0.5)">Setiap bisnis punya tantangan unik yang tidak bisa diselesaikan dengan solusi generik. Ceritakan workflow kamu, hambatan yang ada, dan hasil yang ingin dicapai — kami mapping sistem yang tepat dan kirim proposal dalam 24 jam.</div>
+          <button class="btn btn-outline" style="color:var(--white);border-color:rgba(250,250,248,0.2);font-size:12px;padding:10px 20px;margin-top:8px" onclick="nav('kontak')">Ceritakan kebutuhan kamu →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="usecase-section">
+    <div class="container">
+      <span class="label">Use Cases per Industri</span>
+      <h2>Sistem AI kami,<br>diimplementasi lintas industri.</h2>
+      <div class="usecase-grid">
+        <div class="uc-card">
+          <div class="uc-industry">F&amp;B / Resto</div>
+          <div class="uc-title">Auto-order & Reservasi</div>
+          <div class="uc-desc">Bot WhatsApp menerima pesanan, mengelola reservasi meja, mengirim reminder, dan menghasilkan laporan harian — tanpa staf tambahan.</div>
+        </div>
+        <div class="uc-card">
+          <div class="uc-industry">Properti</div>
+          <div class="uc-title">Lead Scoring & Pipeline</div>
+          <div class="uc-desc">Setiap prospek dikualifikasi berdasarkan kriteria yang kamu tentukan, dijadwalkan viewing, dan difollow-up secara sistematis hingga deal.</div>
+        </div>
+        <div class="uc-card">
+          <div class="uc-industry">Klinik / Kesehatan</div>
+          <div class="uc-title">Booking & Manajemen Pasien</div>
+          <div class="uc-desc">Sistem antrean digital, konfirmasi otomatis via WhatsApp, reminder jadwal konsultasi, dan integrasi rekam medis dalam satu platform.</div>
+        </div>
+        <div class="uc-card">
+          <div class="uc-industry">E-Commerce / UMKM</div>
+          <div class="uc-title">CS Bot & Inventori</div>
+          <div class="uc-desc">Jawab DM secara instan, kirim invoice otomatis, beri alert restock, dan hasilkan laporan penjualan harian tanpa membuka satu pun spreadsheet.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <span class="footer-logo" onclick="nav('home')">ApaAja<em>Digital</em>.com</span>
+        <div class="footer-links">
+          <button class="footer-link" onclick="nav('layanan')">Layanan</button>
+          <button class="footer-link" onclick="nav('portofolio')">Portofolio</button>
+          <button class="footer-link" onclick="nav('kontak')">Kontak</button>
+        </div>
+        <span class="footer-copy">© 2025 ApaAjaDigital · Jakarta</span>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     PAGE 3: LAYANAN
+═══════════════════════════════════════════════ -->
+<div id="layanan" class="page">
+
+  <div class="section">
+    <div class="container">
+      <span class="label">Paket &amp; Harga</span>
+      <h2 style="margin-bottom:12px">Harga fix.<br>Tidak ada kejutan.</h2>
+      <p style="max-width:520px;margin-bottom:56px">Angka yang tertera di proposal adalah angka yang kamu bayar. Tidak ada biaya tambahan di tengah jalan, tidak ada item tersembunyi di tagihan akhir. Semua paket sudah termasuk domain, hosting, dan support.</p>
+
+      <div class="pricing-grid">
+        <div class="price-card">
+          <div class="price-tier">Landing Page</div>
+          <div class="price-amount"><sup>Rp </sup>1,5 Jt</div>
+          <div class="price-delivery">Delivery: 1 hari kerja · Renewal: Rp 750.000/thn</div>
+          <div class="price-desc">Untuk bisnis yang butuh satu halaman yang bekerja keras: mengonversi pengunjung menjadi prospek, mendorong mereka menghubungi kamu, dan membangun kepercayaan dalam hitungan detik.</div>
+          <ul class="price-features">
+            <li>1 halaman high-converting untuk konversi</li>
+            <li>Desain mobile-first &amp; SEO-ready</li>
+            <li>Integrasi Click-to-WhatsApp</li>
+            <li>Domain .com gratis 1 tahun</li>
+            <li>Hosting SSD 10GB</li>
+            <li>1 email bisnis profesional</li>
+            <li>Full akses admin WordPress</li>
+            <li>2x revisi minor</li>
+          </ul>
+          <button class="price-cta" onclick="nav('kontak')">Mulai Sekarang</button>
+        </div>
+        <div class="price-card featured">
+          <div class="price-popular">Paling Populer</div>
+          <div class="price-tier">Company Profile</div>
+          <div class="price-amount"><sup>Rp </sup>3,5 Jt</div>
+          <div class="price-delivery">Delivery: 7–14 hari · Renewal: Rp 1.500.000/thn</div>
+          <div class="price-desc">Untuk bisnis yang ingin tampil kredibel di hadapan klien, investor, dan mitra. Website yang aktif membangun kepercayaan sebelum meeting pertama terjadi.</div>
+          <ul class="price-features">
+            <li>5–10 halaman profesional</li>
+            <li>Desain mobile-first &amp; SEO-ready</li>
+            <li>Integrasi WhatsApp &amp; formulir kontak</li>
+            <li>Domain .com gratis 1 tahun</li>
+            <li>Hosting SSD 10GB</li>
+            <li>1–3 email bisnis profesional</li>
+            <li>Full akses admin WordPress</li>
+            <li>3x revisi minor</li>
+          </ul>
+          <button class="price-cta" onclick="nav('kontak')">Mulai Sekarang</button>
+        </div>
+        <div class="price-card">
+          <div class="price-tier">E-Commerce</div>
+          <div class="price-amount"><sup>Rp </sup>8 Jt</div>
+          <div class="price-delivery">Delivery: 3–6 minggu · Renewal: Rp 4.000.000/thn</div>
+          <div class="price-desc">Untuk bisnis yang siap menjual online secara serius. Platform yang mengelola produk, memproses pembayaran, mengatur pengiriman, dan memberi visibilitas penuh atas performa toko.</div>
+          <ul class="price-features">
+            <li>Katalog produk &amp; sistem manajemen</li>
+            <li>Cart &amp; checkout dioptimasi konversi</li>
+            <li>Payment gateway Midtrans/Xendit</li>
+            <li>Integrasi layanan pengiriman</li>
+            <li>Dashboard admin lengkap</li>
+            <li>Setup awal 20 produk</li>
+            <li>Hosting SSD 20GB+</li>
+            <li>3–5 email bisnis profesional</li>
+          </ul>
+          <button class="price-cta" onclick="nav('kontak')">Mulai Sekarang</button>
+        </div>
+      </div>
+
+      <div class="ai-pkg">
+        <div>
+          <div class="ai-pkg-label">★ Paket Unggulan</div>
+          <h3>AI / Agentic System</h3>
+          <p>Ini bukan produk yang bisa diklik dan langsung jalan. Ini adalah sistem yang kami rancang dari nol bersama kamu — memahami alur kerja bisnis kamu, mengidentifikasi titik yang bisa diotomasi, dan membangun sistem yang benar-benar bekerja untuk konteks spesifik kamu.<br><br>Setiap proposal sudah menyertakan scope yang jelas, timeline yang realistis, dan harga fix sebelum pekerjaan dimulai.</p>
+          <button class="btn btn-outline" style="color:var(--white);border-color:rgba(250,250,248,0.25)" onclick="nav('kontak')">Request Proposal Gratis →</button>
+        </div>
+        <div class="ai-tiers">
+          <div class="ai-tier-row">
+            <span class="ai-tier-name">MVP — 3–5 fitur utama</span>
+            <span class="ai-tier-price">Mulai Rp 30 Jt</span>
+          </div>
+          <div class="ai-tier-row">
+            <span class="ai-tier-name">Business — 5–10 fitur + dashboard</span>
+            <span class="ai-tier-price">Mulai Rp 80 Jt</span>
+          </div>
+          <div class="ai-tier-row">
+            <span class="ai-tier-name">Scalable — Full custom + backend</span>
+            <span class="ai-tier-price">Mulai Rp 200 Jt</span>
+          </div>
+          <div class="ai-tier-row">
+            <span class="ai-tier-name">High Performance Website</span>
+            <span class="ai-tier-price">Custom Quote</span>
+          </div>
+          <div class="ai-tier-row" style="border-bottom:none">
+            <span class="ai-tier-name">Mobile App (iOS + Android)</span>
+            <span class="ai-tier-price">Custom Quote</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="maint-section" style="background:var(--gray-100);border-top:1px solid var(--border)">
+    <div class="container">
+      <div class="maint-header">
+        <span class="label">Maintenance &amp; Support</span>
+        <h2>Website yang live bukan<br>akhir dari pekerjaan.</h2>
+        <p>Bisnis bergerak. Konten berubah. Tren bergeser. Paket maintenance kami memastikan website kamu selalu relevan, cepat, dan terus dioptimasi — sementara kamu fokus menjalankan bisnis.</p>
+      </div>
+      <div class="maint-grid">
+        <div class="maint-card">
+          <div class="maint-name">Basic</div>
+          <div class="maint-price">Rp 2 Jt</div>
+          <div class="maint-period">/bulan</div>
+          <div class="maint-tagline">Untuk bisnis yang ingin websitenya tetap berjalan dengan baik tanpa memikirkan teknisnya.</div>
+          <ul class="maint-list">
+            <li>Update &amp; upload konten rutin</li>
+            <li>Edit ringan (teks, gambar, harga)</li>
+            <li>Bug fixing minor</li>
+            <li>8–12 task per bulan</li>
+          </ul>
+        </div>
+        <div class="maint-card" style="border-top:2px solid var(--black)">
+          <div class="maint-name">Growth</div>
+          <div class="maint-price">Rp 5 Jt</div>
+          <div class="maint-period">/bulan</div>
+          <div class="maint-tagline">Untuk bisnis yang mulai serius mengoptimasi performa digital mereka.</div>
+          <ul class="maint-list">
+            <li>Semua layanan di paket Basic</li>
+            <li>Optimasi konten &amp; SEO on-page</li>
+            <li>Monitoring performa website</li>
+            <li>Support waktu respons prioritas</li>
+          </ul>
+        </div>
+        <div class="maint-card">
+          <div class="maint-name">Performance</div>
+          <div class="maint-price">Rp 10 Jt</div>
+          <div class="maint-period">/bulan</div>
+          <div class="maint-tagline">Untuk bisnis yang menggunakan website sebagai mesin pertumbuhan utama.</div>
+          <ul class="maint-list">
+            <li>Semua layanan di paket Growth</li>
+            <li>A/B testing halaman &amp; elemen konversi</li>
+            <li>Laporan analytics &amp; insight bulanan</li>
+            <li>Strategi konten berbasis data</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <span class="footer-logo" onclick="nav('home')">ApaAja<em>Digital</em>.com</span>
+        <div class="footer-links">
+          <button class="footer-link" onclick="nav('ai')">AI System</button>
+          <button class="footer-link" onclick="nav('portofolio')">Portofolio</button>
+          <button class="footer-link" onclick="nav('kontak')">Kontak</button>
+        </div>
+        <span class="footer-copy">© 2025 ApaAjaDigital · Jakarta</span>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     PAGE 4: PORTOFOLIO
+═══════════════════════════════════════════════ -->
+<div id="portofolio" class="page">
+
+  <div class="section" style="padding-bottom:0">
+    <div class="container">
+      <span class="label">Portofolio</span>
+      <h2 style="margin-bottom:12px">200+ website.<br>Semua live tepat waktu.</h2>
+      <p style="max-width:520px;margin-bottom:56px">Setiap project di sini punya cerita — klien yang pernah frustrasi dengan agency sebelumnya, deadline yang tidak bisa ditawar, dan ekspektasi yang harus dipenuhi. Kami deliver semuanya.</p>
+    </div>
+    <div class="portfolio-grid" style="max-width:1100px;margin:0 auto 0;padding:0 60px">
+      <div class="portfolio-item">
+        <div class="p-mock">
+          <div class="p-mock-bar"><div class="p-dot"></div><div class="p-dot"></div><div class="p-dot"></div><div class="p-url">brandkuliner.co.id</div></div>
+          <div class="p-content">
+            <div class="p-headline">Kopi Nusantara — Order Sekarang</div>
+            <div class="p-line" style="width:85%"></div>
+            <div class="p-line" style="width:65%"></div>
+            <div class="p-line" style="width:45%"></div>
+            <div class="p-cta-mock" style="background:#8B5E3C">Order via WhatsApp</div>
+          </div>
+        </div>
+        <div class="p-overlay">
+          <div class="p-ov-industry">F&amp;B · Jakarta Selatan</div>
+          <div class="p-ov-name">Brand Kuliner</div>
+          <div class="p-ov-desc">Landing page + AI order bot · Live dalam 18 jam</div>
+        </div>
+      </div>
+      <div class="portfolio-item" style="background:#F0F4F8">
+        <div class="p-mock">
+          <div class="p-mock-bar"><div class="p-dot"></div><div class="p-dot"></div><div class="p-dot"></div><div class="p-url">startupsaas.co.id</div></div>
+          <div class="p-content">
+            <div class="p-headline" style="color:#1A56DB">SaaS Platform B2B Indonesia</div>
+            <div class="p-line" style="width:80%;background:#DBEAFE"></div>
+            <div class="p-line" style="width:60%;background:#DBEAFE"></div>
+            <div class="p-line" style="width:40%;background:#DBEAFE"></div>
+            <div class="p-cta-mock" style="background:#1A56DB">Start Free Trial</div>
+          </div>
+        </div>
+        <div class="p-overlay">
+          <div class="p-ov-industry">Startup Tech · Jakarta</div>
+          <div class="p-ov-name">B2B SaaS Platform</div>
+          <div class="p-ov-desc">Company profile + CRM automation system</div>
+        </div>
+      </div>
+      <div class="portfolio-item" style="background:#FFF8F5">
+        <div class="p-mock">
+          <div class="p-mock-bar"><div class="p-dot"></div><div class="p-dot"></div><div class="p-dot"></div><div class="p-url">retailbrand.id</div></div>
+          <div class="p-content">
+            <div class="p-headline" style="color:#C53030">Koleksi Terbaru — Shop Now</div>
+            <div class="p-line" style="width:80%;background:#FED7D7"></div>
+            <div class="p-line" style="width:60%;background:#FED7D7"></div>
+            <div class="p-line" style="width:40%;background:#FED7D7"></div>
+            <div class="p-cta-mock" style="background:#C53030">Belanja Sekarang</div>
+          </div>
+        </div>
+        <div class="p-overlay">
+          <div class="p-ov-industry">Retail · Nationwide</div>
+          <div class="p-ov-name">Retail Brand</div>
+          <div class="p-ov-desc">E-commerce + AI inventory management · 3 minggu</div>
+        </div>
+      </div>
+      <div class="portfolio-item" style="background:#F0FFF4">
+        <div class="p-mock">
+          <div class="p-mock-bar"><div class="p-dot"></div><div class="p-dot"></div><div class="p-dot"></div><div class="p-url">propertiku.id</div></div>
+          <div class="p-content">
+            <div class="p-headline" style="color:#276749">Properti Premium Jakarta</div>
+            <div class="p-line" style="width:80%;background:#C6F6D5"></div>
+            <div class="p-line" style="width:60%;background:#C6F6D5"></div>
+            <div class="p-line" style="width:40%;background:#C6F6D5"></div>
+            <div class="p-cta-mock" style="background:#276749">Jadwalkan Survey</div>
+          </div>
+        </div>
+        <div class="p-overlay">
+          <div class="p-ov-industry">Properti · Jakarta</div>
+          <div class="p-ov-name">Developer Properti</div>
+          <div class="p-ov-desc">Company profile + AI lead scoring pipeline</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cases-section">
+    <div class="container">
+      <span class="label">Case Study</span>
+      <h2>Hasil yang bisa<br>kamu ukur.</h2>
+      <div class="cases-grid">
+        <div class="case-card">
+          <div class="case-industry">F&amp;B · Jakarta Selatan</div>
+          <div class="case-client">Brand Kuliner</div>
+          <div class="case-meta">
+            <div class="case-meta-row"><span class="case-meta-label">Tantangan</span><span class="case-meta-val">Landing page untuk kampanye Ramadan yang harus live dalam 24 jam</span></div>
+            <div class="case-meta-row"><span class="case-meta-label">Yang dibuat</span><span class="case-meta-val">Landing page + integrasi WhatsApp order otomatis</span></div>
+          </div>
+          <div class="case-result">
+            <div class="case-result-n">3×</div>
+            <div class="case-result-l">Konversi WhatsApp dalam 7 hari pertama</div>
+          </div>
+          <div class="case-quote">"Website jadi dalam 1 hari, hari berikutnya kami sudah pakai untuk closing client. Tidak pernah dapat agency seperti ini."<div class="case-attr">— Founder, Brand Kuliner Jakarta</div></div>
+        </div>
+        <div class="case-card">
+          <div class="case-industry">B2B SaaS · Jakarta</div>
+          <div class="case-client">Startup SaaS</div>
+          <div class="case-meta">
+            <div class="case-meta-row"><span class="case-meta-label">Tantangan</span><span class="case-meta-val">Company profile untuk pitching investor dengan harga yang tidak berubah</span></div>
+            <div class="case-meta-row"><span class="case-meta-label">Yang dibuat</span><span class="case-meta-val">Company profile 8 halaman + sistem demo request</span></div>
+          </div>
+          <div class="case-result">
+            <div class="case-result-n">0 Rev.</div>
+            <div class="case-result-l">Nol perubahan harga dari proposal ke invoice</div>
+          </div>
+          <div class="case-quote">"Tim responsif, scope jelas dari awal, harga tidak berubah di tengah jalan. Refreshing."<div class="case-attr">— Marketing Lead, Startup B2B SaaS</div></div>
+        </div>
+        <div class="case-card">
+          <div class="case-industry">Retail · Nationwide</div>
+          <div class="case-client">Perusahaan Retail</div>
+          <div class="case-meta">
+            <div class="case-meta-row"><span class="case-meta-label">Tantangan</span><span class="case-meta-val">Sudah coba dua agency sebelumnya — keduanya molor lebih dari sebulan</span></div>
+            <div class="case-meta-row"><span class="case-meta-label">Yang dibuat</span><span class="case-meta-val">E-commerce dengan dashboard manajemen terpusat</span></div>
+          </div>
+          <div class="case-result">
+            <div class="case-result-n">1/3</div>
+            <div class="case-result-l">Satu-satunya dari 3 agency yang deliver tepat waktu</div>
+          </div>
+          <div class="case-quote">"Kami sudah coba 3 agency. ApaAjaDigital satu-satunya yang deliver tepat waktu."<div class="case-attr">— Head of Digital, Perusahaan Retail</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <span class="footer-logo" onclick="nav('home')">ApaAja<em>Digital</em>.com</span>
+        <div class="footer-links">
+          <button class="footer-link" onclick="nav('layanan')">Layanan</button>
+          <button class="footer-link" onclick="nav('ai')">AI System</button>
+          <button class="footer-link" onclick="nav('kontak')">Kontak</button>
+        </div>
+        <span class="footer-copy">© 2025 ApaAjaDigital · Jakarta</span>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     PAGE 5: TENTANG
+═══════════════════════════════════════════════ -->
+<div id="tentang" class="page">
+
+  <div class="section">
+    <div class="container">
+      <div class="about-hero" style="padding:0">
+        <div>
+          <span class="label">Tentang Kami</span>
+          <h1 class="about-h1">IT Agency yang<br>tidak <em>main-main.</em></h1>
+          <p class="about-lead">ApaAjaDigital lahir dari frustrasi yang sama yang dialami klien kami. Kami pernah melihat bisnis yang menunggu website berbulan-bulan. Kami pernah melihat tagihan yang dua kali lipat dari kesepakatan awal. Kami pernah melihat hasil yang tidak menyerupai brief yang sudah disetujui.</p>
+          <p class="about-lead" style="margin-bottom:0">Kami bangun agency ini untuk jadi jawabannya.</p>
+          <div style="margin-top:40px;display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border)">
+            <div style="padding:20px 0;background:var(--white)">
+              <div style="font-family:'Playfair Display',serif;font-size:32px;font-weight:700;line-height:1;margin-bottom:4px">2020</div>
+              <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.08em;color:var(--gray-400);font-weight:500">Berdiri di Jakarta</div>
+            </div>
+            <div style="padding:20px 24px;background:var(--white)">
+              <div style="font-family:'Playfair Display',serif;font-size:32px;font-weight:700;line-height:1;margin-bottom:4px">200+</div>
+              <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.08em;color:var(--gray-400);font-weight:500">Project selesai</div>
+            </div>
+            <div style="padding:20px 24px;background:var(--white)">
+              <div style="font-family:'Playfair Display',serif;font-size:32px;font-weight:700;line-height:1;margin-bottom:4px">98%</div>
+              <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.08em;color:var(--gray-400);font-weight:500">On-time delivery</div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <span class="label">Prinsip Kami</span>
+          <div class="principles">
+            <div class="principle">
+              <span class="principle-num">01</span>
+              <div>
+                <div class="principle-title">Harga fix bukan slogan.</div>
+                <div class="principle-body">Angka di proposal adalah angka yang kamu bayar. Tidak ada biaya tambahan, tidak ada revisi berbayar yang tidak pernah disepakati, tidak ada item yang "lupa disebutkan" di awal. Apa yang tertulis, itulah yang terjadi.</div>
+              </div>
+            </div>
+            <div class="principle">
+              <span class="principle-num">02</span>
+              <div>
+                <div class="principle-title">Timeline adalah janji, bukan estimasi.</div>
+                <div class="principle-body">Kalau kami bilang 1 hari, artinya 1 hari. Kami menanggung risiko ini sepenuhnya: jika kami telat, 50% biaya kembali ke kamu. Kami tidak berani membuat janji ini kalau kami tidak yakin bisa menepatinya.</div>
+              </div>
+            </div>
+            <div class="principle">
+              <span class="principle-num">03</span>
+              <div>
+                <div class="principle-title">Transparansi bukan fitur tambahan.</div>
+                <div class="principle-body">Progress bisa kamu pantau setiap saat. Tidak ada fase "kami sedang mengerjakan, tunggu saja". Kamu selalu tahu persis di mana posisi project kamu.</div>
+              </div>
+            </div>
+            <div class="principle">
+              <span class="principle-num">04</span>
+              <div>
+                <div class="principle-title">Yang kami banggakan adalah hasil klien kami.</div>
+                <div class="principle-body">Workflow kami yang teruji 200+ kali adalah alat — bukan tujuan. Tujuan kami adalah bisnis kamu berjalan lebih baik setelah kami selesai bekerja.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="values-section" style="background:var(--gray-100);border-top:1px solid var(--border)">
+    <div class="container">
+      <span class="label">Nilai Kami</span>
+      <div class="values-grid">
+        <div class="value-card">
+          <div class="value-icon">⚡</div>
+          <div class="value-name">Speed</div>
+          <div class="value-desc">Sistem kerja kami bukan hasil coba-coba. Ini hasil dari 200+ project yang dieksekusi, dievaluasi, dan disempurnakan. Tidak ada eksperimen di project kamu.</div>
+        </div>
+        <div class="value-card">
+          <div class="value-icon">◻</div>
+          <div class="value-name">Transparansi</div>
+          <div class="value-desc">Scope dikunci sebelum mulai. Progress bisa dipantau setiap saat. Harga tidak berubah. Full akses admin selalu ada di tangan kamu.</div>
+        </div>
+        <div class="value-card">
+          <div class="value-icon">◈</div>
+          <div class="value-name">AI-First</div>
+          <div class="value-desc">Kami tidak melihat AI sebagai fitur tambahan. Kami melihatnya sebagai cara bisnis harus beroperasi di 2025 ke depan — dan kami membangun sistem yang mencerminkan pandangan itu.</div>
+        </div>
+        <div class="value-card">
+          <div class="value-icon">→</div>
+          <div class="value-name">Hasil Terukur</div>
+          <div class="value-desc">Setiap deliverable punya definisi sukses yang konkret. Bukan "website selesai". Tapi "sistem ini mengurangi waktu respons CS kamu dari 4 jam menjadi 2 menit".</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="team-section">
+    <div class="container">
+      <span class="label">Tim Kami</span>
+      <h2>Orang-orang di balik<br>200+ project.</h2>
+      <div class="team-grid">
+        <div class="team-card">
+          <div class="team-avatar">F</div>
+          <div class="team-name">[Nama Founder]</div>
+          <div class="team-role">Founder &amp; Tech Lead</div>
+          <div class="team-bio">[X] tahun di industri web development dan sistem digital. Membangun metodologi 1-day delivery yang sekarang menjadi standar operasional seluruh tim.</div>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar">AI</div>
+          <div class="team-name">[Nama Head AI]</div>
+          <div class="team-role">Head of AI Systems</div>
+          <div class="team-bio">Spesialis agentic AI dan workflow automation. Bertanggung jawab atas perancangan dan implementasi semua sistem AI custom untuk klien — dari mapping kebutuhan hingga handover.</div>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar">CX</div>
+          <div class="team-name">[Nama Creative]</div>
+          <div class="team-role">Creative &amp; UX Director</div>
+          <div class="team-bio">Lebih dari [X] brand telah melewati tangan beliau. Memastikan setiap website yang kami bangun bukan hanya fungsional secara teknis, tapi juga efektif secara bisnis.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <span class="footer-logo" onclick="nav('home')">ApaAja<em>Digital</em>.com</span>
+        <div class="footer-links">
+          <button class="footer-link" onclick="nav('layanan')">Layanan</button>
+          <button class="footer-link" onclick="nav('ai')">AI System</button>
+          <button class="footer-link" onclick="nav('kontak')">Kontak</button>
+        </div>
+        <span class="footer-copy">© 2025 ApaAjaDigital · Jakarta</span>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     PAGE 6: KONTAK
+═══════════════════════════════════════════════ -->
+<div id="kontak" class="page">
+
+  <div class="section">
+    <div class="container">
+      <div class="kontak-hero" style="padding:0">
+        <div>
+          <span class="label">Hubungi Kami</span>
+          <h1 class="kontak-h1">Mulai hari ini.<br>Bukan besok.</h1>
+          <p class="kontak-lead">Setiap hari bisnis kamu berjalan tanpa sistem yang tepat adalah hari yang tidak optimal. Konsultasi 30 menit gratis — kami petakan kebutuhan, rekomendasikan solusi, dan kirimkan proposal dengan harga fix. Tanpa komitmen apapun dari kamu.</p>
+          <div class="contact-methods">
+            <div class="contact-row">
+              <div class="contact-icon">💬</div>
+              <div>
+                <div class="contact-label">WhatsApp · Respons 15 menit</div>
+                <div class="contact-val">+62 812 xxxx xxxx</div>
+                <div class="contact-sub">Untuk kebutuhan mendesak atau pertanyaan cepat</div>
+              </div>
+            </div>
+            <div class="contact-row">
+              <div class="contact-icon">📅</div>
+              <div>
+                <div class="contact-label">Booking Konsultasi Online</div>
+                <div class="contact-val">calendly.com/apaajadigital</div>
+                <div class="contact-sub">Slot 30 menit, pilih jadwal yang sesuai</div>
+              </div>
+            </div>
+            <div class="contact-row">
+              <div class="contact-icon">✉</div>
+              <div>
+                <div class="contact-label">Email</div>
+                <div class="contact-val">hello@apaajadigital.com</div>
+                <div class="contact-sub">Untuk kebutuhan detail atau perlu lampiran brief</div>
+              </div>
+            </div>
+            <div class="contact-row">
+              <div class="contact-icon">◎</div>
+              <div>
+                <div class="contact-label">Kantor</div>
+                <div class="contact-val">Jakarta Selatan, Indonesia</div>
+                <div class="contact-sub">Kunjungan dengan perjanjian</div>
+              </div>
+            </div>
+          </div>
+          <div class="guarantee-box">
+            <p>Garansi tetap berlaku untuk semua layanan website</p>
+            <strong>Website live dalam 1 hari. Atau 50% uang kembali.</strong>
+          </div>
+        </div>
+        <div>
+          <div class="kontak-form">
+            <div class="form-title">Ceritakan kebutuhan kamu.</div>
+            <div class="form-group">
+              <label class="form-label">Nama / Perusahaan</label>
+              <input class="form-input" type="text" placeholder="PT. Maju Jaya / Andi Santoso">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Nomor WhatsApp</label>
+              <input class="form-input" type="text" placeholder="+62 8xx xxxx xxxx">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Layanan yang dibutuhkan</label>
+              <select class="form-input">
+                <option value="">Pilih layanan...</option>
+                <option>Landing Page (Live 1 hari)</option>
+                <option>Company Profile</option>
+                <option>E-Commerce</option>
+                <option>AI / Agentic System</option>
+                <option>High Performance Web / App</option>
+                <option>Maintenance &amp; Support</option>
+                <option>Belum tahu — butuh konsultasi</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Ceritakan lebih lanjut <span style="font-weight:400;text-transform:none;letter-spacing:0">(opsional)</span></label>
+              <textarea class="form-input" rows="5" placeholder="Apa yang ingin kamu capai? Masalah apa yang ingin diselesaikan?"></textarea>
+            </div>
+            <button class="form-submit">Kirim &amp; Mulai Konsultasi →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <span class="footer-logo" onclick="nav('home')">ApaAja<em>Digital</em>.com</span>
+        <div class="footer-links">
+          <button class="footer-link" onclick="nav('home')">Beranda</button>
+          <button class="footer-link" onclick="nav('ai')">AI System</button>
+          <button class="footer-link" onclick="nav('layanan')">Layanan</button>
+          <button class="footer-link" onclick="nav('portofolio')">Portofolio</button>
+          <button class="footer-link" onclick="nav('tentang')">Tentang</button>
+        </div>
+        <span class="footer-copy">Website yang bekerja. Sistem yang berpikir.</span>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<script>
+const pageMap = {
+  home: 'Beranda', ai: 'AI System',
+  layanan: 'Layanan', portofolio: 'Portofolio',
+  tentang: 'Tentang', kontak: null
+};
+
+function nav(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+  const pg = document.getElementById(id);
+  if (pg) { pg.classList.add('active'); window.scrollTo({top:0,behavior:'instant'}); }
+  const label = pageMap[id];
+  if (label) {
+    document.querySelectorAll('.nav-link').forEach(l => {
+      if (l.textContent.trim() === label) l.classList.add('active');
+    });
+  }
+}
+</script>
+</body>
+</html>

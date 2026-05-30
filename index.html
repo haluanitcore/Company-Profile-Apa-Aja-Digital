@@ -99,8 +99,37 @@
                     </svg>
                 </div>
             </a>
+            <button class="nav__toggle" id="nav-toggle" onclick="toggleMobileMenu()" aria-label="Toggle Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
         </div>
     </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu" id="mobile-menu">
+        <div class="mobile-menu__backdrop" onclick="toggleMobileMenu()"></div>
+        <div class="mobile-menu__content">
+            <div class="mobile-menu__header">
+                <div class="mobile-menu__logo">APAAJADIGITAL.COM</div>
+                <button class="mobile-menu__close" onclick="toggleMobileMenu()" aria-label="Close Menu">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            <div class="mobile-menu__nav">
+                <a id="mob-nav-home" onclick="nav('home')" class="mobile-menu__link active" style="cursor: pointer;">BERANDA</a>
+                <a id="mob-nav-ai" onclick="nav('ai')" class="mobile-menu__link" style="cursor: pointer;">AI SYSTEM</a>
+                <a id="mob-nav-layanan" onclick="nav('layanan')" class="mobile-menu__link" style="cursor: pointer;">LAYANAN & HARGA</a>
+                <a id="mob-nav-portofolio" onclick="nav('portofolio')" class="mobile-menu__link" style="cursor: pointer;">PORTOFOLIO</a>
+                <a id="mob-nav-tentang" onclick="nav('tentang')" class="mobile-menu__link" style="cursor: pointer;">TENTANG</a>
+                <a id="mob-nav-kontak" onclick="nav('kontak')" class="mobile-menu__link mobile-menu__link--cta" style="cursor: pointer;">HUBUNGI KAMI</a>
+            </div>
+        </div>
+    </div>
 
 
     <!-- ==============================================
@@ -1864,19 +1893,35 @@
             kontak: null
         };
 
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const toggle = document.getElementById('nav-toggle');
+            if (menu) {
+                menu.classList.toggle('is-active');
+            }
+            if (toggle) {
+                toggle.classList.toggle('is-active');
+            }
+        }
+
         function nav(id) {
             // Hide all pages
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             // Deactivate all nav links
             document.querySelectorAll('.nav__link').forEach(l => l.classList.remove('active'));
             document.querySelectorAll('.nav__cta').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.mobile-menu__link').forEach(l => l.classList.remove('active'));
             
             // Show active page
             const pg = document.getElementById(id);
             if (pg) {
                 pg.classList.add('active');
-                // Scroll instantly to top of page
-                window.scrollTo({ top: 0, behavior: 'instant' });
+                // Scroll to top using Lenis if available to prevent smooth scroll fighting
+                if (typeof lenis !== 'undefined') {
+                    lenis.scrollTo(0, { immediate: true });
+                } else {
+                    window.scrollTo({ top: 0, behavior: 'instant' });
+                }
             }
             
             // Set hash in URL smoothly
@@ -1886,15 +1931,24 @@
                 window.location.hash = '#' + id;
             }
             
-            // Activate corresponding link
-            const label = pageMap[id];
-            if (label) {
-                document.querySelectorAll('.nav__link').forEach(l => {
-                    if (l.textContent.trim() === label) l.classList.add('active');
-                });
-            } else if (id === 'kontak') {
-                const cta = document.getElementById('nav-kontak');
-                if (cta) cta.classList.add('active');
+            // Activate corresponding link by ID (Highly robust, immune to text modifications)
+            const activeLink = document.getElementById('nav-' + id);
+            if (activeLink) {
+                activeLink.classList.add('active');
+            }
+            const activeMobLink = document.getElementById('mob-nav-' + id);
+            if (activeMobLink) {
+                activeMobLink.classList.add('active');
+            }
+
+            // Automatically close mobile menu if active
+            const mobMenu = document.getElementById('mobile-menu');
+            const navToggle = document.getElementById('nav-toggle');
+            if (mobMenu && mobMenu.classList.contains('is-active')) {
+                mobMenu.classList.remove('is-active');
+            }
+            if (navToggle && navToggle.classList.contains('is-active')) {
+                navToggle.classList.remove('is-active');
             }
             
             // Refresh ScrollTriggers so that GSAP positions recalculate for the active visible page layout

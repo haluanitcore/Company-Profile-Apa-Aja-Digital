@@ -1,0 +1,1774 @@
+<!DOCTYPE html>
+<html class="dark" lang="id">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>ApaAjaDigital | Velocity through Intelligence</title>
+  
+  <!-- CSS Reset & Core Styling libraries -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind Custom Config -->
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            background: "#08080a",
+            surface: "#101116",
+            "surface-light": "#f9f9fb",
+            primary: "#5724fe",
+            accent: "#c4f56a",
+            "border-subtle": "rgba(255, 255, 255, 0.08)",
+            "border-light": "rgba(0, 0, 0, 0.08)",
+            "text-muted": "#94a3b8" /* Overhauled for higher contrast (original: #808090) */
+          },
+          fontFamily: {
+            display: ['"DM Serif Display"', "serif"],
+            sans: ['"Plus Jakarta Sans"', "sans-serif"],
+            mono: ['"JetBrains Mono"', "monospace"]
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Premium Custom Styling (Flying Bisons Inspired) -->
+  <style>
+    /* Reset scroll behavior for Lenis integration */
+    html {
+      scroll-behavior: auto;
+    }
+
+    body {
+      font-family: "Plus Jakarta Sans", sans-serif;
+      background-color: #08080a;
+      overflow-x: hidden;
+    }
+
+    /* Dynamic Page-View SPA Transition Container */
+    .page-view {
+      display: none;
+      opacity: 0;
+      transform: translateY(15px);
+      transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .page-view.active {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Custom Cursor & Follower */
+    .custom-cursor {
+      width: 8px;
+      height: 8px;
+      background: #ffffff;
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: width 0.2s, height 0.2s, opacity 0.2s;
+    }
+
+    .custom-cursor-follower {
+      width: 32px;
+      height: 32px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1), height 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s, background 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #08080a;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    /* Hover States for Interactive Elements */
+    .hover-btn:hover ~ .custom-cursor {
+      width: 0;
+      height: 0;
+      opacity: 0;
+    }
+    .hover-btn:hover ~ .custom-cursor-follower {
+      width: 80px;
+      height: 80px;
+      background: rgba(196, 245, 106, 0.95); /* Bright lime contrast */
+      border-color: #c4f56a;
+    }
+
+    /* Background Neon Orbs */
+    .bg-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(120px);
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.6;
+    }
+
+    .orb-primary {
+      background: radial-gradient(circle, rgba(87, 36, 254, 0.25) 0%, transparent 80%);
+      animation: orbFloat1 18s ease-in-out infinite;
+    }
+
+    .orb-accent {
+      background: radial-gradient(circle, rgba(196, 245, 106, 0.15) 0%, transparent 80%);
+      animation: orbFloat2 24s ease-in-out infinite;
+    }
+
+    @keyframes orbFloat1 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(-80px, 60px) scale(1.15); }
+    }
+
+    @keyframes orbFloat2 {
+      0%, 100% { transform: translate(0, 0) scale(1.1); }
+      50% { transform: translate(70px, -90px) scale(0.9); }
+    }
+
+    /* Noise & Pattern Overlays */
+    .grain-overlay {
+      position: fixed;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      opacity: 0.015;
+      pointer-events: none;
+      z-index: 99;
+      mix-blend-mode: overlay;
+    }
+
+    /* Rotating Reel Badge Widget */
+    .rotating-reel-container {
+      position: relative;
+      width: 140px;
+      height: 140px;
+      cursor: pointer;
+    }
+
+    .rotating-text-svg {
+      animation: spinEndless 20s linear infinite;
+      transform-origin: center;
+    }
+
+    @keyframes spinEndless {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Text Reveal Animations (Word Splitting Mask) */
+    .text-reveal-word {
+      display: inline-block;
+      overflow: hidden;
+      vertical-align: bottom;
+      margin-right: 0.25em;
+    }
+
+    .word-inner {
+      display: inline-block;
+      transform: translateY(110%);
+      transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .revealed .word-inner {
+      transform: translateY(0);
+    }
+
+    /* Staggered Entrance Elements */
+    .reveal-up {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .reveal-up.revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Glassmorphism Panels */
+    .premium-glass {
+      background: rgba(18, 19, 22, 0.6);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    /* Bento Grid Glow Trail */
+    .glow-card {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .glow-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(800px circle at var(--glow-x, 50%) var(--glow-y, 50%), rgba(87, 36, 254, 0.15), transparent 40%);
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .glow-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border: 1px solid transparent;
+      border-radius: inherit;
+      background: radial-gradient(800px circle at var(--glow-x, 50%) var(--glow-y, 50%), rgba(255, 255, 255, 0.1), transparent 40%) border-box;
+      -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    /* Endless Ticker Loop */
+    .ticker-wrapper {
+      overflow: hidden;
+      white-space: nowrap;
+      display: flex;
+    }
+
+    .ticker-track {
+      display: inline-block;
+      animation: tickerScroll 25s linear infinite;
+    }
+
+    .ticker-track-reverse {
+      display: inline-block;
+      animation: tickerScrollReverse 25s linear infinite;
+    }
+
+    @keyframes tickerScroll {
+      0% { transform: translate3d(0, 0, 0); }
+      100% { transform: translate3d(-50%, 0, 0); }
+    }
+
+    @keyframes tickerScrollReverse {
+      0% { transform: translate3d(-50%, 0, 0); }
+      100% { transform: translate3d(0, 0, 0); }
+    }
+
+    /* Comparative Table Styling */
+    .compare-table tr {
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+      transition: background 0.3s;
+    }
+
+    .dark .compare-table tr {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .compare-table tr:hover {
+      background: rgba(87, 36, 254, 0.02);
+    }
+
+    /* Smooth Progress Line Drawing */
+    .progress-line-vertical {
+      height: 0;
+      transition: height 0.1s linear;
+    }
+  </style>
+</head>
+
+<body class="bg-background text-white antialiased selection:bg-accent selection:text-background">
+
+  <!-- Grainy Overlay for visual grit and character -->
+  <div class="grain-overlay"></div>
+
+  <!-- Custom GSAP Pointer Cursor Elements -->
+  <div class="custom-cursor hidden md:block" id="js-cursor"></div>
+  <div class="custom-cursor-follower hidden md:block" id="js-cursor-follower"></div>
+
+  <!-- Orbs in Background -->
+  <div class="relative overflow-hidden w-full">
+    <div class="bg-orb orb-primary w-[700px] h-[700px] top-[-200px] right-[-100px]"></div>
+    <div class="bg-orb orb-accent w-[600px] h-[600px] top-[400px] left-[-200px]"></div>
+    <div class="bg-orb orb-primary w-[800px] h-[800px] bottom-[300px] right-[-200px]"></div>
+  </div>
+
+  <!-- Header / Navigation Bar (Low Profile and Compact: py-3 base, py-2 scrolled) -->
+  <nav class="fixed top-0 w-full z-50 transition-all duration-300 border-b border-white/5 bg-background/60 backdrop-blur-xl" id="js-nav">
+    <div class="max-w-[1440px] mx-auto px-6 md:px-20 py-3.5 flex justify-between items-center transition-all duration-300" id="js-nav-container">
+      
+      <!-- Brand Logo -->
+      <a class="flex flex-col uppercase tracking-wider group focus:outline-none" href="#page-home" id="js-logo-link">
+        <span class="font-display text-base font-bold tracking-tight text-white group-hover:text-accent transition-colors duration-300">ApaAjaDigital</span>
+        <span class="font-mono text-[8px] text-text-muted tracking-[0.25em]">Jakarta, Indonesia</span>
+      </a>
+
+      <!-- Desktop Navigation Menu (Low profile, thin styling) -->
+      <div class="hidden md:flex gap-10 items-center">
+        <a class="font-mono text-[10px] font-semibold tracking-widest text-text-muted hover:text-white uppercase transition-all duration-300 relative py-1 after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-0 after:h-[2px] after:bg-primary after:transition-all after:duration-300 hover:after:w-4" href="#page-layanan">Layanan</a>
+        <a class="font-mono text-[10px] font-semibold tracking-widest text-text-muted hover:text-white uppercase transition-all duration-300 relative py-1 after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-0 after:h-[2px] after:bg-primary after:transition-all after:duration-300 hover:after:w-4" href="#page-proses">Proses</a>
+        <a class="font-mono text-[10px] font-semibold tracking-widest text-text-muted hover:text-white uppercase transition-all duration-300 relative py-1 after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-0 after:h-[2px] after:bg-primary after:transition-all after:duration-300 hover:after:w-4" href="#page-paket">Paket</a>
+        <a class="font-mono text-[10px] font-semibold tracking-widest text-text-muted hover:text-white uppercase transition-all duration-300 relative py-1 after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-0 after:h-[2px] after:bg-primary after:transition-all after:duration-300 hover:after:w-4" href="#page-maintenance">Maintenance</a>
+      </div>
+
+      <!-- Action Button CTA -->
+      <div class="flex gap-4 items-center">
+        <button class="font-mono text-[10px] tracking-wider px-5 py-2.5 border border-white/10 hover:border-white/40 hover:bg-white/5 transition-all text-white font-bold hidden sm:block uppercase rounded-full magnetic">Rate Card</button>
+        <a class="font-mono text-[10px] tracking-wider px-5 py-2.5 bg-[#25D366] text-white hover:shadow-[0_0_25px_rgba(37,211,102,0.4)] transition-all font-extrabold uppercase rounded-full magnetic" href="https://wa.me/6282180598494" target="_blank">Book Now</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ==================== SPA PAGE VIEWS CONTAINERS ==================== -->
+
+  <!-- 1. HOME VIEW -->
+  <div id="page-home" class="page-view active">
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex flex-col justify-center pt-32 pb-20 md:pb-28 overflow-hidden z-10" id="hero">
+      
+      <!-- Floating particles in hero background -->
+      <canvas class="absolute inset-0 pointer-events-none z-0" id="js-hero-particles"></canvas>
+
+      <div class="max-w-[1440px] mx-auto px-6 md:px-20 w-full relative z-10 grid grid-cols-12 gap-y-12 md:gap-x-12">
+        
+        <!-- Copy Block Left -->
+        <div class="col-span-12 lg:col-span-8 flex flex-col justify-center">
+          <div class="flex flex-wrap gap-2 items-center mb-8 reveal-up" style="transition-delay: 0.1s">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 border border-primary/20 bg-primary/5 text-accent font-mono text-[10px] uppercase tracking-[0.2em] rounded-full w-fit">
+              <span class="w-1.5 h-1.5 rounded-full bg-accent animate-ping"></span>
+              Velocity through Intelligence
+            </div>
+            <div class="font-mono text-[9px] text-text-muted uppercase tracking-widest px-3 py-1.5 border border-white/5 rounded-full bg-white/5">
+              IT Agency Jakarta • Pitch Deck 2025
+            </div>
+          </div>
+          
+          <h1 class="font-display text-4xl sm:text-6xl md:text-7xl lg:text-8xl leading-[1.05] tracking-tight mb-8 reveal-up select-none" id="js-hero-title" style="transition-delay: 0.2s">
+            Website Live<br class="hidden sm:block"/> dalam <span class="text-accent font-sans italic font-bold text-shadow-glow">1 Hari</span>
+          </h1>
+          
+          <p class="font-sans text-base sm:text-lg md:text-xl text-slate-300 max-w-xl leading-relaxed mb-6 reveal-up" style="transition-delay: 0.4s">
+            Sudah dipercaya <span class="text-white font-bold">200+ bisnis</span> di Indonesia — UMKM, startup, sampai korporasi. Selesai tepat waktu atau <span class="text-white font-bold underline decoration-accent decoration-2 underline-offset-4">50% Uang Kembali</span>.
+          </p>
+          <p class="font-sans text-xs sm:text-sm text-slate-400 max-w-xl leading-relaxed mb-10 reveal-up" style="transition-delay: 0.5s">
+            Tidak ada timeline molor. Tidak ada biaya bengkak. Tidak ada janji manis tanpa hasil.<br/>
+            <span class="text-accent font-bold">Hanya satu hal: website yang siap kerja, hari ini juga.</span>
+          </p>
+
+          <!-- CTA and Social Profile -->
+          <div class="flex flex-wrap gap-8 items-center reveal-up" style="transition-delay: 0.6s">
+            <a href="#page-paket" class="px-8 py-5 bg-primary text-white hover:bg-primary/95 font-mono text-xs font-bold tracking-widest uppercase shadow-[0_0_35px_rgba(87,36,254,0.3)] hover:shadow-[0_0_40px_rgba(87,36,254,0.5)] transition-all duration-300 rounded-full magnetic">Start My Project</a>
+            
+            <!-- Social Badging -->
+            <div class="flex items-center gap-4 border-l border-white/10 pl-6 py-2">
+              <div class="flex -space-x-3">
+                <div class="w-10 h-10 rounded-full border-2 border-background overflow-hidden bg-surface">
+                  <img class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=150" alt="Founder 1"/>
+                </div>
+                <div class="w-10 h-10 rounded-full border-2 border-background overflow-hidden bg-surface">
+                  <img class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=150" alt="Executive 2"/>
+                </div>
+              </div>
+              <div class="flex flex-col">
+                <span class="font-mono text-[10px] text-white font-extrabold uppercase tracking-widest">200+ Bisnis</span>
+                <span class="text-[11px] text-slate-300">Dipercaya secara Nasional</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stats Block Right -->
+        <div class="col-span-12 lg:col-span-4 flex flex-col justify-center gap-6">
+          <div class="grid grid-cols-2 gap-4">
+            <div class="premium-glass p-6 rounded-2xl reveal-up" style="transition-delay: 0.5s">
+              <span class="font-mono text-[10px] text-slate-400 tracking-widest block mb-2">/01</span>
+              <div class="font-display text-3xl text-white font-bold stat-number" data-count="200">0</div>
+              <span class="font-sans text-[11px] text-slate-300 block mt-1">Klien Aktif</span>
+            </div>
+            <div class="premium-glass p-6 rounded-2xl reveal-up" style="transition-delay: 0.6s">
+              <span class="font-mono text-[10px] text-slate-400 tracking-widest block mb-2">/02</span>
+              <div class="font-display text-3xl text-white font-bold stat-number" data-count="1">0</div>
+              <span class="font-sans text-[11px] text-slate-300 block mt-1">Hari Kerja</span>
+            </div>
+            <div class="premium-glass p-6 rounded-2xl col-span-2 reveal-up" style="transition-delay: 0.7s">
+              <span class="font-mono text-[10px] text-slate-400 tracking-widest block mb-2">/03</span>
+              <div class="flex items-baseline gap-1">
+                <div class="font-display text-4xl text-accent font-bold stat-number" data-count="50">0</div>
+                <span class="font-display text-xl text-accent font-bold">%</span>
+              </div>
+              <span class="font-sans text-[11px] text-slate-300 block mt-1">Garansi Uang Kembali</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pinned Visual Player Showcase Widget -->
+      <div class="max-w-[1440px] mx-auto px-6 md:px-20 w-full mt-16 md:mt-24 relative z-10 reveal-up" style="transition-delay: 0.8s">
+        <div class="w-full aspect-[21/9] rounded-3xl border border-white/5 overflow-hidden relative group" id="js-video-showcase">
+          
+          <!-- Premium Abstract Visual Dynamic Background Simulator -->
+          <div class="absolute inset-0 bg-gradient-to-tr from-black via-[#0c0d16] to-[#1a0e36] z-0">
+            <!-- Geometric Animated Mesh -->
+            <div class="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#808080_1px,transparent_1px),linear-gradient(to_bottom,#808080_1px,transparent_1px)] bg-[size:30px_30px]"></div>
+            <div class="absolute w-[400px] h-[400px] rounded-full bg-primary/20 blur-[100px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-pulse"></div>
+          </div>
+
+          <div class="absolute inset-0 flex flex-col items-center justify-center z-10 p-6 text-center">
+            
+            <!-- Spinning Custom Text Circle & Play Icon Indicator -->
+            <div class="rotating-reel-container flex items-center justify-center hover:scale-110 transition-transform duration-500 cursor-pointer" id="js-play-trigger">
+              <svg class="absolute w-full h-full rotating-text-svg" viewBox="0 0 100 100">
+                <defs>
+                  <path d="M 50, 50 m -35, 0 a 35,35 0 1,1 70,0 a 35,35 0 1,1 -70,0" id="circlePath"></path>
+                </defs>
+                <text fill="rgba(255, 255, 255, 0.4)" font-family="monospace" font-size="6.5px" letter-spacing="2.8px">
+                  <textPath xlink:href="#circlePath">WATCH OUR SHOWREEL • LIVE ACTION •</textPath>
+                </text>
+              </svg>
+              <div class="w-16 h-16 rounded-full bg-white text-background flex items-center justify-center shadow-2xl relative z-10">
+                <span class="material-symbols-outlined text-2xl font-bold translate-x-[2px]" data-icon="play_arrow">play_arrow</span>
+              </div>
+            </div>
+            
+            <!-- Video Tag Overlay Information -->
+            <p class="font-mono text-[10px] text-white/50 tracking-widest mt-8 uppercase">Jakarta Studio Production • 2026 Reel</p>
+          </div>
+
+          <!-- Mask Gradient bottom -->
+          <div class="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-background to-transparent z-10 pointer-events-none"></div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- 2. LAYANAN VIEW (Tabbed section grouping Bento Grid, Comparison Table, and Enterprise Solutions) -->
+  <div id="page-layanan" class="page-view">
+    <!-- Problem Bento Section -->
+    <section class="py-24 md:py-36 relative z-10 bg-background" id="solutions">
+      <div class="max-w-[1440px] mx-auto px-6 md:px-20">
+        <div class="grid grid-cols-12 gap-y-12 md:gap-x-12">
+          
+          <!-- Copy Column Left -->
+          <div class="col-span-12 lg:col-span-5 flex flex-col justify-center reveal-up">
+            <div class="font-mono text-[10px] text-accent tracking-[0.25em] uppercase mb-4">[ THE PROBLEM ]</div>
+            <h2 class="font-display text-4xl sm:text-5xl md:text-6xl leading-[1.1] tracking-tight mb-8 text-white">
+              Kamu bayar mahal.<br/>Tapi website kamu <span class="text-accent italic">tidak menghasilkan</span>.
+            </h2>
+            <p class="font-sans text-base sm:text-lg text-slate-300 leading-relaxed mb-6">
+              Kalau kamu pernah ngalamin salah satu dari ini, kamu tidak sendirian:
+            </p>
+            <div class="h-[1px] w-20 bg-primary/40 my-4"></div>
+            <p class="font-sans text-sm text-slate-400 leading-relaxed font-medium">
+              Masalahnya bukan kamu. Masalahnya adalah cara agency lain bekerja.
+            </p>
+          </div>
+
+          <!-- Bento Grid Column Right -->
+          <div class="col-span-12 lg:col-span-7 grid grid-cols-1 md:grid-cols-2 gap-6">
+            
+            <!-- Card 1 -->
+            <div class="premium-glass p-8 rounded-3xl flex flex-col gap-6 glow-card reveal-up group hover:border-primary/30 transition-all duration-500" style="transition-delay: 0.1s">
+              <div class="w-12 h-12 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center text-accent group-hover:scale-110 transition-transform duration-500">
+                <span class="material-symbols-outlined text-2xl" data-icon="alarm_off">alarm_off</span>
+              </div>
+              <div class="flex flex-col gap-2">
+                <h3 class="font-display text-2xl text-white font-bold group-hover:text-accent transition-colors duration-300">Project Molor</h3>
+                <p class="font-sans text-sm text-slate-300 leading-relaxed">
+                  Project molor berbulan-bulan — timeline mundur tanpa kejelasan. Momentum bisnis berharga Anda hilang begitu saja karena tim IT pengembang yang lambat.
+                </p>
+              </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="premium-glass p-8 rounded-3xl flex flex-col gap-6 glow-card reveal-up group hover:border-primary/30 transition-all duration-500" style="transition-delay: 0.2s">
+              <div class="w-12 h-12 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center text-accent group-hover:scale-110 transition-transform duration-500">
+                <span class="material-symbols-outlined text-2xl" data-icon="payments">payments</span>
+              </div>
+              <div class="flex flex-col gap-2">
+                <h3 class="font-display text-2xl text-white font-bold group-hover:text-accent transition-colors duration-300">Biaya Bengkak</h3>
+                <p class="font-sans text-sm text-slate-300 leading-relaxed">
+                  Harga awal murah, tagihan akhir bengkak — biaya tersembunyi terus muncul untuk setiap revisi kecil, menguras anggaran operasional Anda.
+                </p>
+              </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="premium-glass p-8 rounded-3xl flex flex-col gap-6 glow-card reveal-up group hover:border-primary/30 transition-all duration-500" style="transition-delay: 0.3s">
+              <div class="w-12 h-12 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center text-accent group-hover:scale-110 flex-shrink-0 transition-transform duration-500">
+                <span class="material-symbols-outlined text-2xl" data-icon="sentiment_dissatisfied">sentiment_dissatisfied</span>
+              </div>
+              <div class="flex flex-col gap-2">
+                <h3 class="font-display text-2xl text-white font-bold group-hover:text-accent transition-colors duration-300">Hasil Akhir Tidak Sesuai</h3>
+                <p class="font-sans text-sm text-slate-300 leading-relaxed">
+                  Hasil akhir tidak sesuai ekspektasi — wireframe bagus di awal, namun eksekusi akhirnya mengecewakan, lambat, dan tidak responsif.
+                </p>
+              </div>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="premium-glass p-8 rounded-3xl flex flex-col gap-6 glow-card reveal-up group hover:border-primary/30 transition-all duration-500" style="transition-delay: 0.4s">
+              <div class="w-12 h-12 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center text-accent group-hover:scale-110 flex-shrink-0 transition-transform duration-500">
+                <span class="material-symbols-outlined text-2xl" data-icon="construction">construction</span>
+              </div>
+              <div class="flex flex-col gap-2">
+                <h3 class="font-display text-2xl text-white font-bold group-hover:text-accent transition-colors duration-300">Lemot & Susah Maintain</h3>
+                <p class="font-sans text-sm text-slate-300 leading-relaxed">
+                  Website lemot dan susah di-maintain — setiap update butuh agency lagi dengan biaya tinggi, membuat Anda ketergantungan tanpa henti.
+                </p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Difference Comparison Section (Transitions to Light Theme - Highly Visible Text overrides) -->
+    <section class="py-24 md:py-36 bg-surface-light text-slate-900 relative z-10" id="why-us">
+      <div class="max-w-[1440px] mx-auto px-6 md:px-20">
+        
+        <!-- Top header bar -->
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16 reveal-up">
+          <div>
+            <div class="font-mono text-[10px] text-primary tracking-[0.25em] uppercase mb-4 font-bold">[ THE DIFFERENCE ]</div>
+            <h2 class="font-display text-4xl sm:text-5xl md:text-6xl tracking-tight text-slate-900">
+              Kenapa Memilih Kami?
+            </h2>
+          </div>
+          <!-- Highly visible text color: text-slate-800 instead of text-black/60 -->
+          <p class="font-sans text-base sm:text-lg text-slate-800 max-w-md leading-relaxed font-medium">
+            Standar baru yang transparan, modern, dan andal dalam kecepatan peluncuran infrastruktur digital.
+          </p>
+        </div>
+
+        <!-- Comparative Table Grid -->
+        <div class="w-full overflow-x-auto border-t border-slate-300 reveal-up">
+          <table class="w-full text-left border-collapse compare-table min-w-[700px]">
+            <thead>
+              <tr class="border-b border-slate-300">
+                <th class="py-8 font-mono text-[11px] text-slate-600 uppercase tracking-wider w-[40%] font-extrabold">Metrik Performa</th>
+                <th class="py-8 font-mono text-[11px] text-slate-600 uppercase tracking-wider w-[30%] font-extrabold">Agency Lain</th>
+                <th class="py-8 font-mono text-[11px] text-primary uppercase tracking-widest font-black w-[30%]">ApaAjaDigital</th>
+              </tr>
+            </thead>
+            <!-- Text Slate-800 for high visibility -->
+            <tbody class="font-sans text-sm sm:text-base text-slate-800 font-medium">
+              <tr>
+                <td class="py-8 font-extrabold text-slate-900 flex items-center gap-3">
+                  <span class="material-symbols-outlined text-slate-600 text-lg font-bold" data-icon="schedule">schedule</span>
+                  Timeline
+                </td>
+                <td class="py-8 text-slate-600">4–12 minggu, sering molor</td>
+                <td class="py-8 text-primary font-black">1 hari (landing & company profile)</td>
+              </tr>
+              <tr>
+                <td class="py-8 font-extrabold text-slate-900 flex items-center gap-3">
+                  <span class="material-symbols-outlined text-slate-600 text-lg font-bold" data-icon="payments">payments</span>
+                  Harga
+                </td>
+                <td class="py-8 text-slate-600">Murah di awal, bengkak di akhir</td>
+                <td class="py-8 text-primary font-black">Fix di proposal, tanpa biaya tersembunyi</td>
+              </tr>
+              <tr>
+                <td class="py-8 font-extrabold text-slate-900 flex items-center gap-3">
+                  <span class="material-symbols-outlined text-slate-600 text-lg font-bold" data-icon="dashboard">dashboard</span>
+                  Progress
+                </td>
+                <td class="py-8 text-slate-600">Black box, harus chase terus</td>
+                <td class="py-8 text-primary font-black">Bisa dipantau setiap hari</td>
+              </tr>
+              <tr>
+                <td class="py-8 font-extrabold text-slate-900 flex items-center gap-3">
+                  <span class="material-symbols-outlined text-slate-600 text-lg font-bold" data-icon="verified_user">verified_user</span>
+                  Garansi
+                </td>
+                <td class="py-8 text-slate-600">Tidak ada</td>
+                <td class="py-8 text-primary font-black">Telat = 50% uang kembali</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Social Proof Logos Slider -->
+    <section class="py-16 bg-[#0c0d11] border-y border-white/5 relative z-10">
+      <div class="w-full ticker-wrapper">
+        <div class="ticker-track flex items-center gap-16 md:gap-24 font-display font-extrabold text-2xl md:text-3xl text-white/10 uppercase tracking-widest">
+          <span>TechCorp</span><span>•</span><span>FlowSys</span><span>•</span><span>Quantum</span><span>•</span><span>Zenith</span><span>•</span>
+          <span>Aramco</span><span>•</span><span>Asiacell</span><span>•</span><span>Badrgo</span><span>•</span><span>Kwadron</span><span>•</span>
+          <span>TechCorp</span><span>•</span><span>FlowSys</span><span>•</span><span>Quantum</span><span>•</span><span>Zenith</span><span>•</span>
+          <span>Aramco</span><span>•</span><span>Asiacell</span><span>•</span><span>Badrgo</span><span>•</span><span>Kwadron</span><span>•</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Target Segments & Testimonials Section -->
+    <section class="py-24 md:py-36 bg-[#090a0f] relative z-10 border-b border-white/5" id="segments-testimonials">
+      <div class="max-w-[1440px] mx-auto px-6 md:px-20">
+        
+        <!-- Header -->
+        <div class="text-center max-w-3xl mx-auto mb-20 reveal-up">
+          <div class="font-mono text-[10px] text-accent tracking-[0.25em] uppercase mb-4">[ CLIENT TRUST ]</div>
+          <h2 class="font-display text-4xl sm:text-5xl md:text-6xl tracking-tight text-white mb-6">
+            Mereka Sudah Memilih Kami.
+          </h2>
+          <p class="font-sans text-base sm:text-lg text-slate-300 leading-relaxed font-medium">
+            Dari warung kopi sampai perusahaan publik. Kami hadir untuk membantu percepatan performa bisnis di semua level skala industri.
+          </p>
+        </div>
+
+        <!-- Segmen Yang Kami Layani Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-24 reveal-up">
+          <!-- Segment 1 -->
+          <div class="premium-glass p-8 rounded-3xl glow-card flex flex-col justify-between group hover:border-primary/30 transition-all duration-500">
+            <div>
+              <span class="font-mono text-[10px] text-slate-400 uppercase tracking-widest block mb-4">/01 Segment</span>
+              <h3 class="font-display text-2xl text-white font-bold mb-4 group-hover:text-accent transition-colors duration-300">UMKM & Personal Brand</h3>
+              <p class="font-sans text-sm text-slate-300 leading-relaxed">
+                Landing page cepat untuk testing campaign dan promosi kilat. Solusi berkonversi tinggi dengan pengujian pasar yang berbiaya efisien.
+              </p>
+            </div>
+            <div class="mt-8 font-mono text-[10px] text-accent tracking-wider uppercase font-bold flex items-center gap-2">
+              landing page cepat <span class="material-symbols-outlined text-sm">trending_flat</span>
+            </div>
+          </div>
+          <!-- Segment 2 -->
+          <div class="premium-glass p-8 rounded-3xl glow-card flex flex-col justify-between group hover:border-primary/30 transition-all duration-500">
+            <div>
+              <span class="font-mono text-[10px] text-slate-400 uppercase tracking-widest block mb-4">/02 Segment</span>
+              <h3 class="font-display text-2xl text-white font-bold mb-4 group-hover:text-accent transition-colors duration-300">Startup / Rintisan</h3>
+              <p class="font-sans text-sm text-slate-300 leading-relaxed">
+                MVP web & mobile untuk validasi produk secara tangkas di pasar. Infrastruktur yang andal dan siap dipresentasikan di hadapan investor.
+              </p>
+            </div>
+            <div class="mt-8 font-mono text-[10px] text-accent tracking-wider uppercase font-bold flex items-center gap-2">
+              MVP web & mobile <span class="material-symbols-outlined text-sm">trending_flat</span>
+            </div>
+          </div>
+          <!-- Segment 3 -->
+          <div class="premium-glass p-8 rounded-3xl glow-card flex flex-col justify-between group hover:border-primary/30 transition-all duration-500">
+            <div>
+              <span class="font-mono text-[10px] text-slate-400 uppercase tracking-widest block mb-4">/03 Segment</span>
+              <h3 class="font-display text-2xl text-white font-bold mb-4 group-hover:text-accent transition-colors duration-300">Korporasi Besar</h3>
+              <p class="font-sans text-sm text-slate-300 leading-relaxed">
+                Company profile eksklusif & e-commerce skala enterprise. Sistem kustom berkinerja tinggi terintegrasi penuh untuk lalu lintas trafik data besar.
+              </p>
+            </div>
+            <div class="mt-8 font-mono text-[10px] text-accent tracking-wider uppercase font-bold flex items-center gap-2">
+              enterprise profile & e-comm <span class="material-symbols-outlined text-sm">trending_flat</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Apa Kata Mereka / Testimonials -->
+        <div>
+          <div class="flex items-center gap-4 mb-12 reveal-up">
+            <h3 class="font-display text-2xl md:text-3xl text-white font-bold">Apa Kata Mereka</h3>
+            <div class="h-[1px] flex-grow bg-white/10"></div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 reveal-up">
+            <!-- Testimonial 1 -->
+            <div class="premium-glass p-8 rounded-2xl flex flex-col justify-between relative group hover:border-primary/20 transition-all duration-300">
+              <span class="material-symbols-outlined text-primary/20 text-5xl absolute right-6 top-6" data-icon="format_quote">format_quote</span>
+              <p class="font-sans text-sm text-slate-300 leading-relaxed italic mb-8 relative z-10">
+                “Website jadi dalam 1 hari, hari berikutnya kami sudah pakai untuk closing client. Tidak pernah dapat agency seperti ini.”
+              </p>
+              <div class="flex items-center gap-4">
+                <div class="w-10 h-10 rounded-full overflow-hidden border border-white/10 bg-surface">
+                  <img class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=150" alt="Hendra Wijaya"/>
+                </div>
+                <div>
+                  <h4 class="font-sans text-xs text-white font-bold">Hendra Wijaya</h4>
+                  <p class="font-mono text-[8px] text-slate-400 uppercase">Founder, Ayam Bakar Legacy (Kuliner)</p>
+                </div>
+              </div>
+            </div>
+            <!-- Testimonial 2 -->
+            <div class="premium-glass p-8 rounded-2xl flex flex-col justify-between relative group hover:border-primary/20 transition-all duration-300">
+              <span class="material-symbols-outlined text-primary/20 text-5xl absolute right-6 top-6" data-icon="format_quote">format_quote</span>
+              <p class="font-sans text-sm text-slate-300 leading-relaxed italic mb-8 relative z-10">
+                “Tim responsif, scope jelas dari awal, harga tidak berubah di tengah jalan. Refreshing.”
+              </p>
+              <div class="flex items-center gap-4">
+                <div class="w-10 h-10 rounded-full overflow-hidden border border-white/10 bg-surface">
+                  <img class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=150" alt="Sarah Amanda"/>
+                </div>
+                <div>
+                  <h4 class="font-sans text-xs text-white font-bold">Sarah Amanda</h4>
+                  <p class="font-mono text-[8px] text-slate-400 uppercase">Marketing Lead, SaaSify (Startup B2B SaaS)</p>
+                </div>
+              </div>
+            </div>
+            <!-- Testimonial 3 -->
+            <div class="premium-glass p-8 rounded-2xl flex flex-col justify-between relative group hover:border-primary/20 transition-all duration-300">
+              <span class="material-symbols-outlined text-primary/20 text-5xl absolute right-6 top-6" data-icon="format_quote">format_quote</span>
+              <p class="font-sans text-sm text-slate-300 leading-relaxed italic mb-8 relative z-10">
+                “Kami sudah coba 3 agency. ApaAjaDigital satu-satunya yang deliver tepat waktu.”
+              </p>
+              <div class="flex items-center gap-4">
+                <div class="w-10 h-10 rounded-full overflow-hidden border border-white/10 bg-surface">
+                  <img class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=150" alt="Budi Santoso"/>
+                </div>
+                <div>
+                  <h4 class="font-sans text-xs text-white font-bold">Budi Santoso</h4>
+                  <p class="font-mono text-[8px] text-slate-400 uppercase">Head of Digital, Sentosa Retail (Perusahaan Retail)</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Scalable Solutions Enterprise Focus -->
+    <section class="py-24 md:py-36 bg-[#090a0f] border-t border-white/5 relative z-10">
+      <div class="max-w-[1440px] mx-auto px-6 md:px-20">
+        <div class="grid grid-cols-12 gap-y-16 lg:gap-x-20 items-center">
+          
+          <!-- Left Side Column -->
+          <div class="col-span-12 lg:col-span-6 flex flex-col justify-center reveal-up">
+            <div class="font-mono text-[10px] text-primary tracking-[0.25em] uppercase mb-4">[ ENTERPRISE CLASS ]</div>
+            <h2 class="font-display text-4xl sm:text-5xl md:text-6xl tracking-tight leading-[1.1] text-white mb-8">
+              High Performance Web & Mobile Apps
+            </h2>
+            <p class="font-sans text-base sm:text-lg text-slate-300 leading-relaxed mb-10 font-medium">
+              Untuk skala korporasi besar dan startup dinamis yang memerlukan fondasi infrastruktur digital kapasitas tinggi. Kami membangun arsitektur sistem kustom yang tahan banting, aman, dan siap menangani lalu lintas jutaan trafik data.
+            </p>
+
+            <!-- List Feature Cards -->
+            <div class="space-y-6">
+              <div class="flex gap-4 items-start">
+                <div class="p-3 bg-primary/10 border border-primary/20 text-accent rounded-xl">
+                  <span class="material-symbols-outlined" data-icon="shield">shield</span>
+                </div>
+                <div>
+                  <h4 class="font-sans text-base text-white font-bold mb-1">Keamanan Tingkat Tinggi</h4>
+                  <!-- High visible slate-300 instead of text-muted -->
+                  <p class="font-sans text-xs text-slate-300 leading-relaxed">Implementasi enkripsi data end-to-end menyeluruh serta perlindungan protektif berlapis dari ancaman siber termutakhir.</p>
+                </div>
+              </div>
+              <div class="flex gap-4 items-start">
+                <div class="p-3 bg-primary/10 border border-primary/20 text-accent rounded-xl">
+                  <span class="material-symbols-outlined" data-icon="rocket_launch">rocket_launch</span>
+                </div>
+                <div>
+                  <h4 class="font-sans text-base text-white font-bold mb-1">Skalabilitas Horizontal</h4>
+                  <p class="font-sans text-xs text-slate-300 leading-relaxed">Arsitektur jaringan cloud otomatis (*Auto-scaling*) yang dinamis menyesuaikan lonjakan trafik beban bisnis Anda.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Side Dashboard Mockup Simulator -->
+          <div class="col-span-12 lg:col-span-6 relative group reveal-up">
+            <div class="absolute inset-0 bg-primary/20 blur-[120px] rounded-full group-hover:bg-primary/30 transition-all duration-700 pointer-events-none"></div>
+            
+            <div class="w-full aspect-[4/3] rounded-3xl premium-glass border border-white/10 p-6 flex flex-col gap-6 relative z-10 overflow-hidden shadow-2xl">
+              <div class="flex justify-between items-center border-b border-white/5 pb-4">
+                <div class="flex items-center gap-2">
+                  <span class="w-3 h-3 rounded-full bg-red-500/80"></span>
+                  <span class="w-3 h-3 rounded-full bg-yellow-500/80"></span>
+                  <span class="w-3 h-3 rounded-full bg-green-500/80"></span>
+                  <span class="font-mono text-[9px] text-slate-400 uppercase ml-2">CORE-SERVER-METRICS // NODE_01</span>
+                </div>
+                <span class="px-2.5 py-0.5 border border-accent/20 bg-accent/5 text-accent font-mono text-[8px] uppercase tracking-wider rounded-md">SYSTEM SECURE</span>
+              </div>
+
+              <!-- Dashboard Stats Grid -->
+              <div class="grid grid-cols-3 gap-4">
+                <div class="bg-white/5 p-4 rounded-xl border border-white/5">
+                  <span class="font-mono text-[8px] text-slate-400 uppercase tracking-wider block">CPU Load</span>
+                  <span class="font-mono text-lg text-white font-bold block mt-1">12.45%</span>
+                  <div class="w-full bg-white/10 h-[2px] rounded-full mt-2 overflow-hidden">
+                    <div class="bg-accent h-full w-[12%] rounded-full"></div>
+                  </div>
+                </div>
+                <div class="bg-white/5 p-4 rounded-xl border border-white/5">
+                  <span class="font-mono text-[8px] text-slate-400 uppercase tracking-wider block">Memory usage</span>
+                  <span class="font-mono text-lg text-white font-bold block mt-1">4.2 // 16GB</span>
+                  <div class="w-full bg-white/10 h-[2px] rounded-full mt-2 overflow-hidden">
+                    <div class="bg-primary h-full w-[26%] rounded-full"></div>
+                  </div>
+                </div>
+                <div class="bg-white/5 p-4 rounded-xl border border-white/5">
+                  <span class="font-mono text-[8px] text-slate-400 uppercase tracking-wider block">Traffic speed</span>
+                  <span class="font-mono text-lg text-white font-bold block mt-1">980 Mbps</span>
+                  <div class="w-full bg-white/10 h-[2px] rounded-full mt-2 overflow-hidden">
+                    <div class="bg-accent h-full w-[80%] rounded-full animate-pulse"></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Large Simulated Dynamic Wave Chart -->
+              <div class="flex-grow bg-white/5 rounded-xl border border-white/5 p-4 flex flex-col justify-between relative overflow-hidden">
+                <span class="font-mono text-[8px] text-slate-400 uppercase tracking-wider block">Live Node Traffic Index</span>
+                
+                <svg class="w-full h-24 stroke-accent fill-none" viewBox="0 0 100 30" preserveAspectRatio="none">
+                  <path d="M0,15 Q10,5 20,20 T40,10 T60,25 T80,12 T100,18" stroke-width="0.8" id="chart-path"></path>
+                  <path d="M0,15 Q10,5 20,20 T40,10 T60,25 T80,12 T100,18 L100,30 L0,30 Z" fill="rgba(196, 245, 106, 0.03)" stroke="none"></path>
+                </svg>
+
+                <div class="flex justify-between items-center text-[9px] font-mono text-slate-400">
+                  <span>00:00</span>
+                  <span>Active Nodes: 12</span>
+                  <span>23:59</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- 3. PROSES VIEW (Timeline Process Page) -->
+  <div id="page-proses" class="page-view">
+    <!-- Process Steps Timeline Section (Transitions to High-Legibility Light Layout) -->
+    <section class="py-24 md:py-36 bg-[#f4f5f8] text-slate-900 relative z-10" id="process">
+      <div class="max-w-[1440px] mx-auto px-6 md:px-20">
+        
+        <div class="text-center max-w-2xl mx-auto mb-20 md:mb-28 reveal-up">
+          <div class="font-mono text-[10px] text-primary tracking-[0.25em] uppercase mb-4 font-bold">[ THE WORKFLOW ]</div>
+          <h2 class="font-display text-4xl sm:text-5xl md:text-6xl tracking-tight text-slate-900">
+            5 Step Mewujudkan Website Kamu
+          </h2>
+          <!-- High legibility black/80 -->
+          <p class="font-sans text-base text-slate-800 leading-relaxed mt-4 font-medium">
+            Kami memangkas birokrasi dan hambatan konvensional. Inilah alur kerja modern kami untuk hasil optimal.
+          </p>
+        </div>
+
+        <!-- Timeline Wrapper -->
+        <div class="relative max-w-4xl mx-auto">
+          
+          <!-- Vertical Central Draw-line -->
+          <div class="absolute left-6 md:left-1/2 top-0 bottom-0 w-[2px] bg-slate-200 -translate-x-1/2 z-0">
+            <div class="w-full bg-gradient-to-b from-primary to-accent progress-line-vertical" id="js-progress-line"></div>
+          </div>
+
+          <div class="space-y-16 md:space-y-24 relative z-10">
+            
+            <!-- Step 1 -->
+            <div class="flex flex-col md:flex-row items-stretch md:justify-between w-full relative min-h-[160px] reveal-up">
+              <!-- Highly visible text-slate-800 instead of text-black/60 -->
+              <div class="w-full md:w-[45%] flex flex-col justify-center pl-12 md:pl-0 md:text-right">
+                <span class="font-mono text-xs text-primary font-extrabold block mb-1">STEP 01</span>
+                <h3 class="font-display text-2xl font-bold text-slate-900 mb-3">Konsultasi</h3>
+                <p class="font-sans text-sm text-slate-800 leading-relaxed font-medium">
+                  Kami pahami goal bisnis, target audience, dan KPI yang kamu kejar.
+                </p>
+              </div>
+              <div class="absolute left-6 md:left-1/2 w-8 h-8 rounded-full border-4 border-[#f4f5f8] bg-white text-primary flex items-center justify-center shadow-lg -translate-x-1/2 z-20">
+                <span class="w-2 h-2 rounded-full bg-primary"></span>
+              </div>
+              <div class="hidden md:block w-[45%]"></div>
+            </div>
+
+            <!-- Step 2 (Inverse) -->
+            <div class="flex flex-col md:flex-row-reverse items-stretch md:justify-between w-full relative min-h-[160px] reveal-up">
+              <div class="w-full md:w-[45%] flex flex-col justify-center pl-12 md:pl-0 md:text-left">
+                <span class="font-mono text-xs text-primary font-extrabold block mb-1">STEP 02</span>
+                <h3 class="font-display text-2xl font-bold text-slate-900 mb-3">Kontrak</h3>
+                <p class="font-sans text-sm text-slate-800 leading-relaxed font-medium">
+                  Scope dikunci, harga fix, deliverables jelas. Kamu tanda tangan dengan tenang.
+                </p>
+              </div>
+              <div class="absolute left-6 md:left-1/2 w-8 h-8 rounded-full border-4 border-[#f4f5f8] bg-white text-primary flex items-center justify-center shadow-lg -translate-x-1/2 z-20">
+                <span class="w-2 h-2 rounded-full bg-primary"></span>
+              </div>
+              <div class="hidden md:block w-[45%]"></div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="flex flex-col md:flex-row items-stretch md:justify-between w-full relative min-h-[160px] reveal-up">
+              <div class="w-full md:w-[45%] flex flex-col justify-center pl-12 md:pl-0 md:text-right">
+                <span class="font-mono text-xs text-primary font-extrabold block mb-1">STEP 03</span>
+                <h3 class="font-display text-2xl font-bold text-slate-900 mb-3">Wireframe</h3>
+                <p class="font-sans text-sm text-slate-800 leading-relaxed font-medium">
+                  Struktur halaman + konsep visual dikirim untuk approval.
+                </p>
+              </div>
+              <div class="absolute left-6 md:left-1/2 w-8 h-8 rounded-full border-4 border-[#f4f5f8] bg-white text-primary flex items-center justify-center shadow-lg -translate-x-1/2 z-20">
+                <span class="w-2 h-2 rounded-full bg-primary"></span>
+              </div>
+              <div class="hidden md:block w-[45%]"></div>
+            </div>
+
+            <!-- Step 4 (Inverse) -->
+            <div class="flex flex-col md:flex-row-reverse items-stretch md:justify-between w-full relative min-h-[160px] reveal-up">
+              <div class="w-full md:w-[45%] flex flex-col justify-center pl-12 md:pl-0 md:text-left">
+                <span class="font-mono text-xs text-primary font-extrabold block mb-1">STEP 04</span>
+                <h3 class="font-display text-2xl font-bold text-slate-900 mb-3">Build</h3>
+                <p class="font-sans text-sm text-slate-800 leading-relaxed font-medium">
+                  Tim kami bangun website dengan workflow yang sudah teruji 200+ kali.
+                </p>
+              </div>
+              <div class="absolute left-6 md:left-1/2 w-8 h-8 rounded-full border-4 border-[#f4f5f8] bg-white text-primary flex items-center justify-center shadow-lg -translate-x-1/2 z-20">
+                <span class="w-2 h-2 rounded-full bg-primary"></span>
+              </div>
+              <div class="hidden md:block w-[45%]"></div>
+            </div>
+
+            <!-- Step 5 -->
+            <div class="flex flex-col md:flex-row items-stretch md:justify-between w-full relative min-h-[160px] reveal-up">
+              <div class="w-full md:w-[45%] flex flex-col justify-center pl-12 md:pl-0 md:text-right">
+                <span class="font-mono text-xs text-accent font-extrabold bg-primary text-white px-3 py-1 rounded-full w-fit md:ml-auto block mb-1">STEP 05</span>
+                <h3 class="font-display text-2xl font-bold text-primary mb-3">Launch</h3>
+                <p class="font-sans text-sm text-slate-800 leading-relaxed font-medium">
+                  Website live, domain aktif, kamu pegang full akses admin.
+                </p>
+              </div>
+              <div class="absolute left-6 md:left-1/2 w-8 h-8 rounded-full border-4 border-primary/20 bg-primary text-white flex items-center justify-center shadow-lg -translate-x-1/2 z-20">
+                <span class="w-2 h-2 rounded-full bg-accent animate-ping"></span>
+              </div>
+              <div class="hidden md:block w-[45%]"></div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="mt-16 text-center reveal-up">
+          <div class="inline-flex items-center gap-2 px-4 py-2 border border-primary/20 bg-primary/5 text-primary font-sans text-sm rounded-full w-fit">
+            <span class="material-symbols-outlined text-base">visibility</span>
+            Setiap step bisa kamu monitor real-time. <span class="font-bold">Tidak ada black box.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- 4. PAKET VIEW (Pricing Cards Page) -->
+  <div id="page-paket" class="page-view">
+    <!-- Pricing Cards Section -->
+    <section class="py-24 md:py-36 bg-background relative z-10" id="pricing">
+      <div class="max-w-[1440px] mx-auto px-6 md:px-20">
+        
+        <div class="text-center max-w-2xl mx-auto mb-20 reveal-up">
+          <div class="font-mono text-[10px] text-accent tracking-[0.25em] uppercase mb-4">[ BUSINESS INVESTMENT ]</div>
+          <h2 class="font-display text-4xl sm:text-5xl md:text-6xl tracking-tight text-white">
+            Investasi Bisnis Masa Depan
+          </h2>
+          <p class="font-sans text-base text-slate-300 leading-relaxed mt-4 font-medium">
+            Pilih skema penawaran yang paling ideal dengan skala pertumbuhan bisnis Anda saat ini.
+          </p>
+        </div>
+
+        <!-- Grid Cards -->
+        <div class="grid grid-cols-12 gap-y-8 lg:gap-x-8 items-stretch pt-6">
+          
+          <!-- Plan 1 -->
+          <div class="col-span-12 lg:col-span-4 premium-glass p-10 rounded-3xl flex flex-col justify-between glow-card hover:border-primary/40 transition-all duration-500 reveal-up" style="transition-delay: 0.1s">
+            <div>
+              <span class="font-mono text-[10px] text-slate-400 tracking-widest block uppercase mb-2">/01 Package</span>
+              <h3 class="font-display text-3xl font-bold text-white mb-4">Landing Page</h3>
+              <div class="flex items-center justify-between mb-6">
+                <span class="px-3 py-1 bg-white/5 border border-white/10 rounded-full font-mono text-[9px] text-white">3-5 HARI</span>
+                <span class="font-mono text-[9px] text-slate-400">Renewal: 750rb/tahun</span>
+              </div>
+              <div class="h-[1px] w-full bg-white/5 mb-6"></div>
+              
+              <span class="font-mono text-[10px] text-slate-400 uppercase block">Mulai dari</span>
+              <div class="flex items-baseline gap-1 mt-1 mb-8">
+                <span class="font-mono text-sm text-accent font-bold">Rp</span>
+                <span class="font-display text-5xl text-accent font-bold count-up-price" data-price="1500000">1.500.000</span>
+              </div>
+
+              <ul class="space-y-4 mb-10">
+                <li class="flex items-center gap-3 text-xs text-white/90">
+                  <span class="material-symbols-outlined text-primary text-lg" data-icon="check_circle">check_circle</span>
+                  ✓ 1 halaman landing page high converting
+                </li>
+                <li class="flex items-center gap-3 text-xs text-white/90">
+                  <span class="material-symbols-outlined text-primary text-lg" data-icon="check_circle">check_circle</span>
+                  ✓ Mobile & SEO friendly
+                </li>
+                <li class="flex items-center gap-3 text-xs text-white/90">
+                  <span class="material-symbols-outlined text-primary text-lg" data-icon="check_circle">check_circle</span>
+                  ✓ Click-to-WhatsApp
+                </li>
+                <li class="flex items-center gap-3 text-xs text-white/90">
+                  <span class="material-symbols-outlined text-primary text-lg" data-icon="check_circle">check_circle</span>
+                  ✓ Domain .com gratis 1 tahun
+                </li>
+                <li class="flex items-center gap-3 text-xs text-white/90">
+                  <span class="material-symbols-outlined text-primary text-lg" data-icon="check_circle">check_circle</span>
+                  ✓ Hosting SSD 10GB
+                </li>
+                <li class="flex items-center gap-3 text-xs text-white/90">
+                  <span class="material-symbols-outlined text-primary text-lg" data-icon="check_circle">check_circle</span>
+                  ✓ 1 email bisnis
+                </li>
+                <li class="flex items-center gap-3 text-xs text-white/90">
+                  <span class="material-symbols-outlined text-primary text-lg" data-icon="check_circle">check_circle</span>
+                  ✓ Full akses admin (WordPress)
+                </li>
+                <li class="flex items-center gap-3 text-xs text-white/90">
+                  <span class="material-symbols-outlined text-primary text-lg" data-icon="check_circle">check_circle</span>
+                  ✓ 2x revisi minor
+                </li>
+              </ul>
+            </div>
+            <button class="w-full py-4 rounded-full border border-primary text-primary hover:bg-primary hover:text-white font-mono text-xs font-bold tracking-widest uppercase transition-all duration-300 magnetic">Pilih Paket</button>
+          </div>
+
+          <!-- Plan 2 (Popular Card Overlayed) -->
+          <div class="col-span-12 lg:col-span-4 premium-glass p-10 rounded-3xl flex flex-col justify-between glow-card border-primary relative z-20 shadow-2xl hover:scale-[1.02] transition-all duration-500 reveal-up" style="transition-delay: 0.2s">
+            <div class="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-accent text-background font-mono text-[9px] font-extrabold uppercase tracking-widest rounded-full">
+              Most Popular
+            </div>
+            <div>
+              <span class="font-mono text-[10px] text-accent tracking-widest block uppercase mb-2">/02 Package</span>
+              <h3 class="font-display text-3xl font-bold text-white mb-4">Company Profile</h3>
+              <div class="flex items-center justify-between mb-6">
+                <span class="px-3 py-1 bg-accent/10 border border-accent/20 rounded-full font-mono text-[9px] text-accent font-bold">7-14 HARI</span>
+                <span class="font-mono text-[9px] text-slate-400">Renewal: 1.5jt/tahun</span>
+              </div>
+              <div class="h-[1px] w-full bg-white/5 mb-6"></div>
+              
+              <span class="font-mono text-[10px] text-slate-400 uppercase block">Mulai dari</span>
+              <div class="flex items-baseline gap-1 mt-1 mb-8">
+                <span class="font-mono text-sm text-accent font-bold">Rp</span>
+                <span class="font-display text-5xl text-accent font-bold count-up-price" data-price="3500000">3.500.000</span>
+              </div>
+
+              <ul class="space-y-4 mb-10">
+                <li class="flex items-center gap-3 text-xs text-white/90">
+                  <span class="material-symbols-outlined text-accent text-lg" data-icon="check_circle">check_circle</span>
+                  ✓ 5–10 halaman
+                </li>
+                <li class="flex items-center gap-3 text-xs text-white/90">
+                  <span class="material-symbols-outlined text-accent text-lg" data-icon="check_circle">check_circle</span>
+                  ✓ Mobile & SEO friendly
+                </li>
+                <li class="flex items-center gap-3 text-xs text-white/90">
+                  <span class="material-symbols-outlined text-accent text-lg" data-icon="check_circle">check_circle</span>
+                  ✓ Integrasi WhatsApp & form
+                </li>
+                <li class="flex items-center gap-3 text-xs text-white/90">
+                  <span class="material-symbols-outlined text-accent text-lg" data-icon="check_circle">check_circle</span>
+                  ✓ Domain .com gratis 1 tahun
+                </li>
+                <li class="flex items-center gap-3 text-xs text-white/90">
+                  <span class="material-symbols-outlined text-accent text-lg" data-icon="check_circle">check_circle</span>
+                  ✓ Hosting SSD 10GB
+                </li>
+                <li class="flex items-center gap-3 text-xs text-white/90">
+                  <span class="material-symbols-outlined text-accent text-lg" data-icon="check_circle">check_circle</span>
+                  ✓ 1–3 email bisnis
+                </li>
+                <li class="flex items-center gap-3 text-xs text-white/90">
+                  <span class="material-symbols-outlined text-accent text-lg" data-icon="check_circle">check_circle</span>
+                  ✓ Full akses admin (WordPress)
+                </li>
+                <li class="flex items-center gap-3 text-xs text-white/90">
+                  <span class="material-symbols-outlined text-accent text-lg" data-icon="check_circle">check_circle</span>
+                  ✓ 3x revisi minor
+                </li>
+              </ul>
+            </div>
+            <button class="w-full py-4 rounded-full bg-primary hover:bg-primary/95 text-white font-mono text-xs font-bold tracking-widest uppercase transition-all duration-300 magnetic shadow-[0_0_25px_rgba(87,36,254,0.3)]">Pilih Paket</button>
+          </div>
+
+          <!-- Plan 3 -->
+          <div class="col-span-12 lg:col-span-4 premium-glass p-10 rounded-3xl flex flex-col justify-between glow-card hover:border-primary/40 transition-all duration-500 reveal-up" style="transition-delay: 0.3s">
+            <div>
+              <span class="font-mono text-[10px] text-slate-400 tracking-widest block uppercase mb-2">/03 Package</span>
+              <h3 class="font-display text-3xl font-bold text-white mb-4">E-commerce</h3>
+              <div class="flex items-center justify-between mb-6">
+                <span class="px-3 py-1 bg-white/5 border border-white/10 rounded-full font-mono text-[9px] text-white">3-6 MINGGU</span>
+                <span class="font-mono text-[9px] text-slate-400">Renewal: 4jt/tahun</span>
+              </div>
+              <div class="h-[1px] w-full bg-white/5 mb-6"></div>
+              
+              <span class="font-mono text-[10px] text-slate-400 uppercase block">Mulai dari</span>
+              <div class="flex items-baseline gap-1 mt-1 mb-8">
+                <span class="font-mono text-sm text-accent font-bold">Rp</span>
+                <span class="font-display text-5xl text-accent font-bold count-up-price" data-price="8000000">8.000.000</span>
+              </div>
+
+              <ul class="space-y-4 mb-10">
+                <li class="flex items-center gap-3 text-xs text-white/90">
+                  <span class="material-symbols-outlined text-primary text-lg" data-icon="check_circle">check_circle</span>
+                  ✓ Product catalog & management
+                </li>
+                <li class="flex items-center gap-3 text-xs text-white/90">
+                  <span class="material-symbols-outlined text-primary text-lg" data-icon="check_circle">check_circle</span>
+                  ✓ Cart & checkout system
+                </li>
+                <li class="flex items-center gap-3 text-xs text-white/90">
+                  <span class="material-symbols-outlined text-primary text-lg" data-icon="check_circle">check_circle</span>
+                  ✓ Payment gateway (Midtrans/Xendit)
+                </li>
+                <li class="flex items-center gap-3 text-xs text-white/90">
+                  <span class="material-symbols-outlined text-primary text-lg" data-icon="check_circle">check_circle</span>
+                  ✓ Shipping integration
+                </li>
+                <li class="flex items-center gap-3 text-xs text-white/90">
+                  <span class="material-symbols-outlined text-primary text-lg" data-icon="check_circle">check_circle</span>
+                  ✓ Dashboard admin lengkap
+                </li>
+                <li class="flex items-center gap-3 text-xs text-white/90">
+                  <span class="material-symbols-outlined text-primary text-lg" data-icon="check_circle">check_circle</span>
+                  ✓ Setup 20 produk awal
+                </li>
+                <li class="flex items-center gap-3 text-xs text-white/90">
+                  <span class="material-symbols-outlined text-primary text-lg" data-icon="check_circle">check_circle</span>
+                  ✓ Hosting SSD 20GB+
+                </li>
+                <li class="flex items-center gap-3 text-xs text-white/90">
+                  <span class="material-symbols-outlined text-primary text-lg" data-icon="check_circle">check_circle</span>
+                  ✓ 3–5 email bisnis
+                </li>
+              </ul>
+            </div>
+            <button class="w-full py-4 rounded-full border border-primary text-primary hover:bg-primary hover:text-white font-mono text-xs font-bold tracking-widest uppercase transition-all duration-300 magnetic">Pilih Paket</button>
+          </div>
+
+        </div>
+
+        <!-- Add-ons Section -->
+        <div class="mt-16 text-center reveal-up max-w-2xl mx-auto p-6 border border-white/5 bg-white/5 rounded-2xl">
+          <span class="font-mono text-[10px] text-accent tracking-widest uppercase font-extrabold block mb-3">⚡ ADD-ONS EXPRESS (1-DAY DELIVERY)</span>
+          <p class="font-sans text-xs text-slate-300 leading-relaxed">
+            • Landing page selesai 1 hari: penambahan mulai dari <span class="text-white font-bold">Rp 750.000</span> (tergantung tingkat kesulitan)<br/>
+            • Website Company Profile selesai 1 hari: penambahan mulai dari <span class="text-white font-bold">Rp 1.750.000</span> (tergantung tingkat kesulitan)
+          </p>
+        </div>
+
+        <!-- Section: High Performance Web & Mobile App -->
+        <div class="mt-32 border-t border-white/10 pt-24">
+          <div class="text-center max-w-2xl mx-auto mb-20 reveal-up">
+            <div class="font-mono text-[10px] text-accent tracking-[0.25em] uppercase mb-4">[ ENTERPRISE CUSTOM SYSTEM ]</div>
+            <h2 class="font-display text-4xl sm:text-5xl md:text-6xl tracking-tight text-white">
+              High Performance Web & Mobile App
+            </h2>
+            <p class="font-sans text-base text-slate-300 leading-relaxed mt-4 font-medium">
+              Untuk startup, marketplace, dan korporasi yang butuh sistem kustom skala besar.
+            </p>
+          </div>
+
+          <!-- Description and Quote Info -->
+          <div class="premium-glass p-8 rounded-3xl mb-12 reveal-up grid grid-cols-1 md:grid-cols-3 gap-8 items-center border border-primary/20">
+            <div class="md:col-span-2">
+              <span class="font-mono text-[10px] text-accent uppercase tracking-widest block mb-2">Termasuk Layanan</span>
+              <p class="font-sans text-sm text-slate-300 leading-relaxed">
+                Custom design, advanced speed optimization, technical SEO, analytics, funnel integration, and scalable architecture.
+              </p>
+            </div>
+            <div class="text-left md:text-right">
+              <span class="font-mono text-[10px] text-slate-400 uppercase block mb-1">Timeline & Investasi</span>
+              <span class="font-display text-2xl text-white font-bold block mb-1">1 - 3 Bulan</span>
+              <span class="font-mono text-xs text-accent font-bold">Custom Quote — Request Proposal</span>
+            </div>
+          </div>
+
+          <!-- MVP, Business, Scalable Table/Cards -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 reveal-up">
+            <!-- MVP Card -->
+            <div class="premium-glass p-8 rounded-2xl flex flex-col justify-between hover:border-primary/20 transition-all duration-300">
+              <div>
+                <span class="font-mono text-[9px] text-slate-400 uppercase tracking-widest block mb-2">Validasi Ide / Rintisan</span>
+                <h4 class="font-display text-2xl text-white font-bold mb-4">MVP Development</h4>
+                <div class="h-[1px] w-full bg-white/5 mb-6"></div>
+                <ul class="space-y-3 mb-8 font-sans text-xs text-slate-300">
+                  <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-accent"></span> Cocok untuk: Validasi ide & startup tahap awal</li>
+                  <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-accent"></span> Fitur: 3–5 fitur utama</li>
+                  <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-accent"></span> Timeline: 2 – 8 minggu</li>
+                </ul>
+              </div>
+              <div>
+                <span class="font-mono text-[9px] text-slate-400 uppercase block">Investasi Mulai</span>
+                <span class="font-display text-2xl text-accent font-bold block mt-1">Rp 30 Juta</span>
+              </div>
+            </div>
+
+            <!-- Business Card -->
+            <div class="premium-glass p-8 rounded-2xl border-primary/30 flex flex-col justify-between hover:border-primary/60 transition-all duration-300">
+              <div>
+                <span class="font-mono text-[9px] text-accent uppercase tracking-widest block mb-2">App Booking & Customer</span>
+                <h4 class="font-display text-2xl text-white font-bold mb-4">Business Suite</h4>
+                <div class="h-[1px] w-full bg-white/5 mb-6"></div>
+                <ul class="space-y-3 mb-8 font-sans text-xs text-slate-300">
+                  <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-accent"></span> Cocok untuk: App customer (booking, ordering, dll)</li>
+                  <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-accent"></span> Fitur: 5–10 fitur + admin dashboard</li>
+                  <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-accent"></span> Timeline: 1 – 4 bulan</li>
+                </ul>
+              </div>
+              <div>
+                <span class="font-mono text-[9px] text-slate-400 uppercase block">Investasi Mulai</span>
+                <span class="font-display text-2xl text-accent font-bold block mt-1">Rp 80 Juta</span>
+              </div>
+            </div>
+
+            <!-- Scalable Card -->
+            <div class="premium-glass p-8 rounded-2xl flex flex-col justify-between hover:border-primary/20 transition-all duration-300">
+              <div>
+                <span class="font-mono text-[9px] text-slate-400 uppercase tracking-widest block mb-2">Marketplace & Platform</span>
+                <h4 class="font-display text-2xl text-white font-bold mb-4">Scalable Platform</h4>
+                <div class="h-[1px] w-full bg-white/5 mb-6"></div>
+                <ul class="space-y-3 mb-8 font-sans text-xs text-slate-300">
+                  <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-accent"></span> Cocok untuk: Marketplace & platform skala besar</li>
+                  <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-accent"></span> Fitur: Full kustom + scalable backend</li>
+                  <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-accent"></span> Timeline: 4 – 8 bulan+</li>
+                </ul>
+              </div>
+              <div>
+                <span class="font-mono text-[9px] text-slate-400 uppercase block">Investasi Mulai</span>
+                <span class="font-display text-2xl text-accent font-bold block mt-1">Rp 200 Juta</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </div>
+
+  <!-- 5. MAINTENANCE VIEW (Maintenance Page) -->
+  <div id="page-maintenance" class="page-view">
+    <!-- Maintenance & Growth Plans Section -->
+    <section class="py-24 md:py-36 bg-[#0c0d11] border-y border-white/5 relative z-10" id="maintenance">
+      <div class="max-w-[1440px] mx-auto px-6 md:px-20">
+        
+        <div class="text-center max-w-2xl mx-auto mb-20 reveal-up">
+          <div class="font-mono text-[10px] text-primary tracking-[0.25em] uppercase mb-4 font-bold">[ SYSTEM UPKEEP ]</div>
+          <h2 class="font-display text-4xl sm:text-5xl md:text-6xl tracking-tight text-white">
+            Maintenance & Growth Plans
+          </h2>
+          <p class="font-sans text-base text-slate-300 leading-relaxed mt-4 font-medium">
+            Pastikan platform digital Anda selalu prima untuk akselerasi performa yang konsisten.
+          </p>
+        </div>
+
+        <!-- Plans Grid -->
+        <div class="grid grid-cols-12 gap-y-6 md:gap-x-6">
+          
+          <!-- Plan 1 -->
+          <div class="col-span-12 md:col-span-4 premium-glass p-8 rounded-2xl flex flex-col justify-between hover:border-primary/20 transition-all duration-300 reveal-up" style="transition-delay: 0.1s">
+            <div>
+              <span class="font-mono text-[9px] text-slate-400 uppercase tracking-widest block mb-2">Basic Upkeep</span>
+              <h3 class="font-display text-2xl font-bold text-white mb-2">BASIC</h3>
+              <span class="font-sans text-[11px] text-slate-400 block mb-4">Untuk yang ingin tetap aktif</span>
+              <div class="flex items-baseline gap-1 mb-6">
+                <span class="font-mono text-xs text-white">Mulai Rp</span>
+                <span class="font-display text-3xl text-accent font-bold count-up-price" data-price="2000000">2.000.000</span>
+                <span class="font-sans text-xs text-slate-400 ml-1">/ bln</span>
+              </div>
+              <ul class="space-y-3 mb-6 font-sans text-xs text-slate-300">
+                <li class="flex items-center gap-2"><span class="material-symbols-outlined text-sm text-primary">done</span> Update & upload konten</li>
+                <li class="flex items-center gap-2"><span class="material-symbols-outlined text-sm text-primary">done</span> Edit ringan</li>
+                <li class="flex items-center gap-2"><span class="material-symbols-outlined text-sm text-primary">done</span> Bug fixing minor</li>
+                <li class="flex items-center gap-2"><span class="material-symbols-outlined text-sm text-primary">done</span> 8–12 task/bulan</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Plan 2 -->
+          <div class="col-span-12 md:col-span-4 premium-glass p-8 rounded-2xl border-primary/40 flex flex-col justify-between hover:border-primary transition-all duration-300 reveal-up" style="transition-delay: 0.2s">
+            <div>
+              <span class="font-mono text-[9px] text-accent uppercase tracking-widest block mb-2">Growth Optimizer</span>
+              <h3 class="font-display text-2xl font-bold text-white mb-2">GROWTH</h3>
+              <span class="font-sans text-[11px] text-slate-400 block mb-4">Untuk yang mulai mengoptimasi</span>
+              <div class="flex items-baseline gap-1 mb-6">
+                <span class="font-mono text-xs text-white">Mulai Rp</span>
+                <span class="font-display text-3xl text-accent font-bold count-up-price" data-price="5000000">5.000.000</span>
+                <span class="font-sans text-xs text-slate-400 ml-1">/ bln</span>
+              </div>
+              <ul class="space-y-3 mb-6 font-sans text-xs text-slate-300">
+                <li class="flex items-center gap-2 font-bold text-white"><span class="material-symbols-outlined text-sm text-accent">bolt</span> Semua di Basic</li>
+                <li class="flex items-center gap-2"><span class="material-symbols-outlined text-sm text-accent">done</span> Perbaikan konten & SEO</li>
+                <li class="flex items-center gap-2"><span class="material-symbols-outlined text-sm text-accent">done</span> Monitoring performa</li>
+                <li class="flex items-center gap-2"><span class="material-symbols-outlined text-sm text-accent">done</span> Support prioritas</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Plan 3 -->
+          <div class="col-span-12 md:col-span-4 premium-glass p-8 rounded-2xl flex flex-col justify-between hover:border-primary/20 transition-all duration-300 reveal-up" style="transition-delay: 0.3s">
+            <div>
+              <span class="font-mono text-[9px] text-slate-400 uppercase tracking-widest block mb-2">Enterprise Performance</span>
+              <h3 class="font-display text-2xl font-bold text-white mb-2">PERFORMANCE</h3>
+              <span class="font-sans text-[11px] text-slate-400 block mb-4">Untuk bisnis yang serius scaling</span>
+              <div class="flex items-baseline gap-1 mb-6">
+                <span class="font-mono text-xs text-white">Mulai Rp</span>
+                <span class="font-display text-3xl text-accent font-bold count-up-price" data-price="10000000">10.000.000</span>
+                <span class="font-sans text-xs text-slate-400 ml-1">/ bln</span>
+              </div>
+              <ul class="space-y-3 mb-6 font-sans text-xs text-slate-300">
+                <li class="flex items-center gap-2 font-bold text-white"><span class="material-symbols-outlined text-sm text-primary">bolt</span> Semua di Growth</li>
+                <li class="flex items-center gap-2"><span class="material-symbols-outlined text-sm text-primary">done</span> A/B testing</li>
+                <li class="flex items-center gap-2"><span class="material-symbols-outlined text-sm text-primary">done</span> Analytics & insight report</li>
+                <li class="flex items-center gap-2"><span class="material-symbols-outlined text-sm text-primary">done</span> Strategi konten bulanan</li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- High-Fidelity Guarantee Callout Section -->
+    <section class="py-24 relative z-10 bg-background overflow-hidden">
+      <div class="max-w-[1440px] mx-auto px-6 md:px-20 relative z-10">
+        
+        <div class="w-full premium-glass rounded-3xl p-10 md:p-16 border border-primary glow-card relative overflow-hidden flex flex-col items-center text-center reveal-up">
+          
+          <div class="absolute w-[300px] h-[300px] bg-primary/20 blur-[100px] rounded-full -right-20 -top-20 z-0 pointer-events-none"></div>
+          <div class="absolute w-[200px] h-[200px] bg-accent/10 blur-[80px] rounded-full -left-20 -bottom-20 z-0 pointer-events-none"></div>
+
+          <div class="relative z-10 flex flex-col items-center">
+            <div class="w-16 h-16 rounded-2xl bg-primary/10 border border-primary/20 text-accent flex items-center justify-center mb-8">
+              <span class="material-symbols-outlined text-4xl" data-icon="verified_user">verified_user</span>
+            </div>
+            
+            <h2 class="font-display text-3xl sm:text-5xl md:text-6xl tracking-tight leading-tight mb-6 text-white">
+              Website Pasti Jadi Dalam 1 Hari —<br/>
+              <span class="text-accent font-sans italic font-bold">Garansi Diskon 50%</span>
+            </h2>
+            
+            <p class="font-sans text-base sm:text-lg text-slate-300 max-w-2xl leading-relaxed font-medium">
+              Kami tidak sekadar mengumbar janji manis. Kecepatan pengerjaan adalah identitas mutlak layanan kami. Jika tim kami melewati target batas waktu (*deadline*) satu jam saja, Anda berhak menerima potongan biaya proyek langsung sebesar 50% tanpa syarat.
+            </p>
+
+            <div class="h-[1px] w-40 bg-primary/20 my-8"></div>
+
+            <div class="max-w-xl text-left">
+              <h4 class="font-mono text-[10px] text-accent tracking-widest uppercase font-extrabold mb-4 text-center">Kenapa kami berani kasih garansi ini?</h4>
+              <ul class="space-y-3 font-sans text-xs text-slate-300">
+                <li class="flex items-center gap-3"><span class="w-2 h-2 rounded-full bg-accent"></span> Sistem kerja kami sudah dipakai 200+ kali</li>
+                <li class="flex items-center gap-3"><span class="w-2 h-2 rounded-full bg-accent"></span> Tim sudah dilatih dengan workflow yang sama</li>
+                <li class="flex items-center gap-3"><span class="w-2 h-2 rounded-full bg-accent"></span> Setiap project pakai template terbukti, bukan eksperimen</li>
+              </ul>
+              <p class="font-sans text-sm font-bold text-white text-center mt-6 italic">
+                "Kamu tidak ambil risiko. Kami yang ambil."
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </div>
+
+  <!-- Global Footer Elements (Always visible, wraps all pages) -->
+
+  <!-- Saatnya Ambil Keputusan & CTA Section -->
+  <section class="py-24 md:py-36 relative z-10 bg-[#090a0e] border-t border-white/5" id="cta-decision">
+    <div class="max-w-[1440px] mx-auto px-6 md:px-20 flex flex-col items-center">
+      
+      <!-- Pilihan Kamu Sekarang Cuma 2 -->
+      <div class="max-w-3xl mx-auto text-center mb-24 reveal-up">
+        <div class="font-mono text-[10px] text-primary tracking-[0.25em] uppercase mb-6 font-bold">[ SAATNYA AMBIL KEPUTUSAN ]</div>
+        <h2 class="font-display text-4xl sm:text-5xl md:text-6xl leading-tight text-white mb-10">
+          Pilihan kamu sekarang cuma 2:
+        </h2>
+        
+        <div class="flex flex-col md:flex-row gap-6 justify-center max-w-2xl mx-auto text-left">
+          <div class="premium-glass p-6 rounded-2xl border-red-500/20 w-full flex gap-4 items-start">
+            <span class="text-2xl">❌</span>
+            <div>
+              <h4 class="font-sans text-base text-white font-bold mb-1">Tetap pakai website lama</h4>
+              <p class="font-sans text-xs text-slate-400">Tetap bertahan dengan sistem usang yang lambat dan tidak menghasilkan konversi penjualan.</p>
+            </div>
+          </div>
+          <div class="premium-glass p-6 rounded-2xl border-accent/20 w-full flex gap-4 items-start shadow-[0_0_20px_rgba(196,245,106,0.05)]">
+            <span class="text-2xl">✅</span>
+            <div>
+              <h4 class="font-sans text-base text-accent font-bold mb-1">Upgrade ke sistem terbukti</h4>
+              <p class="font-sans text-xs text-slate-300">Website modern, andal, teroptimasi penuh, dan siap mengudara <span class="font-bold text-white">live besok</span>.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3 Cara Mulai Hari Ini Grid -->
+      <div class="w-full max-w-4xl mx-auto reveal-up">
+        <div class="text-center mb-12">
+          <div class="font-mono text-[10px] text-accent tracking-[0.25em] uppercase mb-3 font-bold">[ 3 CARA MULAI HARI INI ]</div>
+          <h3 class="font-display text-3xl md:text-4xl text-white font-bold mb-2">Siap Meluncur Sekarang?</h3>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+          <!-- Cara 1 -->
+          <div class="premium-glass p-8 rounded-2xl flex flex-col justify-between items-center group hover:border-[#25D366]/30 transition-all duration-300">
+            <div class="flex flex-col items-center">
+              <div class="w-12 h-12 rounded-full bg-[#25D366]/10 text-[#25D366] flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                <span class="material-symbols-outlined text-2xl">forum</span>
+              </div>
+              <h4 class="font-display text-xl text-white font-bold mb-2">WhatsApp Langsung</h4>
+              <p class="font-sans text-xs text-slate-400 leading-relaxed mb-6">Chat tim kami sekarang. Respon dalam 15 menit.</p>
+            </div>
+            <a class="w-full py-3 bg-[#25D366] text-white hover:shadow-[0_0_20px_rgba(37,211,102,0.3)] transition-all font-mono text-[10px] font-bold tracking-widest uppercase rounded-full" href="https://wa.me/6282180598494" target="_blank">[wa.me/62xxx]</a>
+          </div>
+
+          <!-- Cara 2 -->
+          <div class="premium-glass p-8 rounded-2xl flex flex-col justify-between items-center group hover:border-primary/30 transition-all duration-300">
+            <div class="flex flex-col items-center">
+              <div class="w-12 h-12 rounded-full bg-primary/10 text-accent flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                <span class="material-symbols-outlined text-2xl">calendar_today</span>
+              </div>
+              <h4 class="font-display text-xl text-white font-bold mb-2">Booking Konsultasi</h4>
+              <p class="font-sans text-xs text-slate-400 leading-relaxed mb-6">Slot 30 menit untuk diskusi kebutuhan & proposal.</p>
+            </div>
+            <button class="w-full py-3 bg-primary text-white hover:bg-primary/95 font-mono text-[10px] font-bold tracking-widest uppercase rounded-full shadow-[0_0_15px_rgba(87,36,254,0.3)]">[link calendar]</button>
+          </div>
+
+          <!-- Cara 3 -->
+          <div class="premium-glass p-8 rounded-2xl flex flex-col justify-between items-center group hover:border-white/20 transition-all duration-300">
+            <div class="flex flex-col items-center">
+              <div class="w-12 h-12 rounded-full bg-white/5 text-white flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                <span class="material-symbols-outlined text-2xl">download</span>
+              </div>
+              <h4 class="font-display text-xl text-white font-bold mb-2">Download Rate Card</h4>
+              <p class="font-sans text-xs text-slate-400 leading-relaxed mb-6">Detail lengkap semua paket, fitur, dan add-on.</p>
+            </div>
+            <button class="w-full py-3 border border-white/10 hover:border-white/30 text-white font-mono text-[10px] font-bold tracking-widest uppercase rounded-full hover:bg-white/5">[link download]</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-background py-16 border-t border-white/5 relative z-10 text-white/50 text-xs font-mono">
+    <div class="max-w-[1440px] mx-auto px-6 md:px-20 flex flex-col md:flex-row justify-between items-start md:items-center gap-12">
+      
+      <div class="flex flex-col gap-3">
+        <a class="font-display text-2xl font-bold tracking-tight text-white focus:outline-none" href="#page-home" id="js-footer-logo-link">ApaAjaDigital</a>
+        <p class="text-slate-400 max-w-xs font-sans text-xs">© 2026 ApaAjaDigital. All rights reserved. Velocity through Intelligence.<br/>Contact: hello@apaajadigital.com</p>
+      </div>
+
+      <!-- Footer Menu Links -->
+      <div class="flex flex-wrap gap-8 md:gap-12">
+        <div class="flex flex-col gap-2">
+          <span class="text-white/80 font-bold uppercase tracking-widest mb-1 text-[10px]">Perusahaan</span>
+          <a class="hover:text-white transition-colors duration-300" href="#page-home">Tentang Kami</a>
+          <a class="hover:text-white transition-colors duration-300" href="#page-paket">Paket Harga</a>
+          <a class="hover:text-white transition-colors duration-300" href="#page-proses">Proses Kerja</a>
+        </div>
+        <div class="flex flex-col gap-2">
+          <span class="text-white/80 font-bold uppercase tracking-widest mb-1 text-[10px]">Dukungan</span>
+          <a class="hover:text-white transition-colors duration-300" href="https://wa.me/6282180598494" target="_blank">WhatsApp Support</a>
+          <a class="hover:text-white transition-colors duration-300" href="#">Privacy Policy</a>
+          <a class="hover:text-white transition-colors duration-300" href="#">Terms of Service</a>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- GSAP Core & Plugins -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/ScrollTrigger.min.js"></script>
+  
+  <!-- Lenis Smooth Scrolling Engine -->
+  <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+  
+  <!-- Anime.js micro-animations library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+
+  <!-- Interactive Logic Script -->
+  <script>
+    // Initialize Lenis Smooth Scroll
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smooth: true
+    });
+
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+
+    // Bind GSAP ticker with Lenis
+    gsap.ticker.add((time) => {
+      lenis.raf(time * 1000);
+    });
+    gsap.ticker.lagSmoothing(0);
+
+    // GSAP ScrollTrigger Registration
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Dynamic Page Navigation Routing (SPA Architecture)
+    function navigateToPage(pageId) {
+      const views = document.querySelectorAll('.page-view');
+      const navLinks = document.querySelectorAll('#js-nav a[href^="#page-"]');
+      
+      // Hide all pages with transitions
+      views.forEach(view => {
+        view.classList.remove('active');
+      });
+      
+      // Show targeted page
+      const targetView = document.getElementById('page-' + pageId);
+      if (targetView) {
+        targetView.classList.add('active');
+        
+        // Instant top-scroll through Lenis
+        lenis.scrollTo(0, { immediate: true });
+        
+        // Refresh GSAP scroll metrics to fit newly visible heights
+        setTimeout(() => {
+          ScrollTrigger.refresh();
+        }, 150);
+      }
+      
+      // Update Navbar highlights
+      navLinks.forEach(link => {
+        const linkId = link.getAttribute('href').replace('#page-', '');
+        if (linkId === pageId) {
+          link.classList.remove('text-text-muted');
+          link.classList.add('text-white', 'after:w-4');
+        } else {
+          link.classList.add('text-text-muted');
+          link.classList.remove('text-white', 'after:w-4');
+        }
+      });
+    }
+
+    // Attach SPA routing to navigation anchors
+    document.querySelectorAll('a[href^="#page-"]').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const pageId = link.getAttribute('href').replace('#page-', '');
+        navigateToPage(pageId);
+      });
+    });
+
+    // Custom GSAP Pointer Cursor Tracking
+    const cursor = document.getElementById("js-cursor");
+    const follower = document.getElementById("js-cursor-follower");
+
+    if (cursor && follower) {
+      const quickCursorX = gsap.quickTo(cursor, "left", { duration: 0.05, ease: "none" });
+      const quickCursorY = gsap.quickTo(cursor, "top", { duration: 0.05, ease: "none" });
+      const quickFollowerX = gsap.quickTo(follower, "left", { duration: 0.35, ease: "power3.out" });
+      const quickFollowerY = gsap.quickTo(follower, "top", { duration: 0.35, ease: "power3.out" });
+
+      document.addEventListener("mousemove", (e) => {
+        quickCursorX(e.clientX);
+        quickCursorY(e.clientY);
+        quickFollowerX(e.clientX);
+        quickFollowerY(e.clientY);
+      });
+
+      // Expand follower on hovering clickable tags
+      document.querySelectorAll("a, button, [role='button'], .rotating-reel-container").forEach(el => {
+        el.addEventListener("mouseenter", () => {
+          gsap.to(cursor, { width: 0, height: 0, opacity: 0, duration: 0.2 });
+          gsap.to(follower, {
+            width: 56,
+            height: 56,
+            borderColor: "#c4f56a",
+            backgroundColor: "rgba(196, 245, 106, 0.08)",
+            duration: 0.3,
+            ease: "power2.out"
+          });
+        });
+        el.addEventListener("mouseleave", () => {
+          gsap.to(cursor, { width: 8, height: 8, opacity: 1, duration: 0.2 });
+          gsap.to(follower, {
+            width: 32,
+            height: 32,
+            borderColor: "rgba(255, 255, 255, 0.3)",
+            backgroundColor: "transparent",
+            duration: 0.3,
+            ease: "power2.out",
+            innerText: ""
+          });
+        });
+      });
+    }
+
+    // Magnetic Button drift implementation
+    document.querySelectorAll(".magnetic").forEach(btn => {
+      btn.addEventListener("mousemove", (e) => {
+        const bounds = btn.getBoundingClientRect();
+        const mouseX = e.clientX - bounds.left - bounds.width / 2;
+        const mouseY = e.clientY - bounds.top - bounds.height / 2;
+        gsap.to(btn, {
+          x: mouseX * 0.3,
+          y: mouseY * 0.3,
+          duration: 0.3,
+          ease: "power2.out"
+        });
+      });
+      btn.addEventListener("mouseleave", () => {
+        gsap.to(btn, {
+          x: 0,
+          y: 0,
+          duration: 0.8,
+          ease: "elastic.out(1, 0.3)"
+        });
+      });
+    });
+
+    // Sleek Navbar Scrolling Transitions (Thin height offsets)
+    const navBar = document.getElementById("js-nav");
+    const navContainer = document.getElementById("js-nav-container");
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 40) {
+        navContainer.classList.remove("py-3.5");
+        navContainer.classList.add("py-2");
+        navBar.classList.add("bg-background/85", "shadow-[0_4px_30px_rgba(0,0,0,0.4)]");
+        navBar.classList.remove("bg-background/60");
+      } else {
+        navContainer.classList.remove("py-2");
+        navContainer.classList.add("py-3.5");
+        navBar.classList.add("bg-background/60");
+        navBar.classList.remove("bg-background/85", "shadow-[0_4px_30px_rgba(0,0,0,0.4)]");
+      }
+    });
+
+    // Bento Grid Card Glow coordinate tracker
+    document.querySelectorAll(".glow-card").forEach(card => {
+      card.addEventListener("mousemove", (e) => {
+        const bounds = card.getBoundingClientRect();
+        const x = e.clientX - bounds.left;
+        const y = e.clientY - bounds.top;
+        card.style.setProperty("--glow-x", `${x}px`);
+        card.style.setProperty("--glow-y", `${y}px`);
+      });
+    });
+
+    // Custom Scroll Entrance Reveals (Slide Up + Fade)
+    document.querySelectorAll(".reveal-up").forEach(el => {
+      ScrollTrigger.create({
+        trigger: el,
+        start: "top 88%",
+        onEnter: () => el.classList.add("revealed")
+      });
+    });
+
+    // Numbers Slot Machine Counters
+    document.querySelectorAll(".stat-number").forEach(num => {
+      const targetCount = parseInt(num.getAttribute("data-count"));
+      ScrollTrigger.create({
+        trigger: num,
+        start: "top 90%",
+        once: true,
+        onEnter: () => {
+          gsap.to(num, {
+            innerText: targetCount,
+            duration: 2,
+            ease: "power2.out",
+            snap: { innerText: 1 },
+            onUpdate: function () {
+              num.textContent = Math.round(parseFloat(num.textContent)) + "+";
+            }
+          });
+        }
+      });
+    });
+
+    // Pricing slot machine rollover counter
+    document.querySelectorAll(".count-up-price").forEach(el => {
+      const targetVal = parseFloat(el.getAttribute("data-price"));
+      
+      ScrollTrigger.create({
+        trigger: el,
+        start: "top 85%",
+        once: true,
+        onEnter: () => {
+          let holder = { val: 0 };
+          anime({
+            targets: holder,
+            val: targetVal,
+            round: 1,
+            duration: 2000,
+            easing: "easeOutExpo",
+            update: () => {
+              el.textContent = Math.round(holder.val).toLocaleString("id-ID");
+            }
+          });
+        }
+      });
+    });
+
+    // Interactive Hero floating particle physics simulation
+    (function () {
+      const canvas = document.getElementById("js-hero-particles");
+      if (!canvas) return;
+      const ctx = canvas.getContext("2d");
+      let particles = [];
+      const particleCount = 45;
+
+      function resize() {
+        canvas.width = canvas.offsetWidth;
+        canvas.height = canvas.offsetHeight;
+      }
+      resize();
+      window.addEventListener("resize", resize);
+
+      for (let i = 0; i < particleCount; i++) {
+        particles.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          r: Math.random() * 1.5 + 0.5,
+          vx: (Math.random() - 0.5) * 0.25,
+          vy: (Math.random() - 0.5) * 0.25,
+          alpha: Math.random() * 0.4 + 0.1
+        });
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach(p => {
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(196, 245, 106, ${p.alpha})`; /* Lime color accent */
+          ctx.fill();
+
+          p.x += p.vx;
+          p.y += p.vy;
+
+          if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+          if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+        });
+        requestAnimationFrame(draw);
+      }
+      draw();
+    })();
+
+    // Timeline Path Draw scroll tracking
+    const progressLine = document.getElementById("js-progress-line");
+    if (progressLine) {
+      window.addEventListener("scroll", () => {
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const scrollPercent = (window.scrollY / docHeight) * 100;
+        progressLine.style.height = `${Math.min(100, Math.max(0, (scrollPercent - 20) * 1.8))}%`;
+      });
+    }
+
+    // Play action click handler on Hero Showcase simulator
+    const showcase = document.getElementById("js-video-showcase");
+    const playTrigger = document.getElementById("js-play-trigger");
+    if (showcase && playTrigger) {
+      playTrigger.addEventListener("click", () => {
+        showcase.innerHTML = `
+          <iframe class="w-full h-full rounded-3xl" src="https://player.vimeo.com/video/844915054?autoplay=1&muted=1" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+        `;
+      });
+    }
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,272 @@
+/* =============================================
+   ApaAjaDigital — Design Tokens
+   Single source of truth for all visual values.
+   Nothing in components.css or page CSS uses
+   arbitrary hex/px values — everything maps here.
+   ============================================= */
+
+/* ===== COLOR RAMPS ===== */
+/*
+  Two hues + a neutral.
+  Yellow (#FFD600) is the sole accent — warm, energetic, readable on near-black.
+  Neutral is warm-gray-shifted (not cold #CCCCCC gray).
+  No purple, no competing accents.
+*/
+
+:root {
+  /* Yellow ramp */
+  --yellow-50:  #FFFDE7;
+  --yellow-100: #FFF9C4;
+  --yellow-200: #FFF176;
+  --yellow-300: #FFEE58;
+  --yellow-400: #FFD600;   /* brand primary */
+  --yellow-500: #E8C200;   /* hover / pressed */
+  --yellow-600: #C9A800;
+  --yellow-700: #A68A00;
+  --yellow-800: #826D00;
+  --yellow-900: #5C4D00;
+
+  /* Neutral ramp — warm-shifted (hue ~35°) */
+  --neutral-0:   #FFFFFF;
+  --neutral-50:  #F7F6F3;   /* page bg alt */
+  --neutral-100: #EDEDEA;   /* card bg */
+  --neutral-150: #E2E1DC;   /* border light */
+  --neutral-200: #D4D3CE;   /* border medium */
+  --neutral-300: #B0AFA9;   /* placeholder, disabled */
+  --neutral-400: #7A7976;   /* muted text */
+  --neutral-500: #55544F;   /* secondary text */
+  --neutral-600: #3D3C38;   /* body text */
+  --neutral-700: #2A2926;   /* heading text */
+  --neutral-800: #1A1916;   /* near-black */
+  --neutral-900: #0F0E0C;   /* page bg dark */
+  --neutral-950: #080807;   /* deepest dark */
+
+  /* Semantic status (used sparingly) */
+  --color-success: #4ade80;   /* green pulse dot — only for live indicators */
+  --color-warning: var(--yellow-400);
+  --color-danger:  #F87171;
+  --color-info:    #93C5FD;
+}
+
+/* ===== SEMANTIC TOKENS — LIGHT MODE (default) ===== */
+:root {
+  /* Surfaces */
+  --surface-page:       var(--neutral-0);
+  --surface-subtle:     var(--neutral-50);
+  --surface-raised:     var(--neutral-100);
+  --surface-overlay:    rgba(15, 14, 12, 0.48);
+
+  /* Surfaces on dark sections */
+  --surface-dark:       var(--neutral-900);
+  --surface-dark-card:  var(--neutral-800);
+  --surface-dark-glass: rgba(255, 255, 255, 0.05);
+
+  /* Text */
+  --text-primary:       var(--neutral-900);
+  --text-secondary:     var(--neutral-500);
+  --text-muted:         var(--neutral-400);
+  --text-disabled:      var(--neutral-300);
+  --text-on-dark:       var(--neutral-0);
+  --text-on-dark-sub:   rgba(255, 255, 255, 0.56);
+  --text-on-accent:     var(--neutral-900);   /* text on yellow */
+
+  /* Borders */
+  --border-subtle:      rgba(15, 14, 12, 0.07);
+  --border-default:     rgba(15, 14, 12, 0.12);
+  --border-strong:      rgba(15, 14, 12, 0.20);
+  --border-on-dark:     rgba(255, 255, 255, 0.10);
+
+  /* Accent */
+  --accent:             var(--yellow-400);
+  --accent-hover:       var(--yellow-500);
+  --accent-subtle:      var(--yellow-50);
+  --accent-glow:        0 0 32px rgba(255, 214, 0, 0.32);
+
+  /* Shadows */
+  --shadow-xs: 0 1px 2px rgba(15, 14, 12, 0.04);
+  --shadow-sm: 0 1px 3px rgba(15, 14, 12, 0.06);
+  --shadow-md: 0 4px 16px rgba(15, 14, 12, 0.08);
+  --shadow-lg: 0 8px 32px rgba(15, 14, 12, 0.12);
+  --shadow-xl: 0 16px 48px rgba(15, 14, 12, 0.16);
+  --shadow-2xl:0 24px 64px rgba(15, 14, 12, 0.20);
+
+  /* Focus ring — accessible, yellow-keyed */
+  --focus-ring: 0 0 0 3px rgba(255, 214, 0, 0.50);
+}
+
+/* ===== DARK SURFACES (used inside dark sections, not a full dark-mode) ===== */
+[data-theme="dark"],
+.dark-surface {
+  --surface-page:       var(--neutral-900);
+  --surface-subtle:     var(--neutral-800);
+  --surface-raised:     rgba(255, 255, 255, 0.05);
+  --text-primary:       var(--neutral-0);
+  --text-secondary:     rgba(255, 255, 255, 0.56);
+  --text-muted:         rgba(255, 255, 255, 0.36);
+  --border-subtle:      rgba(255, 255, 255, 0.07);
+  --border-default:     rgba(255, 255, 255, 0.12);
+}
+
+/* ===== TYPOGRAPHY ===== */
+/*
+  Pairing rationale:
+  - DM Serif Display  → editorial authority, large headlines only
+  - Inter             → clean, highly legible at 13–18px; neutral enough to not fight the serif
+  - JetBrains Mono    → technical credibility for labels, tags, metadata
+  All three ship via Google Fonts with font-display:swap.
+*/
+:root {
+  --font-display: 'DM Serif Display', Georgia, 'Times New Roman', serif;
+  --font-body:    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono:    'JetBrains Mono', 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+
+  /* Type scale — modular, ratio ≈ 1.25 (major third) */
+  --text-xs:   12px;   /* mono labels, captions */
+  --text-sm:   14px;   /* nav links, buttons, tags */
+  --text-base: 16px;   /* body copy minimum */
+  --text-md:   18px;   /* lead paragraphs */
+  --text-lg:   22px;   /* h4, card titles */
+  --text-xl:   28px;   /* h3 min */
+  --text-2xl:  36px;   /* h2 min */
+  --text-3xl:  48px;   /* h1 secondary */
+  --text-4xl:  64px;   /* h1 hero */
+  --text-5xl:  80px;   /* h1 hero max */
+
+  /* Fluid sizes (preferred for headings) */
+  --text-display-sm: clamp(28px, 3.5vw, 42px);
+  --text-display-md: clamp(36px, 5vw, 60px);
+  --text-display-lg: clamp(44px, 6.5vw, 78px);
+
+  /* Line heights */
+  --leading-tight:   1.1;
+  --leading-snug:    1.2;
+  --leading-normal:  1.5;
+  --leading-relaxed: 1.7;
+  --leading-loose:   1.85;
+
+  /* Letter spacing */
+  --tracking-tight:  -0.02em;
+  --tracking-normal:  0;
+  --tracking-wide:    0.04em;
+  --tracking-wider:   0.08em;
+  --tracking-mono:    0.15em;   /* for JetBrains Mono labels */
+}
+
+/* ===== SPACING ===== */
+/*
+  4px base unit. Every value is a multiple of 4.
+  Generous gaps between sections read as premium.
+*/
+:root {
+  --space-1:    4px;
+  --space-2:    8px;
+  --space-3:   12px;
+  --space-4:   16px;
+  --space-5:   20px;
+  --space-6:   24px;
+  --space-8:   32px;
+  --space-10:  40px;
+  --space-12:  48px;
+  --space-14:  56px;
+  --space-16:  64px;
+  --space-20:  80px;
+  --space-24:  96px;
+  --space-28: 112px;
+  --space-32: 128px;
+
+  /* Section rhythm — intentionally asymmetric */
+  --section-y-sm:  clamp(64px,  8vw, 96px);
+  --section-y-md:  clamp(96px, 10vw, 128px);
+  --section-y-lg:  clamp(112px, 12vw, 160px);
+
+  /* Layout */
+  --container-sm:   768px;
+  --container-md:   1024px;
+  --container-lg:   1200px;
+  --container-xl:   1400px;
+  --container-pad:  clamp(20px, 3vw, 40px);
+
+  --nav-height:     72px;
+}
+
+/* ===== SHAPE ===== */
+:root {
+  --radius-xs:   4px;
+  --radius-sm:   8px;
+  --radius-md:  16px;
+  --radius-lg:  24px;
+  --radius-xl:  32px;
+  --radius-2xl: 48px;
+  --radius-pill: 9999px;
+}
+
+/* ===== MOTION ===== */
+/*
+  Named after intent, not timing.
+  Entrance = elements appearing.
+  Emphasis = drawing attention (hover, pulse).
+  Transition = page/state changes.
+*/
+:root {
+  /* Durations */
+  --duration-instant:   80ms;
+  --duration-fast:     150ms;
+  --duration-base:     250ms;
+  --duration-slow:     400ms;
+  --duration-slower:   700ms;
+  --duration-crawl:   1000ms;
+
+  /* Easings */
+  --ease-linear:   linear;
+  --ease-in:       cubic-bezier(0.4, 0, 1, 1);
+  --ease-out:      cubic-bezier(0.16, 1, 0.3, 1);    /* expo out — signature feel */
+  --ease-in-out:   cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-spring:   cubic-bezier(0.34, 1.56, 0.64, 1);  /* slight overshoot */
+  --ease-bounce:   cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+  /* Named patterns */
+  --motion-entrance:  opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out);
+  --motion-hover:     transform 0.25s var(--ease-out), box-shadow 0.25s var(--ease-out);
+  --motion-nav:       all 0.4s var(--ease-out);
+  --motion-drawer:    right 0.4s var(--ease-out);
+  --motion-fade:      opacity 0.3s var(--ease-in-out);
+  --motion-glow:      box-shadow 0.3s var(--ease-out), background 0.3s;
+}
+
+/* ===== REDUCED MOTION ===== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .reveal-up {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* ===== ICON SET ===== */
+/*
+  Use Lucide Icons (SVG sprite or per-component import).
+  No emoji in UI elements.
+  Icon sizes:
+    --icon-xs: 14px
+    --icon-sm: 16px
+    --icon-md: 20px
+    --icon-lg: 24px
+    --icon-xl: 32px
+  Stroke width: 1.5px default, 2px for small sizes.
+*/
+:root {
+  --icon-xs: 14px;
+  --icon-sm: 16px;
+  --icon-md: 20px;
+  --icon-lg: 24px;
+  --icon-xl: 32px;
+  --icon-stroke: 1.5;
+}

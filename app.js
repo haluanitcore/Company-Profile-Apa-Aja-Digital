@@ -1,711 +1,667 @@
-/* ===== GLOBAL STAR FIELD (Removed for continuous image background) ===== */
-/*
+/* =============================================
+   ApaAjaDigital — App.js
+   All JavaScript interactions
+   ============================================= */
+
 (function () {
-    const canvas = document.getElementById('globalStars');
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    let stars = [];
-    const STAR_COUNT = 120;
+  'use strict';
 
-    function resize() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-    }
-    resize();
-    window.addEventListener('resize', resize);
+  /* ===== STATE ===== */
+  let currentPage = 'home';
+  let lenis = null;
+  let isMobileMenuOpen = false;
+  let particleRestartFn = null;
+  let parallaxCtx = [];
 
-    for (let i = 0; i < STAR_COUNT; i++) {
-        stars.push({
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height,
-            r: Math.random() * 1.8 + 0.3,
-            baseOpacity: Math.random() * 0.5 + 0.1,
-            twinkleSpeed: Math.random() * 0.02 + 0.005,
-            twinkleOffset: Math.random() * Math.PI * 2,
-            dx: (Math.random() - 0.5) * 0.08,
-            dy: (Math.random() - 0.5) * 0.08,
-            hue: 220 + Math.random() * 40 // blue range 220-260
-        });
+  const isTouch = () => navigator.maxTouchPoints > 0;
+
+  /* ===== SPA NAVIGATION ===== */
+  window.nav = function (pageId) {
+    if (currentPage === pageId) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
     }
 
-    function draw(time) {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        stars.forEach(s => {
-            const twinkle = Math.sin(time * s.twinkleSpeed + s.twinkleOffset) * 0.5 + 0.5;
-            const opacity = s.baseOpacity * (0.4 + twinkle * 0.6);
-            const glow = s.r * (1 + twinkle * 0.5);
+    const currentEl = document.getElementById('page-' + currentPage);
+    const nextEl    = document.getElementById('page-' + pageId);
+    const overlay   = document.getElementById('pageTransitionOverlay');
 
-            // Draw glow
-            const gradient = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, glow * 3);
-            gradient.addColorStop(0, `hsla(${s.hue},80%,70%,${opacity * 0.6})`);
-            gradient.addColorStop(1, `hsla(${s.hue},80%,70%,0)`);
-            ctx.beginPath();
-            ctx.arc(s.x, s.y, glow * 3, 0, Math.PI * 2);
-            ctx.fillStyle = gradient;
-            ctx.fill();
+    if (!nextEl) return;
 
-            // Draw star core
-            ctx.beginPath();
-            ctx.arc(s.x, s.y, glow * 0.5, 0, Math.PI * 2);
-            ctx.fillStyle = `hsla(${s.hue},80%,85%,${opacity})`;
-            ctx.fill();
+    function afterTransition() {
+      if (currentEl) currentEl.classList.remove('active');
+      nextEl.classList.add('active');
+      currentPage = pageId;
 
-            // Drift
-            s.x += s.dx;
-            s.y += s.dy;
-            if (s.x < -10) s.x = canvas.width + 10;
-            if (s.x > canvas.width + 10) s.x = -10;
-            if (s.y < -10) s.y = canvas.height + 10;
-            if (s.y > canvas.height + 10) s.y = -10;
+      window.scrollTo(0, 0);
+      if (lenis) lenis.scrollTo(0, { immediate: true });
+
+      updateNavActive(pageId);
+      announcePageChange(pageId);
+
+      /* Fade overlay back out */
+      if (overlay) {
+        requestAnimationFrame(() => {
+          overlay.classList.remove('fade-out');
         });
-        requestAnimationFrame(draw);
+      }
+
+      killPageParallax();
+      setTimeout(() => {
+        initReveal();
+        initPageParallax(pageId);
+      }, 60);
+
+      if (pageId === 'home') {
+        setTimeout(() => {
+          initStatCounters();
+          if (particleRestartFn) particleRestartFn();
+        }, 100);
+      }
+      if (pageId === 'layanan')  setTimeout(initPriceCounters, 200);
+      if (pageId === 'tentang')  setTimeout(initTimeline, 200);
     }
-    requestAnimationFrame(draw);
-})();
-*/
 
-/* ===== LENIS SMOOTH SCROLL ===== */
-const lenis = new Lenis({ duration: 1.4, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smooth: true });
-function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
-requestAnimationFrame(raf);
-gsap.ticker.add((time) => lenis.raf(time * 1000));
-gsap.ticker.lagSmoothing(0);
+    if (overlay) {
+      overlay.classList.add('fade-out');
+      /* Wait for fade-out to complete (220ms) then switch page */
+      setTimeout(afterTransition, 220);
+    } else {
+      afterTransition();
+    }
+  };
 
-/* ===== CUSTOM CURSOR (GSAP quickTo) [DISABLED] ===== */
-/*
-const cursor = document.getElementById('cursor');
-const follower = document.getElementById('cursor-follower');
+  function updateNavActive(pageId) {
+    document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
+    const activeLink = document.getElementById('nav-' + pageId);
+    if (activeLink) activeLink.classList.add('active');
+  }
 
-// gsap.quickTo — high-perf bindings for cursor tracking
-const cursorX = gsap.quickTo(cursor, 'left', { duration: 0.05, ease: 'none' });
-const cursorY = gsap.quickTo(cursor, 'top', { duration: 0.05, ease: 'none' });
-const followerX = gsap.quickTo(follower, 'left', { duration: 0.35, ease: 'power3.out' });
-const followerY = gsap.quickTo(follower, 'top', { duration: 0.35, ease: 'power3.out' });
+  const pageNames = {
+    home: 'Beranda', ai: 'AI System', layanan: 'Layanan & Harga',
+    portofolio: 'Portofolio', tentang: 'Tentang Kami', kontak: 'Hubungi Kami',
+  };
 
-document.addEventListener('mousemove', (e) => {
-    cursorX(e.clientX);
-    cursorY(e.clientY);
-    followerX(e.clientX);
-    followerY(e.clientY);
-});
-
-document.querySelectorAll('a, button').forEach(el => {
-    el.addEventListener('mouseenter', () => {
-        gsap.to(cursor, { width: 0, height: 0, opacity: 0, duration: 0.2 });
-        gsap.to(follower, {
-            width: 48, height: 48,
-            borderColor: '#4B6BFF',
-            background: 'rgba(75,107,255,.08)',
-            duration: 0.3, ease: 'power2.out'
-        });
+  function announcePageChange(pageId) {
+    const announcer = document.getElementById('page-announcer');
+    if (!announcer) return;
+    announcer.textContent = '';
+    requestAnimationFrame(() => {
+      announcer.textContent = 'Halaman ' + (pageNames[pageId] || pageId) + ' ditampilkan';
     });
-    el.addEventListener('mouseleave', () => {
-        gsap.to(cursor, { width: 8, height: 8, opacity: 1, duration: 0.2 });
-        gsap.to(follower, {
-            width: 32, height: 32,
-            borderColor: 'rgba(255,255,255,.25)',
-            background: 'transparent',
-            duration: 0.3, ease: 'power2.out'
-        });
-    });
-});
-*/
+  }
 
-/* ===== MAGNETIC BUTTONS ===== */
-document.querySelectorAll('.magnetic').forEach(btn => {
-    btn.addEventListener('mousemove', (e) => {
-        const rect = btn.getBoundingClientRect();
-        const x = e.clientX - rect.left - rect.width / 2;
-        const y = e.clientY - rect.top - rect.height / 2;
-        btn.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px)`;
+  /* ===== MOBILE MENU ===== */
+  window.toggleMobileMenu = function () {
+    isMobileMenuOpen = !isMobileMenuOpen;
+    const hamburger = document.getElementById('hamburger');
+    const drawer = document.getElementById('mobileDrawer');
+    const overlay = document.getElementById('mobileOverlay');
+    const stickyCtA = document.getElementById('mobileStickyCtA');
+
+    hamburger.classList.toggle('open', isMobileMenuOpen);
+    drawer.classList.toggle('open', isMobileMenuOpen);
+    overlay.classList.toggle('open', isMobileMenuOpen);
+
+    hamburger.setAttribute('aria-expanded', isMobileMenuOpen.toString());
+    drawer.setAttribute('aria-hidden', (!isMobileMenuOpen).toString());
+
+    document.body.style.overflow = isMobileMenuOpen ? 'hidden' : '';
+
+    if (stickyCtA) {
+      stickyCtA.style.display = isMobileMenuOpen ? 'none' : '';
+    }
+  };
+
+  /* ===== LENIS SMOOTH SCROLL ===== */
+  function initLenis() {
+    if (typeof Lenis === 'undefined') return;
+
+    lenis = new Lenis({
+      duration: 1.2,
+      easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: 'vertical',
+      smoothWheel: true,
+      touchMultiplier: 2,
     });
-    btn.addEventListener('mouseleave', () => {
-        if (typeof anime !== 'undefined') {
-            anime({
-                targets: btn,
-                translateX: 0,
-                translateY: 0,
-                duration: 800,
-                easing: 'spring(1, 80, 10, 0)'
-            });
-        } else {
-            btn.style.transform = 'translate(0,0)';
+
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+
+    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+      lenis.on('scroll', ScrollTrigger.update);
+      gsap.ticker.add(time => lenis.raf(time * 1000));
+      gsap.ticker.lagSmoothing(0);
+    }
+  }
+
+  /* ===== NAVBAR SCROLL ===== */
+  function initNavbarScroll() {
+    const navbar = document.getElementById('navbar');
+    if (!navbar) return;
+
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 60);
+    }, { passive: true });
+  }
+
+  /* ===== SCROLL REVEAL (IntersectionObserver) ===== */
+  function initReveal() {
+    const els = document.querySelectorAll('#page-' + currentPage + ' .reveal-up:not(.visible)');
+    if (!els.length) return;
+
+    if (typeof IntersectionObserver === 'undefined') {
+      els.forEach(el => el.classList.add('visible'));
+      return;
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
         }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+
+    els.forEach(el => observer.observe(el));
+  }
+
+  /* ===== HERO ENTRANCE ANIMATION ===== */
+  function initHeroEntrance() {
+    if (typeof gsap === 'undefined') return;
+    if (currentPage !== 'home') return;
+
+    const spans = document.querySelectorAll('#page-home .hero-content .hero-headline span');
+    if (!spans.length) return;
+
+    gsap.set(spans, { opacity: 0, y: 32 });
+    gsap.to(spans, {
+      opacity: 1,
+      y: 0,
+      duration: 0.85,
+      ease: 'power3.out',
+      stagger: 0.1,
+      delay: 0.2,
     });
-});
+  }
 
-/* ===== NAV SCROLL EFFECT ===== */
-const nav = document.getElementById('nav');
-window.addEventListener('scroll', () => {
-    nav.classList.toggle('scrolled', window.scrollY > 80);
-});
-
-/* ===== GSAP SCROLL ANIMATIONS ===== */
-gsap.registerPlugin(ScrollTrigger);
-
-// Reveal-up animations
-document.querySelectorAll('.reveal-up').forEach(el => {
-    ScrollTrigger.create({
-        trigger: el,
-        start: 'top 88%',
-        onEnter: () => el.classList.add('revealed'),
-    });
-});
-
-// Hero word cascade animation
-gsap.from('.hero__status-pill', {
-    y: 20, opacity: 0, duration: 0.6, ease: 'power3.out', delay: 0.1
-});
-gsap.from('.hero__title .word', {
-    y: 60, opacity: 0, duration: 0.8, ease: 'power3.out', stagger: 0.1, delay: 0.3
-});
-gsap.from('.hero__sub', {
-    y: 30, opacity: 0, duration: 0.8, ease: 'power3.out', delay: 1.2
-});
-gsap.from('.hero__stats .stat-item', {
-    y: 20, opacity: 0, duration: 0.6, ease: 'power3.out', stagger: 0.1, delay: 1.5
-});
-gsap.from('.hero__showreel', {
-    y: 40, opacity: 0, duration: 1, ease: 'power3.out', delay: 1.8
-});
-
-// Counter animation
-document.querySelectorAll('.stat-number').forEach(num => {
-    const target = parseInt(num.getAttribute('data-count'));
-    ScrollTrigger.create({
-        trigger: num,
-        start: 'top 90%',
-        once: true,
-        onEnter: () => {
-            gsap.to(num, {
-                innerText: target,
-                duration: 2,
-                ease: 'power2.out',
-                snap: { innerText: 1 },
-                onUpdate: function () {
-                    num.textContent = Math.round(parseFloat(num.textContent));
-                }
-            });
-        }
-    });
-});
-
-// Parallax on hero elements
-gsap.to('.hero__gradient', {
-    y: 200,
-    scrollTrigger: {
-        trigger: '.hero',
-        start: 'top top',
-        end: 'bottom top',
-        scrub: 1,
+  /* ===== PARALLAX ===== */
+  function killPageParallax() {
+    if (typeof ScrollTrigger !== 'undefined') {
+      parallaxCtx.forEach(ctx => ctx.kill && ctx.kill());
+      parallaxCtx = [];
     }
-});
-gsap.to('.hero__orb--1', {
-    y: 100, x: -50,
-    scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 1 }
-});
-gsap.to('.hero__orb--2', {
-    y: -80, x: 30,
-    scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 1 }
-});
+  }
 
-/* ===== HERO PARTICLES ===== */
-(function () {
-    const canvas = document.getElementById('heroParticles');
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    let particles = [];
-    const count = 60;
+  function initPageParallax(pageId) {
+    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+    gsap.registerPlugin(ScrollTrigger);
 
-    function resize() {
-        canvas.width = canvas.offsetWidth;
-        canvas.height = canvas.offsetHeight;
+    if (pageId === 'home') {
+      initHomeParallax();
+    } else if (pageId === 'ai') {
+      initSectionParallax('#page-ai');
+    } else if (pageId === 'layanan') {
+      initSectionParallax('#page-layanan');
+    } else if (pageId === 'portofolio') {
+      initSectionParallax('#page-portofolio');
+    } else if (pageId === 'tentang') {
+      initSectionParallax('#page-tentang');
+    } else if (pageId === 'kontak') {
+      initSectionParallax('#page-kontak');
     }
-    resize();
-    window.addEventListener('resize', resize);
+  }
 
-    for (let i = 0; i < count; i++) {
-        particles.push({
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height,
-            r: Math.random() * 1.5 + 0.5,
-            dx: (Math.random() - 0.5) * 0.3,
-            dy: (Math.random() - 0.5) * 0.3,
-            opacity: Math.random() * 0.3 + 0.05
-        });
-    }
+  function initHomeParallax() {
+    const heroEl = document.querySelector('#page-home .hero');
+    const canvas = document.getElementById('heroCanvas');
+    if (!heroEl) return;
 
-    function drawParticles() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        particles.forEach(p => {
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(75,107,255,${p.opacity})`;
-            ctx.fill();
-            p.x += p.dx;
-            p.y += p.dy;
-            if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
-            if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
-        });
-        requestAnimationFrame(drawParticles);
-    }
-    drawParticles();
-})();
-
-/* ===== SMOOTH SCROLL NAV LINKS ===== */
-document.querySelectorAll('a[href^="#"]').forEach(link => {
-    link.addEventListener('click', (e) => {
-        e.preventDefault();
-        const target = document.querySelector(link.getAttribute('href'));
-        if (target) lenis.scrollTo(target, { offset: -80 });
-    });
-});
-
-/* ===== CASES HORIZONTAL PINNED SCROLL ===== */
-(function () {
-    const casesSection = document.getElementById('cases');
-    const casesWrapper = document.getElementById('casesHorizontal');
-
-    if (casesSection && casesWrapper) {
-        // Calculate the total scrollable width
-        function getScrollAmount() {
-            let wrapperWidth = casesWrapper.scrollWidth;
-            return -(wrapperWidth - window.innerWidth);
-        }
-
-        const tween = gsap.to(casesWrapper, {
-            x: getScrollAmount,
-            ease: "none",
-            scrollTrigger: {
-                trigger: casesSection,
-                pin: true,
-                start: "top top",
-                end: () => `+=${getScrollAmount() * -1}`,
-                scrub: 1,
-                invalidateOnRefresh: true
-            }
-        });
-
-        // Internal parallax on card images — counter-movement for 3D illusion
-        const cardImages = casesWrapper.querySelectorAll('.case-card__right img');
-        cardImages.forEach(img => {
-            gsap.to(img, {
-                x: 80,
-                ease: 'none',
-                scrollTrigger: {
-                    trigger: casesSection,
-                    start: 'top top',
-                    end: () => `+=${getScrollAmount() * -1}`,
-                    scrub: 1,
-                    invalidateOnRefresh: true
-                }
-            });
-        });
-    }
-})();
-
-/* ===== TESTIMONIALS INFINITE SCROLL ===== */
-(function () {
-    const track = document.getElementById('testimonials-track');
-    if (!track) return;
-
-    // Clone all cards for seamless loop
-    const cards = track.querySelectorAll('.t-card');
-    cards.forEach(card => {
-        const clone = card.cloneNode(true);
-        track.appendChild(clone);
-    });
-
-    let scrollPos = 0;
-    let paused = false;
-    const speed = 0.5; // px per frame
-
-    // Get width of original cards (half of track since we cloned)
-    function getHalfWidth() {
-        const gap = 20;
-        let w = 0;
-        for (let i = 0; i < cards.length; i++) {
-            w += cards[i].offsetWidth + gap;
-        }
-        return w;
-    }
-
-    function animate() {
-        if (!paused) {
-            scrollPos += speed;
-            const halfW = getHalfWidth();
-            if (scrollPos >= halfW) {
-                scrollPos -= halfW;
-            }
-            track.style.transform = `translateX(-${scrollPos}px)`;
-        }
-        requestAnimationFrame(animate);
-    }
-    animate();
-
-    track.addEventListener('mouseenter', () => paused = true);
-    track.addEventListener('mouseleave', () => paused = false);
-})();
-
-/* ===== PROCESS TIMELINE LINE DRAW ===== */
-(function () {
-    const processLine = document.querySelector('.process-line');
-    const processTimeline = document.querySelector('.process-timeline-new');
-    if (!processLine || !processTimeline) return;
-
-    gsap.to(processLine, {
-        scaleY: 1,
+    /* Hero content drifts up slower than scroll */
+    const heroContent = document.querySelector('#page-home .hero-content');
+    if (heroContent) {
+      const st1 = gsap.to(heroContent, {
+        y: -90,
         ease: 'none',
         scrollTrigger: {
-            trigger: processTimeline,
-            start: 'top 80%',
-            end: 'bottom 20%',
-            scrub: 1
+          trigger: heroEl,
+          start: 'top top',
+          end: 'bottom top',
+          scrub: 1.2,
         }
+      });
+      parallaxCtx.push(st1.scrollTrigger);
+    }
+
+    /* Canvas drifts at a different speed (depth illusion) */
+    if (canvas) {
+      const st2 = gsap.to(canvas, {
+        y: 55,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: heroEl,
+          start: 'top top',
+          end: 'bottom top',
+          scrub: 2,
+        }
+      });
+      parallaxCtx.push(st2.scrollTrigger);
+    }
+
+    /* Layanan cards stagger reveal */
+    const cards = document.querySelectorAll('#page-home .layanan-card');
+    cards.forEach((card, i) => {
+      const st = gsap.from(card, {
+        y: 40, opacity: 0, duration: 0.6, ease: 'expo.out',
+        scrollTrigger: {
+          trigger: card,
+          start: 'top 88%',
+          toggleActions: 'play none none none',
+        },
+        delay: i * 0.08,
+      });
+      parallaxCtx.push(st.scrollTrigger);
     });
-})();
+  }
 
-/* ===== ANIME JS STAGGERED GRID ANIMATIONS ===== */
-(function () {
-    // Ensure anime is loaded
-    if (typeof anime === 'undefined') {
-        console.warn('Anime.js not loaded, skipping staggered animations');
-        // Fallback: show cards immediately
-        document.querySelectorAll('.anime-card').forEach(function (el) {
-            el.style.opacity = '1';
-            el.style.transform = 'none';
-        });
-        return;
-    }
+  function initSectionParallax(pageSelector) {
+    /* Only handles the hero section parallax (y-drift on scroll).
+       Card/content reveals are handled by IntersectionObserver (initReveal),
+       so GSAP never touches opacity of content elements on non-home pages. */
+    const heroSection = document.querySelector(pageSelector + ' section:first-child');
+    const heroInner = document.querySelector(pageSelector + ' section:first-child > .container > div');
 
-    function animateCards(sectionId) {
-        var section = document.getElementById(sectionId);
-        if (!section) return;
+    if (!heroSection || !heroInner) return;
 
-        var cards = section.querySelectorAll('.anime-card');
-        if (!cards.length) return;
+    const st = gsap.to(heroInner, {
+      y: -60,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: heroSection,
+        start: 'top top',
+        end: 'bottom top',
+        scrub: 1.2,
+      }
+    });
+    if (st.scrollTrigger) parallaxCtx.push(st.scrollTrigger);
+  }
 
-        // Use IntersectionObserver for reliable scroll detection
-        var observer = new IntersectionObserver(function (entries) {
-            entries.forEach(function (entry) {
-                if (entry.isIntersecting) {
-                    observer.unobserve(entry.target);
+  /* ===== CARD 3D TILT ===== */
+  function initCardTilt() {
+    if (isTouch()) return;
 
-                    anime({
-                        targets: Array.from(cards),
-                        opacity: [0, 1],
-                        translateY: [60, 0],
-                        scale: [0.95, 1],
-                        delay: anime.stagger(180, { start: 200 }),
-                        duration: 900,
-                        easing: 'spring(1, 80, 10, 0)'
-                    });
-                }
-            });
-        }, { threshold: 0.15 });
-
-        observer.observe(section);
-    }
-
-    // Initialize for all 3 sections
-    animateCards('pricing');
-    animateCards('high-performance');
-    animateCards('maintenance');
-})();
-
-/* ===== TEXT REVEAL — WORD SPLIT MASKING ===== */
-(function () {
     const selectors = [
-        '.problem-title',
-        '.cases-title',
-        '.testimonials-title',
-        '.process-header__title',
-        '.hp-title-main',
-        '.compare-title',
-        '.pricing-title',
-        '.maintenance-title',
-        '.ng-title',
-        '.fc-title'
+      '.layanan-card',
+      '.ai-card',
+      '.pricing-card-v2',
+      '.case-card',
+      '.usecase-card',
+      '.kontak-card',
+    ].join(', ');
+
+    document.querySelectorAll(selectors).forEach(card => {
+      card.style.transformStyle = 'preserve-3d';
+      card.style.willChange = 'transform';
+
+      card.addEventListener('mousemove', e => {
+        const rect = card.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width - 0.5;
+        const y = (e.clientY - rect.top) / rect.height - 0.5;
+
+        const intensity = card.classList.contains('pricing-card-v2--popular') ? 4 : 6;
+
+        card.style.transform = `
+          translateY(-6px)
+          rotateX(${-y * intensity}deg)
+          rotateY(${x * intensity}deg)
+          scale(1.01)
+        `;
+      });
+
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = '';
+        card.style.transition = 'transform 0.5s cubic-bezier(0.16, 1, 0.3, 1)';
+        setTimeout(() => { card.style.transition = ''; }, 500);
+      });
+    });
+  }
+
+  /* ===== STAT COUNTERS ===== */
+  function initStatCounters() {
+    const counters = document.querySelectorAll('#page-home .stat-number[data-count]');
+    if (!counters.length) return;
+
+    counters.forEach(el => { delete el.dataset.animated; });
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !entry.target.dataset.animated) {
+          entry.target.dataset.animated = 'true';
+          animateCount(entry.target);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.5 });
+
+    counters.forEach(el => observer.observe(el));
+  }
+
+  function animateCount(el) {
+    const target = parseInt(el.dataset.count);
+    const suffix = el.dataset.suffix || '';
+    const duration = 1800;
+    const start = performance.now();
+
+    function update(time) {
+      const elapsed = time - start;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const current = Math.floor(eased * target);
+      el.textContent = current + suffix;
+      if (progress < 1) requestAnimationFrame(update);
+      else el.textContent = target + suffix;
+    }
+    requestAnimationFrame(update);
+  }
+
+  /* ===== PARTICLE CANVAS (Hero) ===== */
+  function initParticleCanvas() {
+    const canvas = document.getElementById('heroCanvas');
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    let animFrameId;
+
+    function resize() {
+      canvas.width = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
+    }
+
+    function createParticles() {
+      particles = [];
+      const count = Math.min(65, Math.floor(canvas.width / 18));
+      for (let i = 0; i < count; i++) {
+        const isGold = Math.random() < 0.2;
+        particles.push({
+          x:       Math.random() * canvas.width,
+          y:       Math.random() * canvas.height,
+          r:       Math.random() * 1.6 + 0.3,
+          vx:      (Math.random() - 0.5) * 0.22,
+          vy:      (Math.random() - 0.5) * 0.22,
+          opacity: Math.random() * 0.3 + 0.06,
+          isGold,
+          hue:     isGold ? 48 : (200 + Math.random() * 40),
+          sat:     isGold ? 100 : 60,
+          lit:     isGold ? 70 : 72,
+        });
+      }
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      particles.forEach(p => {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `hsla(${p.hue}, ${p.sat}%, ${p.lit}%, ${p.opacity})`;
+        ctx.fill();
+
+        p.x += p.vx;
+        p.y += p.vy;
+
+        if (p.x < 0) p.x = canvas.width;
+        if (p.x > canvas.width) p.x = 0;
+        if (p.y < 0) p.y = canvas.height;
+        if (p.y > canvas.height) p.y = 0;
+      });
+
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 120) {
+            const alpha = 0.04 * (1 - dist / 120);
+            const isGoldLine = particles[i].isGold || particles[j].isGold;
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.strokeStyle = isGoldLine
+              ? `rgba(255, 214, 0, ${alpha * 1.4})`
+              : `rgba(100, 140, 255, ${alpha})`;
+            ctx.lineWidth = 0.6;
+            ctx.stroke();
+          }
+        }
+      }
+
+      animFrameId = requestAnimationFrame(draw);
+    }
+
+    function startCanvas() {
+      const homePage = document.getElementById('page-home');
+      if (!homePage || !homePage.classList.contains('active')) return;
+      resize();
+      createParticles();
+      cancelAnimationFrame(animFrameId);
+      draw();
+    }
+
+    particleRestartFn = startCanvas;
+
+    window.addEventListener('resize', () => {
+      if (document.getElementById('page-home').classList.contains('active')) {
+        resize();
+        createParticles();
+      }
+    }, { passive: true });
+
+    startCanvas();
+  }
+
+  /* ===== GLOW CARDS (mouse tracking) ===== */
+  function initGlowCards() {
+    if (isTouch()) return;
+
+    document.addEventListener('mousemove', e => {
+      document.querySelectorAll('.glow-card').forEach(card => {
+        const rect = card.getBoundingClientRect();
+        const x = ((e.clientX - rect.left) / rect.width) * 100;
+        const y = ((e.clientY - rect.top) / rect.height) * 100;
+        card.style.setProperty('--mouse-x', x + '%');
+        card.style.setProperty('--mouse-y', y + '%');
+      });
+    }, { passive: true });
+  }
+
+  /* ===== PRICE COUNTERS ===== */
+  function initPriceCounters() {
+    const selectors = [
+      '#page-layanan .pricing-number-v2:not([data-price-done])',
+      '#page-layanan .maintenance-price:not([data-price-done])',
+    ].join(', ');
+
+    const els = document.querySelectorAll(selectors);
+    if (!els.length) return;
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const el = entry.target;
+        el.setAttribute('data-price-done', '1');
+        observer.unobserve(el);
+
+        const rawTarget = el.dataset.price
+          ? parseInt(el.dataset.price, 10)
+          : parseInt(el.textContent.replace(/[^\d]/g, ''), 10);
+
+        if (!rawTarget || isNaN(rawTarget)) return;
+
+        const originalText = el.textContent.trim();
+        const obj = { val: 0 };
+        const fmt = v => v.toLocaleString('id-ID');
+
+        if (typeof anime !== 'undefined') {
+          anime({
+            targets: obj, val: rawTarget, duration: 1100,
+            easing: 'easeOutQuart', round: 1,
+            update: () => { el.textContent = fmt(Math.floor(obj.val)); },
+            complete: () => { el.textContent = originalText; }
+          });
+        } else {
+          animateCountGeneric(el, rawTarget, originalText, fmt);
+        }
+      });
+    }, { threshold: 0.5 });
+
+    els.forEach(el => observer.observe(el));
+  }
+
+  function animateCountGeneric(el, target, originalText, formatter) {
+    const duration = 1100;
+    const start = performance.now();
+    function tick(now) {
+      const t = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - t, 3);
+      el.textContent = formatter(Math.floor(eased * target));
+      if (t < 1) requestAnimationFrame(tick);
+      else el.textContent = originalText;
+    }
+    requestAnimationFrame(tick);
+  }
+
+  /* ===== TIMELINE (Tentang) ===== */
+  function initTimeline() {
+    const timeline = document.getElementById('prosesTimeline');
+    if (!timeline) return;
+
+    const steps = timeline.querySelectorAll('.proses-step');
+    const lineFill = document.getElementById('prosesLineFill');
+    if (!lineFill || !steps.length) return;
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const idx = Array.from(steps).indexOf(entry.target);
+          lineFill.style.height = ((idx + 1) / steps.length * 100) + '%';
+          entry.target.classList.add('active');
+        }
+      });
+    }, { threshold: 0.5 });
+
+    steps.forEach(step => observer.observe(step));
+  }
+
+  /* ===== CONTACT FORM ===== */
+  window.handleFormSubmit = function (e) {
+    e.preventDefault();
+
+    const form = e.target;
+    const nama    = form.querySelector('#nama').value.trim();
+    const wa      = form.querySelector('#whatsapp').value.trim();
+    const layanan = form.querySelector('#layanan').value;
+    const pesan   = form.querySelector('#pesan').value.trim();
+
+    const fields = [
+      { el: form.querySelector('#nama'),     val: nama },
+      { el: form.querySelector('#whatsapp'), val: wa },
+      { el: form.querySelector('#layanan'),  val: layanan },
     ];
 
-    const targets = document.querySelectorAll(selectors.join(','));
-    if (!targets.length) return;
-
-    function splitTextNodes(element) {
-        // Walk only TEXT_NODE children, preserve all HTML tags intact
-        const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT, null);
-        const textNodes = [];
-        while (walker.nextNode()) textNodes.push(walker.currentNode);
-
-        textNodes.forEach(node => {
-            const text = node.textContent;
-            if (!text.trim()) return; // skip whitespace-only nodes
-
-            const frag = document.createDocumentFragment();
-            const words = text.split(/(\s+)/); // split but keep whitespace
-
-            words.forEach(word => {
-                if (!word.length) return;
-                if (/^\s+$/.test(word)) {
-                    // Preserve whitespace as-is
-                    frag.appendChild(document.createTextNode(word));
-                } else {
-                    const outer = document.createElement('span');
-                    outer.className = 'text-reveal-word';
-                    const inner = document.createElement('span');
-                    inner.className = 'word-inner';
-                    inner.textContent = word;
-                    outer.appendChild(inner);
-                    frag.appendChild(outer);
-                }
-            });
-
-            node.parentNode.replaceChild(frag, node);
-        });
-    }
-
-    targets.forEach(el => {
-        if (el.classList.contains('text-split-done')) return;
-
-        splitTextNodes(el);
-        el.classList.add('text-split-done');
-
-        // Remove reveal-up if present
-        el.classList.remove('reveal-up');
-        el.style.opacity = '1';
-        el.style.transform = 'none';
-
-        const words = el.querySelectorAll('.word-inner');
-        gsap.to(words, {
-            y: 0,
-            duration: 0.8,
-            ease: 'power3.out',
-            stagger: 0.06,
-            scrollTrigger: {
-                trigger: el,
-                start: 'top 88%',
-                once: true
-            }
-        });
+    let hasError = false;
+    fields.forEach(({ el, val }) => {
+      if (!val) {
+        el.style.borderColor = '#ef4444';
+        el.addEventListener('input', () => { el.style.borderColor = ''; }, { once: true });
+        hasError = true;
+      }
     });
-})();
 
-/* ===== SVG LINE DRAWING — ANIME.JS ===== */
-(function () {
-    if (typeof anime === 'undefined') return;
+    if (hasError) return;
 
-    // All icon containers across the site
-    const iconContainers = document.querySelectorAll(
-        '.problem-card__icon, .process-icon, .segment-icon, ' +
-        '.ng-card__icon, .fc-option__icon, .fc-card__icon, .footer__icon, ' +
-        '.compare-table__criteria'
-    );
-    if (!iconContainers.length) return;
+    const layananLabels = {
+      'landing-page':    'Landing Page',
+      'company-profile': 'Company Profile',
+      'ecommerce':       'E-Commerce',
+      'ai-system':       'AI System',
+      'high-performance':'High Performance Web/App',
+      'maintenance':     'Maintenance & Support',
+      'konsultasi':      'Belum tahu — butuh konsultasi',
+    };
 
-    iconContainers.forEach(container => {
-        const paths = container.querySelectorAll('svg path, svg line, svg polyline, svg rect, svg circle');
-        if (!paths.length) return;
-
-        // Set initial state: strokes hidden via dashoffset
-        paths.forEach(path => {
-            const length = path.getTotalLength ? path.getTotalLength() : 100;
-            path.setAttribute('stroke-dasharray', length);
-            path.setAttribute('stroke-dashoffset', length);
-        });
-
-        // Trigger on scroll
-        const observer = new IntersectionObserver(entries => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    observer.unobserve(entry.target);
-
-                    anime({
-                        targets: Array.from(paths),
-                        strokeDashoffset: [anime.setDashoffset, 0],
-                        easing: 'easeInOutCubic',
-                        duration: 1200,
-                        delay: anime.stagger(150, { start: 200 })
-                    });
-                }
-            });
-        }, { threshold: 0.3 });
-
-        observer.observe(container);
-    });
-})();
-
-/* ===== CARD GLOW BORDER TRAIL + ICON STAGGER BOUNCE ===== */
-(function () {
-    if (typeof anime === 'undefined') return;
-
-    // All cards that get the glow + bounce effect
-    const cards = document.querySelectorAll(
-        '.p-card, .hp-card, .m-card, .ng-card, .fc-card, .fc-option, .segment-card, .cta-banner__btn'
+    const msg = encodeURIComponent(
+      `Halo ApaAjaDigital!\n\n` +
+      `*Nama/Perusahaan:* ${nama}\n` +
+      `*No. WhatsApp:* ${wa}\n` +
+      `*Layanan:* ${layananLabels[layanan] || layanan}\n` +
+      (pesan ? `*Keterangan:* ${pesan}\n\n` : '\n') +
+      `Mohon bantu untuk konsultasi lebih lanjut. Terima kasih!`
     );
 
-    cards.forEach(card => {
-        // Add glow class
-        card.classList.add('glow-card');
+    window.open(`https://wa.me/6282180598494?text=${msg}`, '_blank', 'noopener');
+  };
 
-        // Track mouse for glow position
-        card.addEventListener('mousemove', (e) => {
-            const rect = card.getBoundingClientRect();
-            const x = ((e.clientX - rect.left) / rect.width) * 100;
-            const y = ((e.clientY - rect.top) / rect.height) * 100;
-            card.style.setProperty('--glow-x', x + '%');
-            card.style.setProperty('--glow-y', y + '%');
-        });
-
-        // Stagger bounce on feature list checkmark SVGs
-        const featureSvgs = card.querySelectorAll('li svg');
-        if (featureSvgs.length) {
-            card.addEventListener('mouseenter', () => {
-                anime({
-                    targets: Array.from(featureSvgs),
-                    translateY: [
-                        { value: -4, duration: 200 },
-                        { value: 0, duration: 400 }
-                    ],
-                    scale: [
-                        { value: 1.3, duration: 200 },
-                        { value: 1, duration: 400 }
-                    ],
-                    delay: anime.stagger(40, { start: 0 }),
-                    easing: 'easeOutElastic(1, .6)'
-                });
-            });
+  /* ===== KEYBOARD NAV ===== */
+  function initKeyboardNav() {
+    document.addEventListener('keydown', e => {
+      if ((e.key === 'Enter' || e.key === ' ') && e.target !== document.body) {
+        const target = e.target;
+        if (target.hasAttribute('onclick') && target.tagName !== 'BUTTON' && target.tagName !== 'A') {
+          e.preventDefault();
+          target.click();
         }
+      }
+      if (e.key === 'Escape' && isMobileMenuOpen) toggleMobileMenu();
     });
+  }
+
+  /* ===== SECTION ACCENT LINES (decorative) ===== */
+  function initAccentLines() {
+    /* Inject a subtle horizontal rule animation under section headers */
+    document.querySelectorAll('.section-header').forEach(header => {
+      const label = header.querySelector('.section-label');
+      if (!label) return;
+      label.classList.add('section-label--animated');
+    });
+  }
+
+  /* ===== INIT ===== */
+  function init() {
+    initNavbarScroll();
+    initKeyboardNav();
+    initGlowCards();
+    initAccentLines();
+
+    setTimeout(() => {
+      initLenis();
+      initParticleCanvas();
+      initReveal();
+      initStatCounters();
+      initCardTilt();
+
+      if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+        gsap.registerPlugin(ScrollTrigger);
+        initHeroEntrance();
+        initPageParallax('home');
+      }
+    }, 150);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+
+  let scrollTimeout;
+  window.addEventListener('scroll', () => {
+    clearTimeout(scrollTimeout);
+    scrollTimeout = setTimeout(initReveal, 60);
+  }, { passive: true });
+
 })();
-
-/* ===== PRICE SLOT MACHINE — ANIME.JS ===== */
-(function () {
-    if (typeof anime === 'undefined') return;
-
-    const priceEls = document.querySelectorAll('.p-card__price, .hp-card__price, .m-card__price');
-    if (!priceEls.length) return;
-
-    priceEls.forEach(el => {
-        // Parse the original text, preserving HTML children (span, br)
-        const originalHTML = el.innerHTML;
-
-        // Extract numeric value from text content
-        const fullText = el.textContent;
-        const numMatch = fullText.match(/([\d.]+)/);
-        if (!numMatch) return;
-
-        const numStr = numMatch[1]; // e.g. "1.500.000" or "30" or "2"
-        const isFormatted = numStr.includes('.'); // has dot separators
-        const targetNum = parseFloat(numStr.replace(/\./g, '')); // raw number
-
-        // Find the text node that contains the number
-        function findNumNode(node) {
-            if (node.nodeType === 3 && /\d/.test(node.textContent)) return node;
-            for (let child of node.childNodes) {
-                const found = findNumNode(child);
-                if (found) return found;
-            }
-            return null;
-        }
-
-        const numNode = findNumNode(el);
-        if (!numNode) return;
-
-        // Store original text of that node
-        const nodeOriginal = numNode.textContent;
-        // Find the prefix/suffix around the number in this text node
-        const nodeMatch = nodeOriginal.match(/^(.*?)([\d.]+)(.*)$/);
-        if (!nodeMatch) return;
-
-        const prefix = nodeMatch[1]; // e.g. "Rp " or ""
-        const suffix = nodeMatch[3]; // e.g. "jt" or ""
-        const numPart = nodeMatch[2]; // e.g. "1.500.000" or "30"
-
-        // Format number with dots (Indonesian style)
-        function formatNum(n) {
-            if (isFormatted) {
-                return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-            }
-            return Math.round(n).toString();
-        }
-
-        // Set initial display to 0
-        numNode.textContent = prefix + formatNum(0) + suffix;
-
-        // Observe and animate
-        const observer = new IntersectionObserver(entries => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    observer.unobserve(entry.target);
-
-                    const counter = { val: 0 };
-                    anime({
-                        targets: counter,
-                        val: targetNum,
-                        round: 1,
-                        duration: 1500,
-                        easing: 'easeOutExpo',
-                        update: () => {
-                            numNode.textContent = prefix + formatNum(counter.val) + suffix;
-                        }
-                    });
-                }
-            });
-        }, { threshold: 0.2 });
-
-        observer.observe(el);
-    });
-})();
-
-/* ===== NAV LINK STAGGERED ANIMATION ===== */
-(function() {
-    const navLinks = document.querySelectorAll('.nav__link');
-    navLinks.forEach(link => {
-        const topSpan = link.querySelector('.nav__link-top');
-        if (!topSpan) return;
-        
-        const text = topSpan.textContent.trim();
-        topSpan.innerHTML = '';
-        topSpan.setAttribute('data-text', text); 
-        
-        text.split('').forEach((char, i) => {
-            const span = document.createElement('span');
-            span.textContent = char === ' ' ? '\u00A0' : char;
-            span.style.setProperty('--delay', `${i * 0.025}s`);
-            topSpan.appendChild(span);
-        });
-
-        link.addEventListener('click', () => {
-            navLinks.forEach(l => l.classList.remove('active'));
-            link.classList.add('active');
-        });
-    });
-})();
-
-/* ===== TITLE HOVER COLOR ANIMATION ===== */
-(function() {
-    const titles = document.querySelectorAll('.cta-banner__title, .fc-actions__title, .ng-bottom__title, .fc-title');
-    
-    titles.forEach(title => {
-        title.addEventListener('mouseenter', () => {
-            gsap.to(title, { scale: 1.02, duration: 0.4, ease: 'power2.out' });
-        });
-
-        title.addEventListener('mouseleave', () => {
-            gsap.to(title, { scale: 1, duration: 0.4, ease: 'power2.out' });
-        });
-    });
-})();
-
-/* ===== PROBLEM CARD TOGGLE ===== */
-document.querySelectorAll('.problem-card').forEach(card => {
-    card.addEventListener('click', () => {
-        card.classList.toggle('is-active');
-    });
-});
-
-document.querySelectorAll('.ng-card, .fc-card, .segment-card').forEach(card => {
-    card.addEventListener('click', () => {
-        card.classList.toggle('is-active');
-    });
-});

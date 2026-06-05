@@ -1,0 +1,10 @@
+# Ignore evaluation harness
+gan-harness/
+
+# Ignore crash dumps and temp files
+*.stackdump
+.DS_Store
+Thumbs.db
+
+# Log files
+*.log

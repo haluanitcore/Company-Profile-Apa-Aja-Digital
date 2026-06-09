@@ -71,34 +71,35 @@ input, textarea, select { font-family: inherit; }
   --bg-primary: #FFFFFF;
   --bg-secondary: #F5F5F0;
   --bg-tertiary: #EBEBEA;
-  --bg-dark: #0F0F0F;
-  --bg-dark-surface: #1A1A1A;
+  --bg-dark: #1C1C1C;
+  --bg-dark-surface: #262626;
+  --bg-dark-elevated: #313131;
 
-  /* Brand — Black × White × Yellow */
-  --brand-primary: #0F0F0F;
-  --brand-blue: #FFD600;      /* remapped: yellow is now the primary accent */
+  /* Brand — Black × White × Yellow (3 warna sesuai logo) */
+  --brand-primary: #1C1C1C;
   --brand-yellow: #FFD600;
-  --brand-lime: #FFD600;      /* remapped: single accent, no more lime */
+  --brand-yellow-dark: #E6C000;
 
   /* Text */
-  --text-primary: #0F0F0F;
+  --text-primary: #1C1C1C;
   --text-secondary: #3D3D3D;
   --text-muted: #7A7A7A;
   --text-on-dark: #FFFFFF;
   --text-on-dark-secondary: rgba(255, 255, 255, 0.58);
+  --text-on-yellow: #1C1C1C;
 
   /* Borders */
   --border-light: rgba(0, 0, 0, 0.07);
   --border-medium: rgba(0, 0, 0, 0.12);
   --border-dark: rgba(255, 255, 255, 0.10);
+  --border-yellow: rgba(255, 214, 0, 0.30);
 
   /* Shadows */
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
   --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
   --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.12);
   --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.16);
-  --shadow-glow-blue: 0 0 32px rgba(255, 214, 0, 0.32);
-  --shadow-glow-yellow: 0 0 32px rgba(255, 214, 0, 0.32);
+  --shadow-glow: 0 0 32px rgba(255, 214, 0, 0.28);
 
   /* Typography */
   --font-display: 'DM Serif Display', Georgia, serif;
@@ -285,7 +286,7 @@ p {
 .nav-cta:hover {
   transform: translateY(-2px);
   background: #E8C200;
-  box-shadow: var(--shadow-glow-yellow);
+  box-shadow: var(--shadow-glow);
 }
 
 /* Hamburger */
@@ -372,7 +373,7 @@ p {
   transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
 }
 
-.mobile-nav-cta:hover { transform: translateY(-2px); background: #E8C200; box-shadow: var(--shadow-glow-yellow); }
+.mobile-nav-cta:hover { transform: translateY(-2px); background: #E8C200; box-shadow: var(--shadow-glow); }
 
 /* ===== SECTION LABEL ===== */
 .section-label {
@@ -421,7 +422,7 @@ p {
 .btn-primary:hover {
   transform: translateY(-3px);
   background: #E8C200;
-  box-shadow: var(--shadow-glow-yellow);
+  box-shadow: var(--shadow-glow);
 }
 
 .btn-ghost {
@@ -554,6 +555,52 @@ p {
   opacity: 1;
   transform: none;
 }
+
+/* reveal-slow — for primary headlines (h1/h2) */
+.reveal-slow {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 1000ms var(--ease-out), transform 1000ms var(--ease-out);
+}
+
+.reveal-slow.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* reveal-fade — for section labels (opacity only, no translateY) */
+.reveal-fade {
+  opacity: 0;
+  transition: opacity 500ms ease;
+}
+
+.reveal-fade.visible {
+  opacity: 1;
+}
+
+/* Hero overrides for reveal-slow and reveal-fade */
+.hero .reveal-slow,
+.hero-ai-inner .reveal-slow,
+.hero-layanan-inner .reveal-slow,
+.hero-portfolio-inner .reveal-slow,
+.hero-tentang-inner .reveal-slow,
+.hero-kontak-inner .reveal-slow,
+.hero .reveal-fade,
+.hero-ai-inner .reveal-fade,
+.hero-layanan-inner .reveal-fade,
+.hero-portfolio-inner .reveal-fade,
+.hero-tentang-inner .reveal-fade,
+.hero-kontak-inner .reveal-fade {
+  opacity: 1;
+  transform: none;
+}
+
+/* stagger-parent / stagger-child — auto nth-child transition delays */
+.stagger-parent .stagger-child:nth-child(1) { transition-delay: 0ms; }
+.stagger-parent .stagger-child:nth-child(2) { transition-delay: 80ms; }
+.stagger-parent .stagger-child:nth-child(3) { transition-delay: 160ms; }
+.stagger-parent .stagger-child:nth-child(4) { transition-delay: 240ms; }
+.stagger-parent .stagger-child:nth-child(5) { transition-delay: 320ms; }
 
 /* ===== FOOTER ===== */
 .footer {
@@ -1063,11 +1110,51 @@ p {
   width: 52px;
   height: 52px;
   border-radius: 50%;
-  background: rgba(255, 214, 0, 0.1);
+  background: rgba(255, 214, 0, 0.12);
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 4px;
+  box-shadow: 0 0 20px rgba(255, 214, 0, 0.18);
+  position: relative;
+  transition: background 0.3s var(--ease-out), box-shadow 0.3s var(--ease-out);
+}
+
+.lc-guarantee-icon::before {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 214, 0, 0.3) 0%, transparent 70%);
+  filter: blur(4px);
+  z-index: -1;
+  animation: guarantee-pulse 3s infinite ease-in-out;
+  pointer-events: none;
+}
+
+@keyframes guarantee-pulse {
+  0%, 100% {
+    transform: scale(0.92);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.12);
+    opacity: 1;
+  }
+}
+
+.lc-card--guarantee:hover .lc-guarantee-icon {
+  background: rgba(255, 214, 0, 0.22);
+  box-shadow: 0 0 30px rgba(255, 214, 0, 0.45);
+}
+
+.lc-guarantee-icon svg {
+  filter: drop-shadow(0 0 4px rgba(255, 214, 0, 0.6));
+  transition: filter 0.3s var(--ease-out);
+}
+
+.lc-card--guarantee:hover .lc-guarantee-icon svg {
+  filter: drop-shadow(0 0 10px rgba(255, 214, 0, 0.95));
 }
 
 .lc-guarantee-label {
@@ -1227,7 +1314,7 @@ p {
   font-weight: 600;
 }
 
-.layanan-card.featured .card-price { color: var(--brand-lime); }
+.layanan-card.featured .card-price { color: var(--brand-yellow); }
 
 .guarantee-bar {
   text-align: center;
@@ -1349,7 +1436,7 @@ p {
   font-size: 11px;
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: var(--brand-lime);
+  color: var(--brand-yellow);
 }
 
 /* AI Capabilities Section */
@@ -1531,8 +1618,8 @@ p {
 .pricing-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-xl); }
 
 .pricing-card.popular {
-  border-color: var(--brand-blue);
-  box-shadow: 0 0 0 1px var(--brand-blue), var(--shadow-lg);
+  border-color: var(--brand-yellow);
+  box-shadow: 0 0 0 1px var(--brand-yellow), var(--shadow-lg);
 }
 
 .badge-popular {
@@ -1540,7 +1627,7 @@ p {
   top: -14px;
   left: 50%;
   transform: translateX(-50%);
-  background: var(--brand-blue);
+  background: var(--brand-yellow);
   color: white;
   font-family: var(--font-mono);
   font-size: 10px;
@@ -1579,7 +1666,7 @@ p {
   align-items: center;
   gap: 6px;
   background: rgba(255, 214, 0, 0.09);
-  color: var(--brand-blue);
+  color: var(--brand-yellow);
   font-size: 12px;
   font-weight: 600;
   padding: 6px 14px;
@@ -1664,7 +1751,7 @@ p {
   font-size: 10px;
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: var(--brand-lime);
+  color: var(--brand-yellow);
   margin-bottom: 12px;
 }
 
@@ -1887,7 +1974,7 @@ p {
 }
 
 .case-quote {
-  border-left: 3px solid var(--brand-blue);
+  border-left: 3px solid var(--brand-yellow);
   padding-left: 16px;
 }
 
@@ -2141,8 +2228,8 @@ p {
 }
 
 .proses-step.active .proses-dot {
-  background: var(--brand-blue);
-  border-color: var(--brand-blue);
+  background: var(--brand-yellow);
+  border-color: var(--brand-yellow);
   color: white;
 }
 
@@ -2302,7 +2389,7 @@ p {
   background: var(--bg-secondary);
   border-radius: var(--radius-lg);
   padding: 24px 28px;
-  border-left: 4px solid var(--brand-blue);
+  border-left: 4px solid var(--brand-yellow);
 }
 
 .form-guarantee-text {
@@ -2353,7 +2440,7 @@ p {
 .form-input:focus,
 .form-select:focus,
 .form-textarea:focus {
-  border-color: var(--brand-blue);
+  border-color: var(--brand-yellow);
   background: white;
   box-shadow: 0 0 0 3px rgba(255, 214, 0, 0.09);
 }
@@ -2392,7 +2479,7 @@ p {
   transition: transform 0.2s var(--ease-out), box-shadow 0.2s, background 0.2s;
 }
 
-.form-submit:hover { transform: translateY(-3px); background: #E8C200; box-shadow: var(--shadow-glow-yellow); }
+.form-submit:hover { transform: translateY(-3px); background: #E8C200; box-shadow: var(--shadow-glow); }
 
 /* Guarantee Reminder */
 .kontak-guarantee {
@@ -2507,7 +2594,7 @@ p {
 .mb-24 { margin-bottom: 24px; }
 .mb-40 { margin-bottom: 40px; }
 .mb-56 { margin-bottom: 56px; }
-.color-blue { color: var(--brand-blue); }
+.color-blue { color: var(--brand-yellow); }
 .color-muted { color: var(--text-muted); }
 .color-on-dark { color: var(--text-on-dark); }
 .color-on-dark-secondary { color: var(--text-on-dark-secondary); }
@@ -2633,7 +2720,7 @@ p {
   font-family: var(--font-mono);
   font-size: 10px;
   letter-spacing: 1px;
-  color: var(--brand-blue);
+  color: var(--brand-yellow);
   opacity: 0.8;
   margin-bottom: 12px;
   display: block;
@@ -2738,7 +2825,7 @@ p {
   justify-content: center;
   font-size: 9px;
   font-weight: 900;
-  color: var(--brand-blue);
+  color: var(--brand-yellow);
   margin-top: 1px;
   line-height: 1;
 }
@@ -2777,7 +2864,7 @@ p {
 .pricing-cta-v2--popular:hover {
   background: #E8C200;
   color: #0F0F0F;
-  box-shadow: var(--shadow-glow-yellow);
+  box-shadow: var(--shadow-glow);
   transform: translateY(-2px);
 }
 
@@ -2859,7 +2946,7 @@ p {
 .tier-td-price {
   font-family: var(--font-display);
   font-size: 21px;
-  color: var(--brand-lime);
+  color: var(--brand-yellow);
   white-space: nowrap;
 }
 
@@ -2931,7 +3018,7 @@ p {
   letter-spacing: 1.5px;
   text-transform: uppercase;
   background: rgba(255, 214, 0, 0.09);
-  color: var(--brand-blue);
+  color: var(--brand-yellow);
   padding: 4px 12px;
   border-radius: 100px;
   margin-bottom: 12px;
@@ -3475,21 +3562,23 @@ p {
    ============================================= */
 .skip-link {
   position: absolute;
-  top: -100px;
+  top: -100%;
   left: 16px;
-  background: var(--brand-yellow);
-  color: var(--text-primary);
+  background: #FFD600;
+  color: #1C1C1C;
   font-size: 14px;
   font-weight: 700;
-  padding: 10px 20px;
-  border-radius: var(--radius-sm);
-  z-index: 10000;
+  padding: 8px 16px;
+  border-radius: 8px;
+  z-index: 9999;
   transition: top 0.2s;
   text-decoration: none;
 }
 
 .skip-link:focus {
+  position: fixed;
   top: 16px;
+  z-index: 9999;
 }
 
 .sr-only {
@@ -3506,7 +3595,7 @@ p {
 
 /* Custom focus ring — yellow-keyed, visible on both light and dark */
 :focus-visible {
-  outline: 2.5px solid var(--brand-yellow);
+  outline: 2px solid #FFD600;
   outline-offset: 3px;
   border-radius: 4px;
 }
@@ -3709,3 +3798,211 @@ p {
 }
 
 
+
+
+/* =============================================
+   ASSET PLACEHOLDERS
+   Containers untuk aset visual yang akan datang.
+   Ganti dengan <img>, <video>, atau background-image
+   saat file aset sudah tersedia.
+   ============================================= */
+
+.asset-placeholder {
+  background: var(--bg-tertiary);
+  border: 2px dashed var(--border-medium);
+  border-radius: var(--radius-md);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  position: relative;
+  overflow: hidden;
+}
+
+.asset-placeholder::after {
+  content: attr(data-label);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* Hero Background Video */
+.hero-video-container {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.hero-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.15;
+}
+
+/* Ukuran variants */
+.asset-placeholder--hero-video {
+  position: absolute;
+  inset: 0;
+  border-radius: 0;
+  border: none;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.asset-placeholder--portfolio {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+}
+
+.asset-placeholder--ai-flow {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+}
+
+.asset-placeholder--workspace {
+  width: 100%;
+  aspect-ratio: 3 / 2;
+}
+
+.asset-placeholder--og-image {
+  width: 100%;
+  max-width: 600px;
+  aspect-ratio: 1200 / 630;
+}
+
+/* Dark variant — untuk section gelap */
+.asset-placeholder--dark {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.10);
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.asset-placeholder--dark::after {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+/* Shimmer animation */
+@keyframes asset-shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+
+.asset-placeholder:not(.asset-placeholder--dark):not(.asset-placeholder--hero-video) {
+  background: linear-gradient(
+    90deg,
+    var(--bg-tertiary) 25%,
+    var(--bg-secondary) 50%,
+    var(--bg-tertiary) 75%
+  );
+  background-size: 200% 100%;
+  animation: asset-shimmer 2.4s infinite linear;
+}
+
+.asset-placeholder--dark {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.04) 25%,
+    rgba(255, 255, 255, 0.08) 50%,
+    rgba(255, 255, 255, 0.04) 75%
+  );
+  background-size: 200% 100%;
+  animation: asset-shimmer 2.4s infinite linear;
+}
+
+/* AI visual section wrapper */
+.ai-visual-section {
+  background: var(--bg-dark);
+  padding: 64px 0;
+}
+
+/* AI visual grid — 2 kolom side-by-side */
+.ai-visual-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-top: 48px;
+}
+
+@media (max-width: 768px) {
+  .ai-visual-grid { grid-template-columns: 1fr; }
+}
+
+/* Saat asset sudah diisi — hapus placeholder styling */
+.asset-placeholder.asset-loaded {
+  border: none;
+  background: transparent;
+  animation: none;
+}
+
+.asset-placeholder.asset-loaded::after {
+  display: none;
+}
+
+.ai-demo-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.ai-flow-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.portfolio-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+}
+
+.workspace-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+}
+
+/* Reduced motion — nonaktifkan shimmer dan reveal transforms */
+@media (prefers-reduced-motion: reduce) {
+  .asset-placeholder,
+  .asset-placeholder--dark {
+    animation: none;
+    background-size: auto;
+  }
+
+  .reveal-up,
+  .reveal-slow {
+    transition: opacity 0.3s ease !important;
+    transform: none !important;
+  }
+
+  .reveal-fade {
+    transition: opacity 0.3s ease !important;
+  }
+}

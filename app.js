@@ -150,7 +150,13 @@
 
   /* ===== SCROLL REVEAL (IntersectionObserver) ===== */
   function initReveal() {
-    const els = document.querySelectorAll('#page-' + currentPage + ' .reveal-up:not(.visible)');
+    const selector = [
+      '#page-' + currentPage + ' .reveal-up:not(.visible)',
+      '#page-' + currentPage + ' .reveal-slow:not(.visible)',
+      '#page-' + currentPage + ' .reveal-fade:not(.visible)',
+    ].join(', ');
+
+    const els = document.querySelectorAll(selector);
     if (!els.length) return;
 
     if (typeof IntersectionObserver === 'undefined') {
@@ -630,12 +636,56 @@
     });
   }
 
+  /* ===== ANIMATION CLASS INJECTION ===== */
+  function initAnimationClasses() {
+    /* Add stagger-parent to grid containers */
+    const gridSelectors = ['.lc-grid', '.ai-grid', '.ck-grid', '.ai-visual-grid'];
+    gridSelectors.forEach(sel => {
+      document.querySelectorAll(sel).forEach(grid => {
+        grid.classList.add('stagger-parent');
+        Array.from(grid.children).forEach(child => child.classList.add('stagger-child'));
+      });
+    });
+
+    /* Add reveal-slow to all h1 and h2.section-title outside hero sections */
+    document.querySelectorAll('h1, h2.section-title').forEach(el => {
+      const inHero = el.closest(
+        '.hero, .hero-ai-inner, .hero-layanan-inner, .hero-portfolio-inner, .hero-tentang-inner, .hero-kontak-inner'
+      );
+      if (!inHero) el.classList.add('reveal-slow');
+    });
+
+    /* Add reveal-fade to all .section-label outside hero sections */
+    document.querySelectorAll('.section-label').forEach(el => {
+      const inHero = el.closest(
+        '.hero, .hero-ai-inner, .hero-layanan-inner, .hero-portfolio-inner, .hero-tentang-inner, .hero-kontak-inner'
+      );
+      if (!inHero) el.classList.add('reveal-fade');
+    });
+  }
+
+  /* ===== ASSET LOADER ===== */
+  /* Call manually once real asset files are available */
+  window.loadAsset = function loadAsset(placeholder, src, type) {
+    if (type === 'img') {
+      const img = new Image();
+      img.onload = () => {
+        placeholder.style.backgroundImage = 'url(' + src + ')';
+        placeholder.style.backgroundSize = 'cover';
+        placeholder.style.backgroundPosition = 'center';
+        placeholder.classList.add('asset-loaded');
+      };
+      img.src = src;
+    }
+  };
+
   /* ===== INIT ===== */
   function init() {
     initNavbarScroll();
     initKeyboardNav();
     initGlowCards();
     initAccentLines();
+    initAnimationClasses();
 
     setTimeout(() => {
       initLenis();

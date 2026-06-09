@@ -5,33 +5,104 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ApaAjaDigital — Website Siap Kerja. Sistem AI Custom. Hari Ini.</title>
   <meta name="description" content="IT Agency Jakarta. Landing page live dalam 1 hari, sistem bisnis berbasis AI custom, harga fix tanpa biaya tersembunyi. Garansi 50% uang kembali jika telat." />
+  <link rel="canonical" href="https://apaajadigital.com/" />
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="Logo-Apa-Aja-Digital.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+  <!-- Note: favicon-32.png, favicon-16.png, apple-touch-icon.png belum ada — akan diisi nanti -->
 
   <!-- Open Graph -->
   <meta property="og:type"        content="website" />
   <meta property="og:url"         content="https://apaajadigital.com/" />
   <meta property="og:title"       content="ApaAjaDigital — Website Siap Kerja. Sistem AI Custom." />
   <meta property="og:description" content="IT Agency Jakarta. Landing page live 1 hari. AI system custom. Harga fix, garansi 50% uang kembali jika telat." />
-  <meta property="og:image"       content="https://apaajadigital.com/Logo-Apa-Aja-Digital.png" />
-  <meta property="og:image:width" content="512" />
-  <meta property="og:image:height" content="512" />
+  <meta property="og:image"       content="https://apaajadigital.com/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
   <meta property="og:locale"      content="id_ID" />
   <!-- Twitter Card -->
-  <meta name="twitter:card"        content="summary" />
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:site"        content="@apaajadigital" />
   <meta name="twitter:title"       content="ApaAjaDigital — Website Siap Kerja. Sistem AI Custom." />
   <meta name="twitter:description" content="IT Agency Jakarta. Landing page live 1 hari, AI system custom, harga fix." />
-  <meta name="twitter:image"       content="https://apaajadigital.com/Logo-Apa-Aja-Digital.png" />
-  <!-- Schema.org LocalBusiness -->
+  <meta name="twitter:image"       content="https://apaajadigital.com/og-image.png" />
+  <!-- Schema.org LocalBusiness + Services -->
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"LocalBusiness","name":"ApaAjaDigital","description":"IT Agency Jakarta — website development dan AI system custom","url":"https://apaajadigital.com","telephone":"+6282180598494","email":"hello@apaajadigital.com","address":{"@type":"PostalAddress","addressLocality":"Jakarta Selatan","addressCountry":"ID"},"priceRange":"Rp1.500.000 — Custom","foundingDate":"2020","serviceArea":{"@type":"Country","name":"Indonesia"}}
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "ApaAjaDigital",
+    "description": "IT Agency Jakarta — website development dan AI system custom",
+    "url": "https://apaajadigital.com",
+    "logo": "https://apaajadigital.com/Logo-Apa-Aja-Digital.png",
+    "telephone": "+6282180598494",
+    "email": "hello@apaajadigital.com",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Jakarta Selatan",
+      "addressCountry": "ID"
+    },
+    "priceRange": "Rp1.500.000 — Custom",
+    "foundingDate": "2020",
+    "serviceArea": {"@type": "Country", "name": "Indonesia"},
+    "sameAs": [
+      "https://instagram.com/apaajadigital",
+      "https://linkedin.com/company/apaajadigital"
+    ],
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Layanan ApaAjaDigital",
+      "itemListElement": [
+        {
+          "@type": "Offer",
+          "itemOffered": {"@type": "Service", "name": "Landing Page"},
+          "priceSpecification": {
+            "@type": "PriceSpecification",
+            "price": "1500000",
+            "priceCurrency": "IDR",
+            "minPrice": "1500000"
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {"@type": "Service", "name": "Company Profile"},
+          "priceSpecification": {
+            "@type": "PriceSpecification",
+            "price": "3500000",
+            "priceCurrency": "IDR",
+            "minPrice": "3500000"
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {"@type": "Service", "name": "E-Commerce"},
+          "priceSpecification": {
+            "@type": "PriceSpecification",
+            "price": "8000000",
+            "priceCurrency": "IDR",
+            "minPrice": "8000000"
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {"@type": "Service", "name": "AI System"},
+          "priceSpecification": {
+            "@type": "PriceSpecification",
+            "description": "Custom — by request"
+          }
+        }
+      ]
+    }
+  }
   </script>
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&subset=latin&display=swap" rel="stylesheet" />
   <!-- Preload critical above-fold assets -->
   <link rel="preload" href="Logo-Apa-Aja-Digital.png" as="image" fetchpriority="high" />
 
@@ -155,14 +226,14 @@
     </div>
 
     <ul class="nav-links" role="menubar">
-      <li role="none"><span class="nav-link active" id="nav-home" onclick="nav('home')" role="menuitem" tabindex="0">Beranda</span></li>
-      <li role="none"><span class="nav-link" id="nav-ai" onclick="nav('ai')" role="menuitem" tabindex="0">AI System</span></li>
-      <li role="none"><span class="nav-link" id="nav-layanan" onclick="nav('layanan')" role="menuitem" tabindex="0">Layanan</span></li>
-      <li role="none"><span class="nav-link" id="nav-portofolio" onclick="nav('portofolio')" role="menuitem" tabindex="0">Portofolio</span></li>
-      <li role="none"><span class="nav-link" id="nav-tentang" onclick="nav('tentang')" role="menuitem" tabindex="0">Tentang</span></li>
+      <li role="none"><span class="nav-link active" id="nav-home" onclick="nav('home')" role="menuitem" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}">Beranda</span></li>
+      <li role="none"><span class="nav-link" id="nav-ai" onclick="nav('ai')" role="menuitem" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}">AI System</span></li>
+      <li role="none"><span class="nav-link" id="nav-layanan" onclick="nav('layanan')" role="menuitem" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}">Layanan</span></li>
+      <li role="none"><span class="nav-link" id="nav-portofolio" onclick="nav('portofolio')" role="menuitem" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}">Portofolio</span></li>
+      <li role="none"><span class="nav-link" id="nav-tentang" onclick="nav('tentang')" role="menuitem" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}">Tentang</span></li>
     </ul>
 
-    <span class="nav-cta magnetic" onclick="nav('kontak')" role="button" tabindex="0">Hubungi Kami</span>
+    <span class="nav-cta magnetic" onclick="nav('kontak')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}">Hubungi Kami</span>
 
     <button class="nav-hamburger" id="hamburger" onclick="toggleMobileMenu()" aria-label="Buka menu" aria-expanded="false">
       <span></span>
@@ -176,12 +247,12 @@
 
   <!-- Mobile Drawer -->
   <nav class="mobile-drawer" id="mobileDrawer" aria-label="Menu mobile" aria-hidden="true">
-    <span class="mobile-nav-link" onclick="nav('home'); toggleMobileMenu()">Beranda</span>
-    <span class="mobile-nav-link" onclick="nav('ai'); toggleMobileMenu()">AI System</span>
-    <span class="mobile-nav-link" onclick="nav('layanan'); toggleMobileMenu()">Layanan</span>
-    <span class="mobile-nav-link" onclick="nav('portofolio'); toggleMobileMenu()">Portofolio</span>
-    <span class="mobile-nav-link" onclick="nav('tentang'); toggleMobileMenu()">Tentang</span>
-    <span class="mobile-nav-cta" onclick="nav('kontak'); toggleMobileMenu()">Hubungi Kami →</span>
+    <span class="mobile-nav-link" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}" onclick="nav('home'); toggleMobileMenu()">Beranda</span>
+    <span class="mobile-nav-link" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}" onclick="nav('ai'); toggleMobileMenu()">AI System</span>
+    <span class="mobile-nav-link" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}" onclick="nav('layanan'); toggleMobileMenu()">Layanan</span>
+    <span class="mobile-nav-link" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}" onclick="nav('portofolio'); toggleMobileMenu()">Portofolio</span>
+    <span class="mobile-nav-link" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}" onclick="nav('tentang'); toggleMobileMenu()">Tentang</span>
+    <span class="mobile-nav-cta" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}" onclick="nav('kontak'); toggleMobileMenu()">Hubungi Kami →</span>
   </nav>
 
   <!-- =============================================
@@ -192,6 +263,13 @@
     <!-- Hero -->
     <section class="hero" id="main-content" aria-labelledby="hero-heading">
       <canvas class="hero-canvas" id="heroCanvas" aria-hidden="true"></canvas>
+
+      <!-- VIDEO HERO -->
+      <div class="hero-video-container" aria-hidden="true">
+        <video class="hero-video" autoplay loop muted playsinline>
+          <source src="Footage Image Video/HERO AMBIENT LOOP.mp4" type="video/mp4" />
+        </video>
+      </div>
 
       <!-- Hero geometric visual — right side decoration -->
       <div class="hero-geo-wrap" aria-hidden="true">
@@ -233,10 +311,6 @@
 
           <!-- Kiri: konten utama -->
           <div class="hero-content">
-            <div class="hero-badge" aria-label="IT Agency Jakarta, Est. 2020">
-              <span class="pulse-dot"></span>
-              IT Agency Jakarta &middot; Est. 2020
-            </div>
 
             <h1 class="hero-headline" id="hero-heading">
               <span>Website siap kerja.</span>
@@ -245,7 +319,9 @@
             </h1>
 
             <p class="hero-sub">
-              Landing page live 1 hari. Sistem AI custom. Harga fix, tanpa biaya tersembunyi.
+              Klien pertama kami datang lewat WhatsApp pukul 9 pagi,
+              websitenya live sebelum jam 5 sore. Harga di proposal adalah harga
+              yang dibayar — tidak ada invoice kejutan di tengah project.
             </p>
 
             <div class="hero-actions">
@@ -298,9 +374,9 @@
               <p class="lc-desc">Satu halaman. Satu tujuan. Live dalam 1 hari kerja.</p>
             </div>
             <div class="lc-features">
-              <span class="lc-feature">⚡ Delivery 1 hari</span>
-              <span class="lc-feature">✓ Domain .com gratis</span>
-              <span class="lc-feature">✓ Mobile-first</span>
+              <span class="lc-feature">Delivery 1 hari</span>
+              <span class="lc-feature">Domain .com gratis</span>
+              <span class="lc-feature">Mobile-first</span>
             </div>
             <div class="lc-price-block">
               <span class="lc-price-from">Mulai dari</span>
@@ -318,12 +394,12 @@
             <div class="lc-card-body">
               <p class="lc-label">Website</p>
               <h3 class="lc-name">Company Profile</h3>
-              <p class="lc-desc">Wajah digital yang membangun kepercayaan sebelum meeting pertama.</p>
+              <p class="lc-desc">Sebelum calon klien kamu membuka email balasanmu, mereka sudah Google namamu. Ini yang mereka lihat.</p>
             </div>
             <div class="lc-features">
-              <span class="lc-feature">📅 7–14 hari</span>
-              <span class="lc-feature">✓ 5–10 halaman</span>
-              <span class="lc-feature">✓ SEO-ready</span>
+              <span class="lc-feature">7–14 hari</span>
+              <span class="lc-feature">5–10 halaman</span>
+              <span class="lc-feature">SEO-ready</span>
             </div>
             <div class="lc-price-block">
               <span class="lc-price-from">Mulai dari</span>
@@ -359,9 +435,9 @@
               <p class="lc-desc">Toko online siap transaksi — payment gateway, katalog, dashboard.</p>
             </div>
             <div class="lc-features">
-              <span class="lc-feature">📅 3–6 minggu</span>
-              <span class="lc-feature">✓ Payment gateway</span>
-              <span class="lc-feature">✓ Dashboard admin</span>
+              <span class="lc-feature">3–6 minggu</span>
+              <span class="lc-feature">Payment gateway</span>
+              <span class="lc-feature">Dashboard admin</span>
             </div>
             <div class="lc-price-block">
               <span class="lc-price-from">Mulai dari</span>
@@ -379,12 +455,12 @@
             <div class="lc-card-body">
               <p class="lc-label" style="color:var(--brand-yellow)">★ Unggulan</p>
               <h3 class="lc-name" style="color:#fff">AI System</h3>
-              <p class="lc-desc" style="color:rgba(255,255,255,0.6)">Chatbot, CRM, booking, pipeline — otomatis 24 jam, dirancang khusus.</p>
+              <p class="lc-desc" style="color:rgba(255,255,255,0.6)">Staf virtual yang tidak pernah lupa follow-up, tidak pernah salah input, dan bekerja saat kamu tidur.</p>
             </div>
             <div class="lc-features lc-features--dark">
-              <span class="lc-feature">✓ 100% custom</span>
-              <span class="lc-feature">✓ By request</span>
-              <span class="lc-feature">✓ Proposal 24 jam</span>
+              <span class="lc-feature">100% custom</span>
+              <span class="lc-feature">By request</span>
+              <span class="lc-feature">Proposal 24 jam</span>
             </div>
             <div class="lc-price-block lc-price-block--dark">
               <span class="lc-price-from">Mulai dari</span>
@@ -492,7 +568,7 @@
           </div>
         </div>
         <div class="ck-cta reveal-up delay-3">
-          <button class="btn-primary" onclick="nav('kontak')">Mulai Konsultasi Gratis →</button>
+          <button class="btn-ghost" onclick="nav('kontak')">Mulai Konsultasi Gratis →</button>
           <p class="ck-guarantee">Website live 1 hari atau 50% uang kembali.</p>
         </div>
       </div>
@@ -510,21 +586,21 @@
           <div>
             <p class="footer-col-title">Layanan</p>
             <ul class="footer-links">
-              <li><span class="footer-link-item" onclick="nav('layanan')">Landing Page</span></li>
-              <li><span class="footer-link-item" onclick="nav('layanan')">Company Profile</span></li>
-              <li><span class="footer-link-item" onclick="nav('layanan')">E-Commerce</span></li>
-              <li><span class="footer-link-item" onclick="nav('ai')">AI System</span></li>
-              <li><span class="footer-link-item" onclick="nav('layanan')">Maintenance</span></li>
+              <li><span class="footer-link-item" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}" onclick="nav('layanan')">Landing Page</span></li>
+              <li><span class="footer-link-item" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}" onclick="nav('layanan')">Company Profile</span></li>
+              <li><span class="footer-link-item" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}" onclick="nav('layanan')">E-Commerce</span></li>
+              <li><span class="footer-link-item" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}" onclick="nav('ai')">AI System</span></li>
+              <li><span class="footer-link-item" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}" onclick="nav('layanan')">Maintenance</span></li>
             </ul>
           </div>
 
           <div>
             <p class="footer-col-title">Perusahaan</p>
             <ul class="footer-links">
-              <li><span class="footer-link-item" onclick="nav('portofolio')">Portofolio</span></li>
-              <li><span class="footer-link-item" onclick="nav('tentang')">Tentang Kami</span></li>
-              <li><span class="footer-link-item" onclick="nav('layanan')">Harga</span></li>
-              <li><span class="footer-link-item" onclick="nav('layanan')">Garansi</span></li>
+              <li><span class="footer-link-item" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}" onclick="nav('portofolio')">Portofolio</span></li>
+              <li><span class="footer-link-item" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}" onclick="nav('tentang')">Tentang Kami</span></li>
+              <li><span class="footer-link-item" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}" onclick="nav('layanan')">Harga</span></li>
+              <li><span class="footer-link-item" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}" onclick="nav('layanan')">Garansi</span></li>
               <li><a href="#" class="footer-link-item" style="color: var(--text-on-dark-secondary);">Rate Card — <em style="font-style:normal;opacity:0.5;">Segera Tersedia</em></a></li>
             </ul>
           </div>
@@ -532,21 +608,21 @@
           <div>
             <p class="footer-col-title">Kontak</p>
             <div class="footer-contact-item">
-              <span>✉</span>
+              <svg class="icon icon-sm"><use href="#icon-mail"/></svg>
               <a href="mailto:hello@apaajadigital.com">hello@apaajadigital.com</a>
             </div>
             <div class="footer-contact-item">
-              <span>📍</span>
+              <svg class="icon icon-sm"><use href="#icon-map-pin"/></svg>
               <span>Jakarta Selatan, Indonesia</span>
             </div>
             <div class="footer-contact-item">
-              <span>💬</span>
+              <svg class="icon icon-sm"><use href="#icon-message-circle"/></svg>
               <a href="https://wa.me/6282180598494" target="_blank" rel="noopener">WhatsApp</a>
             </div>
             <div class="footer-social" role="list" aria-label="Media sosial">
-              <a href="https://wa.me/6282180598494" target="_blank" rel="noopener" aria-label="WhatsApp">💬</a>
-              <a href="#" aria-label="Instagram">📸</a>
-              <a href="#" aria-label="LinkedIn">💼</a>
+              <a href="https://wa.me/6282180598494" target="_blank" rel="noopener" aria-label="WhatsApp"><svg class="icon"><use href="#icon-message-circle"/></svg></a>
+              <a href="#" aria-label="Instagram"><svg class="icon"><use href="#icon-instagram"/></svg></a>
+              <a href="#" aria-label="LinkedIn"><svg class="icon"><use href="#icon-linkedin"/></svg></a>
             </div>
           </div>
         </div>
@@ -586,6 +662,28 @@
             <button class="btn-primary magnetic" onclick="nav('kontak')">
               Mapping Sistem Gratis →
             </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- AI Visual Placeholders -->
+    <section class="ai-visual-section" aria-label="Demo AI System">
+      <div class="container">
+        <div class="ai-visual-grid">
+          <!-- DEMO VIDEO -->
+          <div class="asset-placeholder asset-placeholder--ai-flow asset-placeholder--dark asset-loaded"
+               role="region"
+               aria-label="Demo AI dashboard preview">
+            <video class="ai-demo-video" autoplay loop muted playsinline>
+              <source src="Footage Image Video/AI DASHBOARD PREVIEW.mp4" type="video/mp4" />
+            </video>
+          </div>
+          <!-- FLOW DIAGRAM -->
+          <div class="asset-placeholder asset-placeholder--ai-flow asset-placeholder--dark asset-loaded"
+               role="region"
+               aria-label="Diagram alur AI workflow">
+            <img class="ai-flow-img" src="Footage Image Video/AI WORKFLOW DIAGRAM.png" alt="Diagram alur AI workflow" />
           </div>
         </div>
       </div>
@@ -726,19 +824,19 @@
           <div>
             <p class="footer-col-title">Layanan</p>
             <ul class="footer-links">
-              <li><span class="footer-link-item" onclick="nav('layanan')">Landing Page</span></li>
-              <li><span class="footer-link-item" onclick="nav('layanan')">Company Profile</span></li>
-              <li><span class="footer-link-item" onclick="nav('layanan')">E-Commerce</span></li>
-              <li><span class="footer-link-item" onclick="nav('ai')">AI System</span></li>
-              <li><span class="footer-link-item" onclick="nav('layanan')">Maintenance</span></li>
+              <li><span class="footer-link-item" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}" onclick="nav('layanan')">Landing Page</span></li>
+              <li><span class="footer-link-item" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}" onclick="nav('layanan')">Company Profile</span></li>
+              <li><span class="footer-link-item" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}" onclick="nav('layanan')">E-Commerce</span></li>
+              <li><span class="footer-link-item" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}" onclick="nav('ai')">AI System</span></li>
+              <li><span class="footer-link-item" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}" onclick="nav('layanan')">Maintenance</span></li>
             </ul>
           </div>
           <div>
             <p class="footer-col-title">Perusahaan</p>
             <ul class="footer-links">
-              <li><span class="footer-link-item" onclick="nav('portofolio')">Portofolio</span></li>
-              <li><span class="footer-link-item" onclick="nav('tentang')">Tentang Kami</span></li>
-              <li><span class="footer-link-item" onclick="nav('layanan')">Harga</span></li>
+              <li><span class="footer-link-item" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}" onclick="nav('portofolio')">Portofolio</span></li>
+              <li><span class="footer-link-item" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}" onclick="nav('tentang')">Tentang Kami</span></li>
+              <li><span class="footer-link-item" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}" onclick="nav('layanan')">Harga</span></li>
             </ul>
           </div>
           <div>
@@ -1033,8 +1131,8 @@
       <div class="container">
         <div class="footer-grid">
           <div class="footer-brand"><img src="Logo-Apa-Aja-Digital.png" alt="ApaAjaDigital" width="140" height="44" /><p class="footer-tagline mt-16">Website siap kerja. Sistem AI custom. Hari ini.</p></div>
-          <div><p class="footer-col-title">Layanan</p><ul class="footer-links"><li><span class="footer-link-item" onclick="nav('layanan')">Landing Page</span></li><li><span class="footer-link-item" onclick="nav('layanan')">Company Profile</span></li><li><span class="footer-link-item" onclick="nav('layanan')">E-Commerce</span></li><li><span class="footer-link-item" onclick="nav('ai')">AI System</span></li></ul></div>
-          <div><p class="footer-col-title">Perusahaan</p><ul class="footer-links"><li><span class="footer-link-item" onclick="nav('portofolio')">Portofolio</span></li><li><span class="footer-link-item" onclick="nav('tentang')">Tentang Kami</span></li></ul></div>
+          <div><p class="footer-col-title">Layanan</p><ul class="footer-links"><li><span class="footer-link-item" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}" onclick="nav('layanan')">Landing Page</span></li><li><span class="footer-link-item" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}" onclick="nav('layanan')">Company Profile</span></li><li><span class="footer-link-item" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}" onclick="nav('layanan')">E-Commerce</span></li><li><span class="footer-link-item" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}" onclick="nav('ai')">AI System</span></li></ul></div>
+          <div><p class="footer-col-title">Perusahaan</p><ul class="footer-links"><li><span class="footer-link-item" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}" onclick="nav('portofolio')">Portofolio</span></li><li><span class="footer-link-item" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}" onclick="nav('tentang')">Tentang Kami</span></li></ul></div>
           <div><p class="footer-col-title">Kontak</p><div class="footer-contact-item"><svg class="icon icon-sm" aria-hidden="true"><use href="#icon-mail"/></svg><a href="mailto:hello@apaajadigital.com">hello@apaajadigital.com</a></div><div class="footer-social"><a href="https://wa.me/6282180598494" target="_blank" rel="noopener" aria-label="WhatsApp"><svg class="icon"><use href="#icon-message-circle"/></svg></a><a href="#" aria-label="Instagram"><svg class="icon"><use href="#icon-instagram"/></svg></a></div></div>
         </div>
         <div class="footer-bottom"><p class="footer-bottom-text">© 2026 ApaAjaDigital.com. All rights reserved.</p><p class="footer-bottom-tagline">Website yang bekerja. Sistem yang berpikir.</p></div>
@@ -1073,6 +1171,12 @@
         <div class="case-studies-grid">
           <!-- Case 1 -->
           <article class="case-card reveal-up" aria-labelledby="case-1">
+            <!-- MOCKUP -->
+            <div class="asset-placeholder asset-placeholder--portfolio asset-loaded"
+                 role="region"
+                 aria-label="Mockup website F&B Jakarta Selatan">
+              <img class="portfolio-img" src="Footage Image Video/PORTFOLIO F&B.png" alt="Mockup website F&B Jakarta Selatan" />
+            </div>
             <div class="case-tag">F&B · Jakarta Selatan</div>
             <div class="case-meta">
               <div class="case-meta-item">
@@ -1099,6 +1203,12 @@
 
           <!-- Case 2 -->
           <article class="case-card reveal-up delay-1" aria-labelledby="case-2">
+            <!-- MOCKUP -->
+            <div class="asset-placeholder asset-placeholder--portfolio asset-loaded"
+                 role="region"
+                 aria-label="Mockup website B2B SaaS Jakarta">
+              <img class="portfolio-img" src="Footage Image Video/PORTFOLIO B2B SAAS.png" alt="Mockup website B2B SaaS Jakarta" />
+            </div>
             <div class="case-tag">B2B SaaS · Jakarta</div>
             <div class="case-meta">
               <div class="case-meta-item">
@@ -1125,6 +1235,12 @@
 
           <!-- Case 3 -->
           <article class="case-card reveal-up delay-2" aria-labelledby="case-3">
+            <!-- MOCKUP -->
+            <div class="asset-placeholder asset-placeholder--portfolio asset-loaded"
+                 role="region"
+                 aria-label="Mockup website E-Commerce Retail">
+              <img class="portfolio-img" src="Footage Image Video/PORTFOLIO ECOMMERCE.png" alt="Mockup website E-Commerce Retail" />
+            </div>
             <div class="case-tag">Retail · Nationwide</div>
             <div class="case-meta">
               <div class="case-meta-item">
@@ -1199,8 +1315,8 @@
       <div class="container">
         <div class="footer-grid">
           <div class="footer-brand"><img src="Logo-Apa-Aja-Digital.png" alt="ApaAjaDigital" width="140" height="44" /><p class="footer-tagline mt-16">Website siap kerja. Sistem AI custom. Hari ini.</p></div>
-          <div><p class="footer-col-title">Layanan</p><ul class="footer-links"><li><span class="footer-link-item" onclick="nav('layanan')">Landing Page</span></li><li><span class="footer-link-item" onclick="nav('layanan')">Company Profile</span></li><li><span class="footer-link-item" onclick="nav('layanan')">E-Commerce</span></li><li><span class="footer-link-item" onclick="nav('ai')">AI System</span></li></ul></div>
-          <div><p class="footer-col-title">Perusahaan</p><ul class="footer-links"><li><span class="footer-link-item" onclick="nav('portofolio')">Portofolio</span></li><li><span class="footer-link-item" onclick="nav('tentang')">Tentang Kami</span></li></ul></div>
+          <div><p class="footer-col-title">Layanan</p><ul class="footer-links"><li><span class="footer-link-item" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}" onclick="nav('layanan')">Landing Page</span></li><li><span class="footer-link-item" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}" onclick="nav('layanan')">Company Profile</span></li><li><span class="footer-link-item" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}" onclick="nav('layanan')">E-Commerce</span></li><li><span class="footer-link-item" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}" onclick="nav('ai')">AI System</span></li></ul></div>
+          <div><p class="footer-col-title">Perusahaan</p><ul class="footer-links"><li><span class="footer-link-item" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}" onclick="nav('portofolio')">Portofolio</span></li><li><span class="footer-link-item" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}" onclick="nav('tentang')">Tentang Kami</span></li></ul></div>
           <div><p class="footer-col-title">Kontak</p><div class="footer-contact-item"><svg class="icon icon-sm" aria-hidden="true"><use href="#icon-mail"/></svg><a href="mailto:hello@apaajadigital.com">hello@apaajadigital.com</a></div><div class="footer-social"><a href="https://wa.me/6282180598494" target="_blank" rel="noopener" aria-label="WhatsApp"><svg class="icon"><use href="#icon-message-circle"/></svg></a><a href="#" aria-label="Instagram"><svg class="icon"><use href="#icon-instagram"/></svg></a></div></div>
         </div>
         <div class="footer-bottom"><p class="footer-bottom-text">© 2026 ApaAjaDigital.com. All rights reserved.</p><p class="footer-bottom-tagline">Website yang bekerja. Sistem yang berpikir.</p></div>
@@ -1263,6 +1379,13 @@
         </div>
       </div>
     </section>
+
+    <!-- WORKSPACE PHOTO -->
+    <div class="asset-placeholder asset-placeholder--workspace asset-loaded"
+         role="region"
+         aria-label="Workspace tim ApaAjaDigital">
+      <img class="workspace-img" src="Footage Image Video/TEAM WORKING.png" alt="Workspace tim ApaAjaDigital" />
+    </div>
 
     <!-- Nilai Kami -->
     <section class="nilai-section" aria-labelledby="nilai-heading">
@@ -1374,8 +1497,8 @@
       <div class="container">
         <div class="footer-grid">
           <div class="footer-brand"><img src="Logo-Apa-Aja-Digital.png" alt="ApaAjaDigital" width="140" height="44" /><p class="footer-tagline mt-16">Website siap kerja. Sistem AI custom. Hari ini.</p></div>
-          <div><p class="footer-col-title">Layanan</p><ul class="footer-links"><li><span class="footer-link-item" onclick="nav('layanan')">Landing Page</span></li><li><span class="footer-link-item" onclick="nav('layanan')">Company Profile</span></li><li><span class="footer-link-item" onclick="nav('ai')">AI System</span></li></ul></div>
-          <div><p class="footer-col-title">Perusahaan</p><ul class="footer-links"><li><span class="footer-link-item" onclick="nav('portofolio')">Portofolio</span></li><li><span class="footer-link-item" onclick="nav('tentang')">Tentang Kami</span></li></ul></div>
+          <div><p class="footer-col-title">Layanan</p><ul class="footer-links"><li><span class="footer-link-item" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}" onclick="nav('layanan')">Landing Page</span></li><li><span class="footer-link-item" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}" onclick="nav('layanan')">Company Profile</span></li><li><span class="footer-link-item" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}" onclick="nav('ai')">AI System</span></li></ul></div>
+          <div><p class="footer-col-title">Perusahaan</p><ul class="footer-links"><li><span class="footer-link-item" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}" onclick="nav('portofolio')">Portofolio</span></li><li><span class="footer-link-item" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}" onclick="nav('tentang')">Tentang Kami</span></li></ul></div>
           <div><p class="footer-col-title">Kontak</p><div class="footer-contact-item"><svg class="icon icon-sm" aria-hidden="true"><use href="#icon-mail"/></svg><a href="mailto:hello@apaajadigital.com">hello@apaajadigital.com</a></div><div class="footer-social"><a href="https://wa.me/6282180598494" target="_blank" rel="noopener" aria-label="WhatsApp"><svg class="icon"><use href="#icon-message-circle"/></svg></a><a href="#" aria-label="Instagram"><svg class="icon"><use href="#icon-instagram"/></svg></a></div></div>
         </div>
         <div class="footer-bottom"><p class="footer-bottom-text">© 2026 ApaAjaDigital.com. All rights reserved.</p><p class="footer-bottom-tagline">Website yang bekerja. Sistem yang berpikir.</p></div>
@@ -1528,8 +1651,8 @@
       <div class="container">
         <div class="footer-grid">
           <div class="footer-brand"><img src="Logo-Apa-Aja-Digital.png" alt="ApaAjaDigital" width="140" height="44" /><p class="footer-tagline mt-16">Website siap kerja. Sistem AI custom. Hari ini.</p></div>
-          <div><p class="footer-col-title">Layanan</p><ul class="footer-links"><li><span class="footer-link-item" onclick="nav('layanan')">Landing Page</span></li><li><span class="footer-link-item" onclick="nav('layanan')">Company Profile</span></li><li><span class="footer-link-item" onclick="nav('ai')">AI System</span></li></ul></div>
-          <div><p class="footer-col-title">Perusahaan</p><ul class="footer-links"><li><span class="footer-link-item" onclick="nav('portofolio')">Portofolio</span></li><li><span class="footer-link-item" onclick="nav('tentang')">Tentang Kami</span></li></ul></div>
+          <div><p class="footer-col-title">Layanan</p><ul class="footer-links"><li><span class="footer-link-item" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}" onclick="nav('layanan')">Landing Page</span></li><li><span class="footer-link-item" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}" onclick="nav('layanan')">Company Profile</span></li><li><span class="footer-link-item" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}" onclick="nav('ai')">AI System</span></li></ul></div>
+          <div><p class="footer-col-title">Perusahaan</p><ul class="footer-links"><li><span class="footer-link-item" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}" onclick="nav('portofolio')">Portofolio</span></li><li><span class="footer-link-item" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}" onclick="nav('tentang')">Tentang Kami</span></li></ul></div>
           <div><p class="footer-col-title">Kontak</p><div class="footer-contact-item"><svg class="icon icon-sm" aria-hidden="true"><use href="#icon-mail"/></svg><a href="mailto:hello@apaajadigital.com">hello@apaajadigital.com</a></div><div class="footer-social"><a href="https://wa.me/6282180598494" target="_blank" rel="noopener" aria-label="WhatsApp"><svg class="icon"><use href="#icon-message-circle"/></svg></a><a href="#" aria-label="Instagram"><svg class="icon"><use href="#icon-instagram"/></svg></a></div></div>
         </div>
         <div class="footer-bottom"><p class="footer-bottom-text">© 2026 ApaAjaDigital.com. All rights reserved.</p><p class="footer-bottom-tagline">Website yang bekerja. Sistem yang berpikir.</p></div>
